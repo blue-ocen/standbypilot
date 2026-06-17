@@ -226,12 +226,18 @@
         <aside id="riskExplanation" class="risk-explanation empty-state">Generate a Route Brief to see why this route is rated.</aside>
         <div id="routeStrategy" class="route-card-grid empty-state">Recommended and backup routes will appear here.</div>
 
-        <details class="result-details">
-          <summary>More Details</summary>
-          <div id="moreDetails" class="more-details-list">
-            <p>Generate a Route Brief to see risk factors, alternate airport logic, connection risk, and document reminders.</p>
+        <section class="result-details intelligence-drawers" aria-labelledby="moreDetailsTitle">
+          <div class="details-header-row">
+            <div>
+              <p class="eyebrow">More Details</p>
+              <h2 id="moreDetailsTitle">Route Intelligence</h2>
+            </div>
+            <p class="section-note">Open only what you need.</p>
           </div>
-        </details>
+          <div id="moreDetails" class="more-details-list">
+            <p>Generate a Route Brief to inspect risk factors, nearby airports, connection risk, load tracking, paid rescue logic, airline rules, and travel documents.</p>
+          </div>
+        </section>
       </section>
 
       <section class="panel compact secondary-store">
