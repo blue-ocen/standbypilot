@@ -6,15 +6,15 @@ After testing the five trips, make these decisions before writing production cod
 
 Keep it if testers say:
 
-- "This makes the trip clearer."
-- "I would use this at the airport."
-- "The switch-plan triggers are helpful."
+- “This makes the trip clearer.”
+- “I would use this at the airport.”
+- “The switch-plan triggers are helpful.”
 
 Change it if testers say:
 
-- "This is too generic."
-- "I still do not know what to do."
-- "The risk score does not match how non-rev actually feels."
+- “This is too generic.”
+- “I still do not know what to do.”
+- “The risk score does not match how non-rev actually feels.”
 
 ## 2. Does the scoring model need more inputs?
 

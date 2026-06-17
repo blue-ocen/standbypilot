@@ -10,10 +10,6 @@ Every trip starts at 25.
 
 - +10 international trip
 - +15 summer Europe demand, when detected
-- +15 holiday or Christmas peak return window, when detected
-- +14 complex international destination without a simple nonstop fallback
-- +55 Nairobi / NBO long-haul gateway complexity
-- +10 domestic late-window / last-flight risk
 - +15 deadline-sensitive trip purpose
 - +15 must-arrive deadline within 24 hours
 - +5 per traveler after traveler #1, capped at +25
@@ -47,29 +43,10 @@ Every trip starts at 25.
 | 51-75 | Orange | Risky; backup matters as much as Plan A |
 | 76-100 | Red | Do not rely on standby if arrival truly matters |
 
-## Route-specific heuristics
-
-The current static app also applies route-specific strategy text for common validation examples:
-
-- Portugal / Algarve
-- London
-- Nairobi
-- Munich / Vienna holiday return
-- LAX to SEA late return
-- Generic Europe or international routing
-- Generic domestic routing
-
-These route notes are helper heuristics, not live flight/load data.
-
-## Important limitation
-
-The score is a planning aid, not a boarding probability. StandbyPilot does not scrape airline systems, employee portals, StaffTraveler, myIDTravel, ID90, or FlightConnections. Manual load inputs are user-provided context.
-
 ## Near-term improvement ideas
 
 1. Separate route risk from load risk.
 2. Add airport reliability data.
-3. Add peak date and holiday calendars.
+3. Add peak date/holiday calendars.
 4. Add trip outcome tracking to tune weights.
-5. Add party-clearance estimates only if supported by real outcome data.
-6. Keep the final score transparent and explainable.
+5. Add party-clearance probability based on historical manual load checks.
