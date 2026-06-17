@@ -1,7 +1,9 @@
 const APP_CORE_SRC = './app-core.js';
+const PAID_RESCUE_SRC = './paid-rescue.js';
 const BATTLE_CARD_SRC = './battle-card.js';
 
 let appCoreLoaded = false;
+let paidRescueLoaded = false;
 let battleCardLoaded = false;
 
 function showLoadError(message) {
@@ -22,12 +24,25 @@ function loadBattleCardRenderer() {
   document.body.appendChild(script);
 }
 
+function loadPaidRescuePreference() {
+  if (paidRescueLoaded) return;
+  paidRescueLoaded = true;
+  const script = document.createElement('script');
+  script.src = PAID_RESCUE_SRC;
+  script.onload = loadBattleCardRenderer;
+  script.onerror = () => {
+    paidRescueLoaded = false;
+    showLoadError('Could not load paid rescue preference behavior. Refresh and try again.');
+  };
+  document.body.appendChild(script);
+}
+
 function loadAppCore() {
   if (appCoreLoaded) return;
   appCoreLoaded = true;
   const script = document.createElement('script');
   script.src = APP_CORE_SRC;
-  script.onload = loadBattleCardRenderer;
+  script.onload = loadPaidRescuePreference;
   script.onerror = () => {
     appCoreLoaded = false;
     showLoadError('Could not load the app. Refresh and try again.');
