@@ -15,6 +15,10 @@ v0 proved the Battle Card concept. v1 makes it reusable:
 - Route strategy generator
 - Copyable and printable Non-Rev Battle Card
 
+## Core product output
+
+The Battle Card is the core product output. It should read like a practical non-rev decision report: final recommendation, risk snapshot, primary and backup strategies, switch triggers, baggage/group rules, rescue plan, airport survival notes, document reminders, and a blunt bottom line.
+
 ## How to run locally
 
 Open `index.html` in a browser.
@@ -33,7 +37,7 @@ Do not store sensitive traveler data, pass details, employee-system screenshots,
 
 The GitHub Actions workflow lives at `.github/workflows/pages.yml`.
 
-On pull requests targeting `main`, pushes to `main`, and manual `workflow_dispatch` runs, the workflow checks the static prototype files, validates the `index.html` asset links, runs `node --check app.js` and `node --check app-core.js`, parses `test_trips_seed.json`, and confirms `supabase_schema.sql` contains `create table` statements.
+On pull requests targeting `main`, pushes to `main`, and manual `workflow_dispatch` runs, the workflow checks the static prototype files, validates the `index.html` asset links, runs `node --check app.js`, `node --check app-core.js`, and `node --check battle-card.js`, parses `test_trips_seed.json`, and confirms `supabase_schema.sql` contains `create table` statements.
 
 Deployment only runs after a successful push to `main`. The deploy job uploads the repository root as a static GitHub Pages artifact and publishes it with the official GitHub Pages Actions.
 
