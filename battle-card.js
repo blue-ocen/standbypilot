@@ -269,6 +269,50 @@ function buildBattleCardText() {
   ].join('\n');
 }
 
+function portugalSampleCardInputs() {
+  return {
+    tripName: 'Portugal / Algarve Summer Trip',
+    travelerName: 'Robert',
+    origin: 'SEA',
+    destination: 'LIS / Faro / Portugal',
+    finalDestination: 'Portimao / Praia da Rocha',
+    earliestDeparture: '2026-06-30T18:00',
+    mustArriveBy: '2026-07-02T18:00',
+    returnDate: '2026-07-07',
+    travelers: '4',
+    bags: 'carry-on',
+    tripType: 'event',
+    scope: 'international',
+    connections: 'yes',
+    nearbyAirports: 'yes',
+    splitGroup: 'maybe',
+    backupBudget: '1000',
+    passSystem: 'Airline employee / non-rev pass access',
+    passPriority: 'Enter priority when known',
+    priority: 'highest-arrival-chance',
+    openSeats: '',
+    standbyCount: '',
+    cabinNotes: '',
+    loadNotes: 'Summer Europe final-leg risk. Check loads manually and do not depend on one SEA-Europe option.',
+    notes: 'Algarve trip. Faro is ideal; Lisbon is acceptable with ground transfer. Leave early and stay carry-on only.'
+  };
+}
+
+function installPortugalSampleFix() {
+  const button = document.getElementById('loadPortugal');
+  if (!button || button.dataset.sampleFix === 'true') return;
+  button.dataset.sampleFix = 'true';
+  button.addEventListener('click', (event) => {
+    event.preventDefault();
+    event.stopImmediatePropagation();
+    state.activeTripId = null;
+    setFormData(portugalSampleCardInputs());
+    upsertTrip(getFormData());
+  }, true);
+}
+
+installPortugalSampleFix();
+
 try {
   if (state.currentScore && document.getElementById('battleCard')) {
     const data = getFormData();
