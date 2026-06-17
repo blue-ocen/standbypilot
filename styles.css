@@ -163,7 +163,7 @@ button.full, .file-button.full { width: 100%; }
 .summary-main-row h2 { font-size: 1.85rem; line-height: 1.12; }
 .summary-callout { display: grid; grid-template-columns: auto auto minmax(0, 1fr); gap: 10px; align-items: center; padding: 12px; border: 1px solid rgba(255, 255, 255, 0.13); border-radius: 10px; background: rgba(0, 0, 0, 0.18); }
 .summary-callout strong { font-size: 2rem; line-height: 1; }
-.summary-facts { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; margin: 0; }
+.summary-facts { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 10px; margin: 0; }
 .summary-facts div { padding: 12px; border-radius: 10px; background: rgba(0, 0, 0, 0.16); border: 1px solid rgba(255, 255, 255, 0.1); }
 .summary-facts dt { color: var(--muted); font-size: 0.74rem; font-weight: 850; text-transform: uppercase; letter-spacing: 0.08em; }
 .summary-facts dd { margin: 5px 0 0; font-weight: 900; }

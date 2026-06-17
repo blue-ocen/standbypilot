@@ -11,6 +11,7 @@ Use this checklist after changing the static prototype.
 - `styles.css` starts with CSS/root/style rules.
 - `app.js` parses as JavaScript.
 - `app-core.js` parses as JavaScript.
+- `paid-rescue.js` parses as JavaScript.
 - `battle-card.js` parses as JavaScript.
 - `test_trips_seed.json` parses as JSON.
 - `supabase_schema.sql` contains `create table` statements.
@@ -48,31 +49,35 @@ Use this checklist after changing the static prototype.
 ## App smoke test
 
 1. Open `app.html` in a browser.
-2. Confirm the app loads without missing `styles.css`, `app.js`, `app-core.js`, or `battle-card.js` errors in the console.
+2. Confirm the app loads without missing `styles.css`, `app.js`, `app-core.js`, `paid-rescue.js`, or `battle-card.js` errors in the console.
 3. Confirm the 3-step progress indicator appears: Trip, Loads, Routes.
 4. Fill only required Trip Basics: origin, destination, earliest departure, must-arrive-by, one-way/roundtrip, trip type, and willing to connect.
-5. Click **Generate Route Brief** and confirm results generate without load data.
-6. Confirm the no-load note appears: **Risk is based on route, timing, flexibility, and trip type. Add load tracking for a sharper rating.**
-7. Confirm the **Why this rating?** panel appears with risk grade, score, top risk drivers, top risk reducers, and confidence note.
-8. Confirm the risk drivers and reducers show no more than 3 bullets each.
-9. Confirm route cards show route name, route rating, short reason, and switch trigger.
-10. Confirm route-card ratings include labels such as **Best Overall**, **Safer Backup**, **Faster but Riskier**, **Good Alternate Airport Play**, or **Last Resort**.
-11. Add optional load tracking: open seats, standby count, cabin notes, and last checked time.
-12. Click **Add load check** and confirm the load check appears in the log.
-13. Generate again and confirm the confidence note changes to **Load notes included. Recheck close to departure before relying on this route.**
-14. Confirm Route Results include Final Call, Risk Grade, Recommended Route, Backup Routes, Switch Trigger, Why This Rating, and More Details.
-15. Confirm route cards appear for Recommended Route, Backup Route 1, Backup Route 2, and Alternate Airport when available.
-16. Confirm nearby airport suggestions appear in results, such as **Nearby alternatives: PDX, YVR** or **Portugal alternatives: LIS, FAO, OPO**.
-17. Expand and collapse More Details.
-18. Click **Load Portugal Sample** and confirm it detects International, generates a Route Brief, and shows the risk explanation panel.
-19. Click **Load 5 Test Trips** and confirm saved routes are added.
-20. Open the NYC test route and confirm it detects Domestic and still shows route ratings.
-21. Open the Nairobi test route and confirm it detects International and still shows route ratings.
-22. Save a route, reopen it from Saved Routes, and confirm it loads.
-23. Export routes as JSON.
-24. Import the exported JSON and confirm routes are added without deleting existing routes.
-25. Copy the Route Brief and confirm clipboard fallback does not throw an error.
-26. Use Print and confirm the printable Route Brief view appears.
+5. Open More details and confirm **Paid rescue preference** appears with Recommend when smart, Only for deadline risk, and Do not recommend paid tickets.
+6. Click **Generate Route Brief** and confirm results generate without load data.
+7. Confirm the no-load note appears: **Risk is based on route, timing, flexibility, and trip type. Add load tracking for a sharper rating.**
+8. Confirm the **Why this rating?** panel appears with risk grade, score, top risk drivers, top risk reducers, and confidence note.
+9. Confirm the risk drivers and reducers show no more than 3 bullets each.
+10. Confirm the risk explanation includes either **Paid fallback allowed** or **Paid rescue declined**.
+11. Confirm route cards show route name, route rating, short reason, and switch trigger.
+12. Confirm route-card ratings include labels such as **Best Overall**, **Safer Backup**, **Faster but Riskier**, **Good Alternate Airport Play**, or **Last Resort**.
+13. Add optional load tracking: open seats, standby count, cabin notes, and last checked time.
+14. Click **Add load check** and confirm the load check appears in the log.
+15. Generate again and confirm the confidence note changes to **Load notes included. Recheck close to departure before relying on this route.**
+16. Confirm Route Results include Final Call, Risk Grade, Recommended Route, Backup Routes, Switch Trigger, Paid Rescue, Why This Rating, and More Details.
+17. Confirm route cards appear for Recommended Route, Backup Route 1, Backup Route 2, and Alternate Airport when available.
+18. Confirm nearby airport suggestions appear in results, such as **Nearby alternatives: PDX, YVR** or **Portugal alternatives: LIS, FAO, OPO**.
+19. Expand and collapse More Details.
+20. Click **Load Portugal Sample** and confirm it detects International, uses **Recommend when smart**, generates a Route Brief, and shows paid rescue advice when the route is Yellow, Orange, or Red.
+21. Click **Load 5 Test Trips** and confirm saved routes are added.
+22. Open the NYC test route and confirm it detects Domestic, uses **Do not recommend paid tickets**, and says **Paid rescue is off. Reduce risk by leaving earlier, using alternate airports, and avoiding last-flight dependencies.**
+23. Open the Cruise deadline route and confirm it uses **Only for deadline risk** and says **Because this trip has a deadline, set a clear buy-confirmed trigger.**
+24. Open the Nairobi test route and confirm it detects International and still shows route ratings.
+25. Change the selector through all three paid rescue preferences and confirm the Route Brief wording changes without showing real prices.
+26. Save a route, reopen it from Saved Routes, and confirm it loads with the saved paid rescue preference.
+27. Export routes as JSON.
+28. Import the exported JSON and confirm routes are added without deleting existing routes.
+29. Copy the Route Brief and confirm clipboard fallback does not throw an error.
+30. Use Print and confirm the printable Route Brief view appears.
 
 ## GitHub Pages visual check
 
@@ -80,9 +85,10 @@ Use this checklist after changing the static prototype.
 2. Confirm GitHub Pages serves the simplified landing page first.
 3. Confirm `login.html` loads as a static login mock.
 4. Confirm `app.html` loads the 3-step route decision tool.
-5. Confirm airport autocomplete, risk explanation, route ratings, load tracking, copy, and print still work.
+5. Confirm airport autocomplete, paid rescue preference, risk explanation, route ratings, load tracking, copy, and print still work.
 6. Confirm no concierge service sections or CTAs appear.
+7. Confirm no real ticket prices, payment processing, or booking UI appears.
 
 ## Expected result
 
-The app remains fully static and runnable through GitHub Pages. No package install, build step, backend, auth system, payment processing, API, live flight data, concierge service, or framework migration is required.
+The app remains fully static and runnable through GitHub Pages. No package install, build step, backend, auth system, payment processing, API, live flight data, concierge service, real prices, or framework migration is required.

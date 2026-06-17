@@ -54,6 +54,7 @@
           <div><dt>Trip type</dt><dd id="summaryTripType">Casual</dd></div>
           <div><dt>Connect?</dt><dd id="summaryConnections">Yes</dd></div>
           <div><dt>Load confidence</dt><dd id="summaryLoadStatus">No loads yet</dd></div>
+          <div><dt>Paid rescue</dt><dd id="summaryPaidRescue">When smart</dd></div>
         </dl>
       </section>
 
@@ -158,6 +159,13 @@
                   <option value="fastest">Fastest trip</option>
                 </select>
               </label>
+              <label>Paid rescue preference
+                <select id="paidRescuePreference">
+                  <option value="smart">Recommend when smart</option>
+                  <option value="deadline">Only for deadline risk</option>
+                  <option value="off">Do not recommend paid tickets</option>
+                </select>
+              </label>
               <label>Route notes
                 <input id="notes" placeholder="Hotel deadline, preferred hub, ground transfer limits" />
               </label>
@@ -247,7 +255,7 @@
   </main>
 
   <footer id="appFooter" class="footer-note">
-    <strong>Prototype note:</strong> StandbyPilot is a static route-decision helper. It does not provide live loads, guarantee boarding, or replace airline rules.
+    <strong>Prototype note:</strong> StandbyPilot is a static route-decision helper. It does not provide live loads, guarantee boarding, pricing, or replace airline rules.
   </footer>
 
   <script src="./app.js" data-battle-card-src="./battle-card.js"></script>

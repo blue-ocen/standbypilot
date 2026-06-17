@@ -48,13 +48,23 @@ The local dataset also powers concise nearby-airport alternatives, including SEA
 
 Route Results include a **Why this rating?** panel so users can see why the route is Green, Yellow, Orange, or Red. The panel shows the risk grade and score, the top three risk drivers, the top three risk reducers, and a confidence note.
 
-Risk drivers and reducers come from the same static inputs used by the prototype: domestic/international scope, must-arrive window, trip type, connection flexibility, nearby-airport flexibility, load tracking, and one-way simplicity.
+Risk drivers and reducers come from the same static inputs used by the prototype: domestic/international scope, must-arrive window, trip type, connection flexibility, nearby-airport flexibility, load tracking, one-way simplicity, and paid rescue preference.
 
 Route cards now include a route rating, short reason, and switch trigger. Ratings include Best Overall, Safer Backup, Faster but Riskier, Good Alternate Airport Play, and Last Resort.
 
+## Paid rescue preference
+
+The More details area includes a **Paid rescue preference** selector:
+
+- **Recommend when smart:** adds concise paid-rescue wording for Yellow, Orange, or Red routes.
+- **Only for deadline risk:** adds buy-confirmed trigger language only for deadline-sensitive trips such as wedding, cruise, work, event, family urgency, or tight arrival windows.
+- **Do not recommend paid tickets:** removes confirmed-ticket suggestions and recommends lower-risk non-rev tactics instead.
+
+This setting only changes route guidance wording and risk explanation labels. StandbyPilot does not show real prices, sell tickets, process payments, or connect to booking systems.
+
 ## Core product output
 
-The Route Brief is the core product output. It is intentionally concise and airport-ready: final call, risk grade, recommended route, backups, switch trigger, and the reason behind the rating.
+The Route Brief is the core product output. It is intentionally concise and airport-ready: final call, risk grade, recommended route, backups, switch trigger, paid rescue preference, and the reason behind the rating.
 
 ## How to run locally
 
@@ -82,6 +92,7 @@ This prototype does **not**:
 
 - connect to live airline loads
 - scrape employee travel portals
+- show real ticket prices
 - book flights
 - guarantee boarding or seat availability
 - verify visa/passport requirements in real time
