@@ -3,479 +3,82 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>StandbyPilot v1.2 - Validation Dashboard</title>
-  <link rel="stylesheet" href="./styles.css?v=1.0.2" />
+  <title>StandbyPilot - Non-Rev Decision Support</title>
+  <link rel="stylesheet" href="./styles.css?v=1.0.3" />
 </head>
-<body>
-  <section id="accessGate" class="app-header access-hero" aria-labelledby="accessTitle">
-    <div>
-      <p class="eyebrow">StandbyPilot private prototype</p>
-      <h1 id="accessTitle">Prototype Access</h1>
-      <p class="subhead">Enter the temporary prototype password to open the validation dashboard.</p>
-    </div>
-    <form id="accessForm" class="panel compact" autocomplete="off">
-      <label>Prototype password
-        <input id="accessPassword" type="password" autocomplete="current-password" autofocus />
-      </label>
-      <div class="button-row">
-        <button type="submit" class="primary">Unlock</button>
-      </div>
-      <p id="accessError" class="empty-state" role="alert" aria-live="polite"></p>
-      <p class="empty-state">This is a lightweight validation gate only, not production security.</p>
-    </form>
-  </section>
-
-  <header id="appHeader" class="app-header hero-header" hidden>
-    <div class="hero-copy">
-      <span class="product-badge">Validation prototype</span>
-      <p class="eyebrow">StandbyPilot v1.2</p>
-      <h1>Non-rev decisions, made calmer.</h1>
-      <p class="subhead">Build a concise airport-ready Battle Card with risk, route backups, switch triggers, and a clear final call.</p>
-    </div>
-    <div class="header-actions">
-      <button id="loadPortugal" class="secondary">Load Portugal Sample</button>
-      <button id="loadTestSuite" class="secondary">Load 5 Test Trips</button>
-      <button id="jumpValidation" class="secondary">Validation</button>
-      <button id="newTrip" class="primary">New Trip</button>
-      <button id="lockApp" class="secondary" type="button">Lock / Logout</button>
-    </div>
+<body class="marketing-page">
+  <header class="site-nav">
+    <a class="brand-mark" href="./index.html">StandbyPilot</a>
+    <nav aria-label="Primary navigation">
+      <a href="./app.html">Prototype</a>
+      <a href="#concierge">Concierge Beta</a>
+      <a href="./login.html">Login</a>
+    </nav>
   </header>
 
-  <main id="appMain" class="layout" hidden>
-    <aside class="sidebar secondary-rail">
-      <section class="panel compact side-panel">
-        <div class="panel-title-row">
-          <div>
-            <p class="eyebrow">Workspace</p>
-            <h2>Saved Trips</h2>
-          </div>
-          <span id="tripCount" class="pill">0</span>
+  <main>
+    <section class="landing-hero">
+      <div class="landing-copy">
+        <span class="product-badge">Phase 1 prototype</span>
+        <h1>Smarter non-rev travel decisions.</h1>
+        <p class="subhead">StandbyPilot helps standby travelers compare route risk, backup plans, switch triggers, and paid rescue options before the airport gets chaotic.</p>
+        <div class="button-row hero-actions">
+          <a class="button-link primary" href="./login.html">Open Prototype</a>
+          <a class="button-link secondary" href="#concierge">View Concierge Beta</a>
         </div>
-        <div id="savedTrips" class="saved-list empty-state">No saved trips yet.</div>
-        <div class="stacked-actions">
-          <button id="exportTrips" class="secondary full">Export Trips JSON</button>
-          <label class="file-button full">
-            Import Trips JSON
-            <input id="importTrips" type="file" accept="application/json" />
-          </label>
-        </div>
-      </section>
+      </div>
+      <aside class="landing-card" aria-label="Battle Card preview">
+        <p class="eyebrow">Battle Card Preview</p>
+        <h2>Final Call: Go early</h2>
+        <ul>
+          <li>Best route family selected first.</li>
+          <li>Backup moves ready before leaving home.</li>
+          <li>Switch trigger set before the last useful option.</li>
+        </ul>
+      </aside>
+    </section>
 
-      <section class="panel compact side-panel">
-        <p class="eyebrow">Dashboard</p>
-        <div class="metric-grid">
-          <div class="metric">
-            <span id="metricTrips">0</span>
-            <small>Trips</small>
-          </div>
-          <div class="metric">
-            <span id="metricAvgRisk">—</span>
-            <small>Avg risk</small>
-          </div>
-          <div class="metric">
-            <span id="metricOrangeRed">0</span>
-            <small>Orange/Red</small>
-          </div>
-          <div class="metric">
-            <span id="metricLoadChecks">0</span>
-            <small>Load checks</small>
-          </div>
-        </div>
-      </section>
-    </aside>
+    <section class="landing-grid" aria-label="StandbyPilot decision layers">
+      <article class="feature-panel">
+        <p class="eyebrow">Recommended route</p>
+        <h2>Start with the strongest path</h2>
+        <p>Compare direct, hub, and alternate-airport options around the trip deadline.</p>
+      </article>
+      <article class="feature-panel">
+        <p class="eyebrow">Backup strategy</p>
+        <h2>Know Plan B before Plan A fails</h2>
+        <p>Keep the next route, split-party choice, and overnight reset visible.</p>
+      </article>
+      <article class="feature-panel">
+        <p class="eyebrow">Route rating</p>
+        <h2>Turn uncertainty into a risk score</h2>
+        <p>Use trip type, group size, bags, timing, flexibility, and manual load context.</p>
+      </article>
+      <article class="feature-panel">
+        <p class="eyebrow">Switch triggers</p>
+        <h2>Decide when to move</h2>
+        <p>Set the point where you abandon Plan A, split the group, reroute, or buy confirmed.</p>
+      </article>
+    </section>
 
-    <section class="content">
-      <section class="panel primary-workflow">
-        <div class="panel-title-row form-heading">
-          <div>
-            <p class="eyebrow">Trip intake</p>
-            <h2 id="formTitle">Create Battle Plan</h2>
-            <p class="section-note">Start with the required travel facts. The Battle Card updates from these inputs.</p>
-          </div>
-          <div id="saveStatus" class="status-note">Unsaved</div>
-        </div>
-
-        <form id="tripForm" class="trip-form">
-          <div class="field-group">
-            <p class="field-group-title">Trip basics</p>
-            <div class="grid two">
-              <label>Trip name
-                <input id="tripName" placeholder="Portugal summer trip" />
-              </label>
-              <label>Trip owner / traveler
-                <input id="travelerName" placeholder="Robert" />
-              </label>
-            </div>
-          </div>
-
-          <div class="field-group priority-group">
-            <p class="field-group-title">Core route details</p>
-            <div class="grid three">
-              <label class="priority-field">Origin airport
-                <input id="origin" placeholder="SEA" />
-              </label>
-              <label class="priority-field">Destination airport / city
-                <input id="destination" placeholder="LIS / Faro / Portugal" />
-              </label>
-              <label>Final local destination
-                <input id="finalDestination" placeholder="Portimão / Praia da Rocha" />
-              </label>
-            </div>
-          </div>
-
-          <div class="field-group priority-group">
-            <p class="field-group-title">Timing and constraints</p>
-            <div class="grid three">
-              <label>Earliest departure
-                <input id="earliestDeparture" type="datetime-local" />
-              </label>
-              <label class="priority-field">Must arrive by
-                <input id="mustArriveBy" type="datetime-local" />
-              </label>
-              <label>Return date
-                <input id="returnDate" type="date" />
-              </label>
-            </div>
-          </div>
-
-          <div class="field-group priority-group">
-            <p class="field-group-title">Travel setup</p>
-            <div class="grid four">
-              <label class="priority-field">Travelers
-                <input id="travelers" type="number" min="1" value="1" />
-              </label>
-              <label class="priority-field">Bags
-                <select id="bags">
-                  <option value="carry-on">Carry-on only</option>
-                  <option value="mixed">Mixed / unsure</option>
-                  <option value="checked">Checked bag</option>
-                </select>
-              </label>
-              <label>Trip type
-                <select id="tripType">
-                  <option value="casual">Casual vacation</option>
-                  <option value="event">Event / festival</option>
-                  <option value="wedding">Wedding</option>
-                  <option value="cruise">Cruise</option>
-                  <option value="work">Work</option>
-                  <option value="family">Family emergency</option>
-                </select>
-              </label>
-              <label class="priority-field">Scope
-                <select id="scope">
-                  <option value="domestic">Domestic</option>
-                  <option value="international">International</option>
-                </select>
-              </label>
-            </div>
-          </div>
-
-          <div class="field-group priority-group">
-            <p class="field-group-title">Backup flexibility</p>
-            <div class="grid four">
-              <label>Willing to connect?
-                <select id="connections">
-                  <option value="yes">Yes</option>
-                  <option value="maybe">Maybe</option>
-                  <option value="no">No</option>
-                </select>
-              </label>
-              <label>Nearby airports?
-                <select id="nearbyAirports">
-                  <option value="yes">Yes</option>
-                  <option value="maybe">Maybe</option>
-                  <option value="no">No</option>
-                </select>
-              </label>
-              <label>Split group?
-                <select id="splitGroup">
-                  <option value="yes">Yes</option>
-                  <option value="maybe">Maybe</option>
-                  <option value="no">No</option>
-                </select>
-              </label>
-              <label class="priority-field">Backup budget
-                <input id="backupBudget" type="number" min="0" placeholder="500" />
-              </label>
-            </div>
-          </div>
-
-          <div class="field-group priority-group">
-            <p class="field-group-title">Pass and planning context</p>
-            <div class="grid three">
-              <label>Airline / pass system
-                <input id="passSystem" placeholder="Delta, Alaska, myIDTravel, ID90, StaffTraveler notes" />
-              </label>
-              <label>Pass priority
-                <input id="passPriority" placeholder="S3, D2, ZED, buddy pass, etc." />
-              </label>
-              <label class="priority-field">Primary goal
-                <select id="priority">
-                  <option value="highest-arrival-chance">Highest chance of arriving</option>
-                  <option value="lowest-cost">Lowest cost</option>
-                  <option value="fewest-connections">Fewest connections</option>
-                  <option value="comfort">Best comfort</option>
-                  <option value="fastest">Fastest trip</option>
-                </select>
-              </label>
-            </div>
-          </div>
-
-          <div class="field-group">
-            <p class="field-group-title">Manual load context</p>
-            <div class="grid three">
-              <label>Latest open seats
-                <input id="openSeats" type="number" min="0" placeholder="Optional" />
-              </label>
-              <label>Latest standby count
-                <input id="standbyCount" type="number" min="0" placeholder="Optional" />
-              </label>
-              <label>Cabin notes
-                <input id="cabinNotes" placeholder="Y 7 open, J full, upgrades pending" />
-              </label>
-            </div>
-          </div>
-
-          <div class="field-group">
-            <label>Load notes
-              <textarea id="loadNotes" rows="3" placeholder="Paste or summarize load/list notes. Do not paste private employee-system screenshots or restricted data into a public/shared version."></textarea>
-            </label>
-          </div>
-
-          <div class="field-group">
-            <label>Fixed reservations, airport constraints, or notes
-              <textarea id="notes" rows="3" placeholder="Hotels, events, must-arrive deadlines, airport preferences, travel party constraints"></textarea>
-            </label>
-          </div>
-
-          <div class="button-row form-actions">
-            <button type="submit" class="primary">Generate / Update Battle Plan</button>
-            <button type="button" id="saveTrip" class="secondary">Save Trip</button>
-            <button type="button" id="duplicateTrip" class="secondary">Duplicate</button>
-            <button type="button" id="deleteTrip" class="danger">Delete</button>
-          </div>
-        </form>
-      </section>
-
-      <section class="grid two output-grid">
-        <section class="panel result-panel">
-          <div class="panel-title-row">
-            <div>
-              <p class="eyebrow">Risk engine</p>
-              <h2>Trip Risk</h2>
-            </div>
-            <div id="riskBadge" class="risk-badge yellow">Yellow</div>
-          </div>
-          <div class="score-wrap">
-            <div id="riskScore" class="risk-score">—</div>
-            <div>
-              <p id="riskSummary" class="large-copy">Complete the form and generate a plan.</p>
-              <p id="recommendedMove" class="callout">Recommended move will appear here.</p>
-            </div>
-          </div>
-          <div class="grid two">
-            <div>
-              <h3>Risk drivers</h3>
-              <ul id="riskReasons" class="clean-list"></ul>
-            </div>
-            <div>
-              <h3>Risk reducers</h3>
-              <ul id="riskCredits" class="clean-list"></ul>
-            </div>
-          </div>
-        </section>
-
-        <section class="panel result-panel">
-          <div class="panel-title-row">
-            <div>
-              <p class="eyebrow">Route strategy</p>
-              <h2>Recommended Paths</h2>
-            </div>
-          </div>
-          <div id="routeStrategy" class="route-list empty-state">Generate a plan to see route strategy.</div>
-        </section>
-      </section>
-
-      <section class="panel battle-card-panel">
-        <div class="panel-title-row">
-          <div>
-            <p class="eyebrow">Output</p>
-            <h2>Non-Rev Battle Card</h2>
-          </div>
-          <div class="button-row compact-row">
-            <button id="copyBattleCard" class="secondary">Copy</button>
-            <button id="printBattleCard" class="primary">Print / Save PDF</button>
-          </div>
-        </div>
-        <article id="battleCard" class="battle-card empty-state">Generate a plan to create the Battle Card.</article>
-      </section>
-
-      <section class="panel concierge-panel" id="concierge-request">
-        <div class="panel-title-row">
-          <div>
-            <p class="eyebrow">Manual Concierge Beta</p>
-            <h2>Request a reviewed Non-Rev Battle Plan</h2>
-          </div>
-          <span class="product-badge subtle">Manual review</span>
-        </div>
-        <p class="large-copy">For validation, StandbyPilot can also be tested as a hands-on planning service: a manually reviewed route, risk, backup, and Battle Card.</p>
-        <div class="concierge-steps">
-          <div><span>1</span><strong>Submit trip details</strong><small>Share route, timing, bags, group size, and flexibility.</small></div>
-          <div><span>2</span><strong>Get reviewed</strong><small>Route risk, backups, and switch points are checked manually.</small></div>
-          <div><span>3</span><strong>Receive the card</strong><small>Get a concise Battle Card you can use at the airport.</small></div>
-        </div>
-        <p class="warning-note">Do not submit private employee-system screenshots, restricted load data, or sensitive traveler information.</p>
-        <a class="button-link primary" href="mailto:?subject=StandbyPilot%20Concierge%20Battle%20Plan%20Request">Request Concierge Battle Plan</a>
-      </section>
-
-      <section class="panel">
-        <div class="panel-title-row">
-          <div>
-            <p class="eyebrow">Manual load tracking</p>
-            <h2>Load Check Log</h2>
-          </div>
-          <button id="addLoadCheck" class="secondary">Add Load Check</button>
-        </div>
-        <div class="grid four load-inputs">
-          <label>Flight / route
-            <input id="loadFlight" placeholder="SEA-LHR / DLxxx" />
-          </label>
-          <label>Open seats
-            <input id="loadOpenSeats" type="number" min="0" />
-          </label>
-          <label>Standbys
-            <input id="loadStandbys" type="number" min="0" />
-          </label>
-          <label>Cabin / notes
-            <input id="loadCabin" placeholder="Y 8, J full, 2 upgrades" />
-          </label>
-        </div>
-        <div id="loadLog" class="timeline empty-state">No load checks logged yet.</div>
-      </section>
-
-      <section id="validationPanel" class="panel validation-panel">
-        <div class="panel-title-row">
-          <div>
-            <p class="eyebrow">Product validation</p>
-            <h2>Battle Card Feedback</h2>
-          </div>
-          <div id="validationStatus" class="status-note">Untested</div>
-        </div>
-
-        <div class="validation-summary">
-          <div class="metric-grid validation-metrics">
-            <div class="metric">
-              <span id="metricValidated">0</span>
-              <small>Validated</small>
-            </div>
-            <div class="metric">
-              <span id="metricAvgUseful">—</span>
-              <small>Avg useful</small>
-            </div>
-            <div class="metric">
-              <span id="metricAvgAction">—</span>
-              <small>Avg action</small>
-            </div>
-            <div class="metric">
-              <span id="metricPaidInterest">0</span>
-              <small>Pay signals</small>
-            </div>
-          </div>
-          <div id="validationQueue" class="validation-list empty-state">Load or save trips to start validation.</div>
-        </div>
-
-        <div class="validation-grid">
-          <label>Clarity
-            <select id="clarityScore">
-              <option value="">Not scored</option>
-              <option value="1">1 - Confusing</option>
-              <option value="2">2 - Needs work</option>
-              <option value="3">3 - Understandable</option>
-              <option value="4">4 - Clear</option>
-              <option value="5">5 - Very clear</option>
-            </select>
-          </label>
-          <label>Trust
-            <select id="trustScore">
-              <option value="">Not scored</option>
-              <option value="1">1 - Would not trust</option>
-              <option value="2">2 - Low trust</option>
-              <option value="3">3 - Some trust</option>
-              <option value="4">4 - Trustworthy</option>
-              <option value="5">5 - Would rely on it</option>
-            </select>
-          </label>
-          <label>Actionability
-            <select id="actionScore">
-              <option value="">Not scored</option>
-              <option value="1">1 - No clear next move</option>
-              <option value="2">2 - Vague</option>
-              <option value="3">3 - Somewhat actionable</option>
-              <option value="4">4 - Clear next move</option>
-              <option value="5">5 - Airport-ready</option>
-            </select>
-          </label>
-          <label>Stress reduction
-            <select id="stressScore">
-              <option value="">Not scored</option>
-              <option value="1">1 - No help</option>
-              <option value="2">2 - Small help</option>
-              <option value="3">3 - Moderate help</option>
-              <option value="4">4 - Strong help</option>
-              <option value="5">5 - Big relief</option>
-            </select>
-          </label>
-          <label>Would pay?
-            <select id="payScore">
-              <option value="">Not scored</option>
-              <option value="1">1 - No</option>
-              <option value="2">2 - Unlikely</option>
-              <option value="3">3 - Maybe</option>
-              <option value="4">4 - Likely</option>
-              <option value="5">5 - Yes</option>
-            </select>
-          </label>
-          <label>Price signal
-            <input id="payAmount" type="number" min="0" placeholder="15" />
-          </label>
-        </div>
-
-        <div class="grid two">
-          <label>Test outcome
-            <select id="testOutcome">
-              <option value="untested">Untested</option>
-              <option value="strong-signal">Strong signal</option>
-              <option value="needs-polish">Needs polish</option>
-              <option value="weak-signal">Weak signal</option>
-              <option value="invalid">Invalid / wrong recommendation</option>
-            </select>
-          </label>
-          <label>Tester notes
-            <input id="testerName" placeholder="Tester / non-rev traveler name" />
-          </label>
-        </div>
-
-        <label>Feedback notes
-          <textarea id="validationNotes" rows="4" placeholder="What was useful? What felt wrong? What decision would the traveler make after reading the Battle Card?"></textarea>
-        </label>
-
-        <div class="button-row">
-          <button id="saveValidation" type="button" class="primary">Save Validation</button>
-          <button id="clearValidation" type="button" class="secondary">Clear Validation</button>
-        </div>
-
-        <div class="validation-rules">
-          <h3>Pass / fail rule</h3>
-          <p><strong>Build forward</strong> if 3 of 5 test trips score at least 4.0 average and at least 2 testers show likely-pay interest. <strong>Fix the product</strong> if trust or actionability stays below 3.5.</p>
-        </div>
-      </section>
+    <section id="concierge" class="landing-band concierge-panel">
+      <div>
+        <p class="eyebrow">Manual Concierge Beta</p>
+        <h2>Request a manually reviewed Non-Rev Battle Plan</h2>
+        <p class="large-copy">Use the concierge flow when you want a human-reviewed route/risk/backups pass before a high-stakes standby trip.</p>
+      </div>
+      <div class="concierge-steps">
+        <div><span>1</span><strong>Submit trip details</strong><small>Route, timing, bags, group size, and flexibility.</small></div>
+        <div><span>2</span><strong>Get reviewed</strong><small>Route risk, backups, and switch points are checked manually.</small></div>
+        <div><span>3</span><strong>Receive a Battle Card</strong><small>A concise decision card for airport use.</small></div>
+      </div>
+      <p class="warning-note">Do not submit private employee-system screenshots, restricted load data, or sensitive traveler information.</p>
+      <a class="button-link primary" href="mailto:?subject=StandbyPilot%20Concierge%20Battle%20Plan%20Request">Request Concierge Battle Plan</a>
     </section>
   </main>
 
-  <footer id="appFooter" class="footer-note" hidden>
-    <strong>Prototype note:</strong> StandbyPilot helps plan non-rev decisions, but it does not guarantee boarding, seat availability, or airline outcomes. It saves trips and validation feedback in this browser only.
+  <footer class="footer-note landing-footer">
+    <strong>Disclaimer:</strong> StandbyPilot supports travel planning but does not guarantee boarding, seat availability, or airline outcomes.
   </footer>
-
-  <script src="./app.js?v=1.0.2"></script>
 </body>
 </html>
