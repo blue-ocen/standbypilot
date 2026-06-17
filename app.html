@@ -257,6 +257,102 @@
           </label>
         </div>
       </section>
+
+      <section class="panel compact outcome-tracker-panel" id="outcome-tracker" aria-labelledby="outcomeTitle">
+        <div class="panel-title-row">
+          <div>
+            <p class="eyebrow">Outcome Tracker</p>
+            <h2 id="outcomeTitle">Recommendation vs. reality</h2>
+            <p class="section-note">Record what happened after a saved trip. This stays local and exports with your routes.</p>
+          </div>
+          <span id="outcomeSaveStatus" class="status-note">No outcome saved</span>
+        </div>
+
+        <div id="outcomeInsights" class="outcome-insights empty-state">Save trip outcomes to see validation insight.</div>
+
+        <form id="outcomeForm" class="outcome-form">
+          <label>Saved trip
+            <select id="outcomeTripSelect"></select>
+          </label>
+          <div class="grid four">
+            <label>Cleared?
+              <select id="outcomeCleared">
+                <option value="">Not recorded</option>
+                <option value="yes">Yes</option>
+                <option value="no">No</option>
+                <option value="partially">Partially</option>
+              </select>
+            </label>
+            <label>Took recommended route?
+              <select id="outcomeTookRecommended">
+                <option value="">Not recorded</option>
+                <option value="yes">Yes</option>
+                <option value="no">No</option>
+              </select>
+            </label>
+            <label>Switched to backup route?
+              <select id="outcomeSwitchedBackup">
+                <option value="">Not recorded</option>
+                <option value="yes">Yes</option>
+                <option value="no">No</option>
+              </select>
+            </label>
+            <label>Bought confirmed ticket?
+              <select id="outcomeBoughtConfirmed">
+                <option value="">Not recorded</option>
+                <option value="yes">Yes</option>
+                <option value="no">No</option>
+              </select>
+            </label>
+          </div>
+          <div class="grid four">
+            <label>Overnighted?
+              <select id="outcomeOvernighted">
+                <option value="">Not recorded</option>
+                <option value="yes">Yes</option>
+                <option value="no">No</option>
+              </select>
+            </label>
+            <label>Arrival status
+              <select id="outcomeArrivalStatus">
+                <option value="">Not recorded</option>
+                <option value="on-time">On time</option>
+                <option value="late">Late</option>
+                <option value="missed-deadline">Missed deadline</option>
+              </select>
+            </label>
+            <label>Risk accuracy
+              <select id="outcomeRiskAccuracy">
+                <option value="">Not recorded</option>
+                <option value="too-low">Too low</option>
+                <option value="about-right">About right</option>
+                <option value="too-high">Too high</option>
+              </select>
+            </label>
+            <label>Recommendation usefulness
+              <select id="outcomeUsefulness">
+                <option value="">Not recorded</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+              </select>
+            </label>
+          </div>
+          <label>Final route taken
+            <input id="outcomeFinalRoute" placeholder="SEA → AMS → LIS, bought FAO segment, etc." />
+          </label>
+          <label>Notes: What helped? What failed?
+            <textarea id="outcomeNotes" rows="3" placeholder="Short notes for future validation."></textarea>
+          </label>
+          <div class="button-row">
+            <button type="submit" class="primary">Save Outcome</button>
+          </div>
+        </form>
+
+        <div id="outcomeSummaryCards" class="outcome-summary-list empty-state">No completed outcomes yet.</div>
+      </section>
     </section>
   </main>
 

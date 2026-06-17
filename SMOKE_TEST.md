@@ -10,10 +10,12 @@ Use this checklist after changing the static prototype.
 - `app.html` links `./styles.css`, references `./battle-card.js`, and loads `./app.js` with relative paths.
 - `styles.css` starts with CSS/root/style rules.
 - `route-details.css` contains drawer styles.
+- `outcome-tracker.css` contains Outcome Tracker styles.
 - `app.js` parses as JavaScript.
 - `app-core.js` parses as JavaScript.
 - `paid-rescue.js` parses as JavaScript.
 - `route-details.js` parses as JavaScript.
+- `outcome-tracker.js` parses as JavaScript.
 - `battle-card.js` parses as JavaScript.
 - `test_trips_seed.json` parses as JSON.
 - `supabase_schema.sql` contains `create table` statements.
@@ -51,7 +53,7 @@ Use this checklist after changing the static prototype.
 ## App smoke test
 
 1. Open `app.html` in a browser.
-2. Confirm the app loads without missing `styles.css`, `route-details.css`, `app.js`, `app-core.js`, `paid-rescue.js`, `route-details.js`, or `battle-card.js` errors in the console.
+2. Confirm the app loads without missing `styles.css`, `route-details.css`, `outcome-tracker.css`, `app.js`, `app-core.js`, `paid-rescue.js`, `route-details.js`, `outcome-tracker.js`, or `battle-card.js` errors in the console.
 3. Confirm the 3-step progress indicator appears: Trip, Loads, Routes.
 4. Fill only required Trip Basics: origin, destination, earliest departure, must-arrive-by, one-way/roundtrip, trip type, and willing to connect.
 5. Open More details and confirm **Paid rescue preference** appears with Recommend when smart, Only for deadline risk, and Do not recommend paid tickets.
@@ -82,10 +84,15 @@ Use this checklist after changing the static prototype.
 30. Open the Nairobi test route and confirm it detects International and still shows route ratings.
 31. Change the selector through all three paid rescue preferences and confirm the Route Brief wording changes without showing real prices.
 32. Save a route, reopen it from Saved Routes, and confirm it loads with the saved paid rescue preference.
-33. Export routes as JSON.
-34. Import the exported JSON and confirm routes are added without deleting existing routes.
-35. Copy the Route Brief and confirm clipboard fallback does not throw an error.
-36. Use Print and confirm the printable Route Brief view appears.
+33. Confirm the **Outcome Tracker** appears below Saved / Import / Export.
+34. Select a saved trip in Outcome Tracker and record: Cleared, Took recommended route, Switched to backup route, Bought confirmed ticket, Overnighted, Arrival status, Final route taken, Notes, Risk accuracy, and Recommendation usefulness.
+35. Click **Save Outcome** and confirm an outcome summary card appears with trip name, original risk grade, outcome, risk accuracy, and usefulness rating.
+36. Confirm validation insight updates average usefulness, completed outcome count, and risk accuracy counts.
+37. Refresh the page and confirm the saved outcome survives refresh.
+38. Export routes as JSON.
+39. Import the exported JSON and confirm outcome data is preserved.
+40. Copy the Route Brief and confirm clipboard fallback does not throw an error.
+41. Use Print and confirm the printable Route Brief view appears.
 
 ## GitHub Pages visual check
 
@@ -93,7 +100,7 @@ Use this checklist after changing the static prototype.
 2. Confirm GitHub Pages serves the simplified landing page first.
 3. Confirm `login.html` loads as a static login mock.
 4. Confirm `app.html` loads the 3-step route decision tool.
-5. Confirm airport autocomplete, paid rescue preference, More Details drawers, risk explanation, route ratings, load tracking, copy, and print still work.
+5. Confirm airport autocomplete, paid rescue preference, More Details drawers, Outcome Tracker, risk explanation, route ratings, load tracking, copy, and print still work.
 6. Confirm no concierge service sections or CTAs appear.
 7. Confirm no real ticket prices, payment processing, or booking UI appears.
 
