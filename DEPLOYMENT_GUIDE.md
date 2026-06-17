@@ -1,65 +1,44 @@
-# StandbyPilot Data Model v1
+# Deployment Guide
 
-This is the current browser-side data model. Future Supabase/PostgreSQL tables should follow this shape.
+## Option A: Local use
 
-## Trip
+Open `index.html` in a browser. This is the fastest way to test the product.
 
-```json
-{
-  "id": "trip_...",
-  "tripName": "Portugal / Algarve Summer Trip",
-  "travelerName": "Robert",
-  "origin": "SEA",
-  "destination": "LIS / FAO / Portugal",
-  "finalDestination": "Portimão / Praia da Rocha",
-  "earliestDeparture": "2026-06-30T18:00",
-  "mustArriveBy": "2026-07-02T18:00",
-  "returnDate": "2026-07-07",
-  "travelers": "4",
-  "bags": "carry-on",
-  "tripType": "event",
-  "scope": "international",
-  "connections": "yes",
-  "nearbyAirports": "yes",
-  "splitGroup": "maybe",
-  "backupBudget": "1000",
-  "passSystem": "Airline employee / non-rev pass access",
-  "passPriority": "Enter priority when known",
-  "priority": "highest-arrival-chance",
-  "openSeats": "",
-  "standbyCount": "",
-  "cabinNotes": "",
-  "loadNotes": "Manual load notes",
-  "notes": "Trip notes",
-  "score": 68,
-  "riskLabel": "Orange",
-  "loadChecks": [],
-  "createdAt": "ISO datetime",
-  "updatedAt": "ISO datetime"
-}
-```
+## Option B: Static hosting
 
-## Load Check
+Upload this folder to a static host:
 
-```json
-{
-  "id": "trip_...",
-  "createdAt": "ISO datetime",
-  "flight": "SEA-LHR / DLxxx",
-  "openSeats": "8",
-  "standbys": "4",
-  "cabin": "Y 8, J full, 2 upgrades"
-}
-```
+- Netlify
+- Vercel
+- Cloudflare Pages
+- GitHub Pages
 
-## Future production tables
+Because v1 uses localStorage, every user's trips stay in that user's browser.
 
-- users
-- trips
-- route_options
-- load_checks
-- battle_cards
-- outcomes
-- airport_guides
-- travel_requirements
-- rescue_fares
+## Option C: Private prototype
+
+For a private alpha, put the static site behind a real access layer:
+
+- Cloudflare Access
+- Netlify password protection
+- Vercel Authentication
+- basic auth on a private server
+
+Do not rely on a client-side passcode for production privacy.
+
+## Option D: Production rebuild
+
+Recommended stack:
+
+- Next.js frontend
+- Supabase Auth
+- Supabase Postgres
+- Row Level Security
+- Vercel hosting
+- OpenAI API for narrative Battle Card generation
+- Flight schedule/status provider later
+- Paid fare search provider later
+
+## Production database tables
+
+See `supabase_schema.sql` for a starter schema.

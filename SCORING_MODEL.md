@@ -1,34 +1,52 @@
-# Route Source Notes
+# StandbyPilot Risk Engine v1
 
-These are route assumptions used to shape the five validation examples. They are not live load data and should not be treated as airline clearance probability.
+The v1 risk engine is a rules-based model. It is intentionally simple so users can understand why a trip was graded a certain way.
 
-## Portugal / Algarve
+## Base score
 
-- SEA to Lisbon does not currently have nonstop service; route options require at least one stop.
-- SEA to Faro does not currently have nonstop service; common stopover gateways include London Heathrow, Amsterdam, and Frankfurt.
-- Product implication: use a major Europe gateway first, then treat LIS/FAO as flexible arrival targets.
+Every trip starts at 25.
 
-## London
+## Risk additions
 
-- SEA to London Heathrow has multiple nonstop operators.
-- Product implication: the route itself is strong, but a group of four still requires a backup and split-party logic.
+- +10 international trip
+- +15 summer Europe demand, when detected
+- +15 deadline-sensitive trip purpose
+- +15 must-arrive deadline within 24 hours
+- +5 per traveler after traveler #1, capped at +25
+- +15 checked bag
+- +8 mixed or uncertain bags
+- +10 unwilling to connect
+- +10 unwilling to use nearby airports
+- +10 unwilling to split group with party size greater than 1
+- +10 no stated backup budget
+- +20 manual load input shows more demand than likely open seats
 
-## Nairobi
+## Risk reductions
 
-- SEA to Nairobi does not currently have nonstop service.
-- Nairobi can be reached through major gateways such as Amsterdam, Frankfurt, Paris, Istanbul, Doha, Dubai, or JFK depending on airline access.
-- Product implication: route complexity should add risk even for a solo traveler.
+- -10 useful travel buffer of roughly 48+ hours
+- -5 carry-on only
+- -5 willingness to connect
+- -10 nearby-airport flexibility
+- -10 willing to split group
+- -3 maybe willing to split group
+- -10 backup budget of $1,000+
+- -5 backup budget of $500+
+- -15 healthy manual seat margin
+- -5 workable manual seat margin
 
-## Munich/Vienna Christmas Return
+## Bands
 
-- Seattle has direct Europe service including Munich, but holiday return windows are deadline-sensitive and loads can be unforgiving.
-- Product implication: the app should recommend multiple Europe gateway exits and a paid rescue trigger.
+| Score | Risk | Meaning |
+|---:|---|---|
+| 0-25 | Green | Good setup if loads hold |
+| 26-50 | Yellow | Reasonable, monitor closely |
+| 51-75 | Orange | Risky; backup matters as much as Plan A |
+| 76-100 | Red | Do not rely on standby if arrival truly matters |
 
-## LAX to SEA Late Return
+## Near-term improvement ideas
 
-- LAX to SEA has multiple nonstop operators.
-- Product implication: frequency helps, but late-night travel windows still create last-flight risk.
-
-## Important
-
-This prototype intentionally does not scrape employee travel systems, airline pass portals, StaffTraveler, myIDTravel, or ID90. Manual load inputs are user-provided.
+1. Separate route risk from load risk.
+2. Add airport reliability data.
+3. Add peak date/holiday calendars.
+4. Add trip outcome tracking to tune weights.
+5. Add party-clearance probability based on historical manual load checks.

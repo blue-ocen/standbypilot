@@ -1,54 +1,34 @@
-# StandbyPilot v1 Private App Starter
+# Route Source Notes
 
-StandbyPilot v1 is a browser-based private prototype for planning non-revenue standby travel.
+These are route assumptions used to shape the five validation examples. They are not live load data and should not be treated as airline clearance probability.
 
-## What changed from v0
+## Portugal / Algarve
 
-v0 proved the Battle Card concept. v1 makes it reusable:
+- SEA to Lisbon does not currently have nonstop service; route options require at least one stop.
+- SEA to Faro does not currently have nonstop service; common stopover gateways include London Heathrow, Amsterdam, and Frankfurt.
+- Product implication: use a major Europe gateway first, then treat LIS/FAO as flexible arrival targets.
 
-- Saved trips in browser localStorage
-- Trip dashboard with average risk and load-check counts
-- Manual load check log per trip
-- Export/import trips as JSON
-- Portugal sample trip
-- Reusable risk scoring engine
-- Route strategy generator
-- Copyable and printable Non-Rev Battle Card
+## London
 
-## How to run locally
+- SEA to London Heathrow has multiple nonstop operators.
+- Product implication: the route itself is strong, but a group of four still requires a backup and split-party logic.
 
-Open `index.html` in a browser.
+## Nairobi
 
-No install step is required.
+- SEA to Nairobi does not currently have nonstop service.
+- Nairobi can be reached through major gateways such as Amsterdam, Frankfurt, Paris, Istanbul, Doha, Dubai, or JFK depending on airline access.
+- Product implication: route complexity should add risk even for a solo traveler.
 
-## How to host as a private prototype
+## Munich/Vienna Christmas Return
 
-Use one of these options:
+- Seattle has direct Europe service including Munich, but holiday return windows are deadline-sensitive and loads can be unforgiving.
+- Product implication: the app should recommend multiple Europe gateway exits and a paid rescue trigger.
 
-1. **Simplest:** upload the folder to Netlify Drop or Vercel as a static site.
-2. **Better private preview:** put it behind a password-protected page, Cloudflare Access, Netlify password protection, Vercel Authentication, or a private internal workspace.
-3. **Production path:** rebuild this as a Next.js app with Supabase Auth and database storage.
+## LAX to SEA Late Return
 
-## Important limitations
+- LAX to SEA has multiple nonstop operators.
+- Product implication: frequency helps, but late-night travel windows still create last-flight risk.
 
-This prototype does **not**:
+## Important
 
-- connect to live airline loads
-- scrape employee travel portals
-- book flights
-- verify visa/passport requirements in real time
-- protect data if hosted publicly as a static site
-
-Trips are saved only in the current browser unless exported/imported.
-
-## Product thesis
-
-Non-rev travelers do not only need flight options. They need a decision system:
-
-- What route should I try first?
-- How risky is this setup?
-- What are my backup routes?
-- When do I switch plans?
-- When do I buy confirmed?
-
-StandbyPilot should become the layer that turns fragmented travel information into a clear next move.
+This prototype intentionally does not scrape employee travel systems, airline pass portals, StaffTraveler, myIDTravel, or ID90. Manual load inputs are user-provided.

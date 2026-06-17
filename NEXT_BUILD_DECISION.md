@@ -1,58 +1,53 @@
-# StandbyPilot Manual Concierge MVP Offer
+# Next Build Decision
 
-## Offer name
+After validation, choose one path.
 
-Non-Rev Battle Plan
+## Path A: Manual concierge first
 
-## Positioning
+Choose this if testers like the plan but want human confidence and trip-specific judgment.
 
-A custom standby travel strategy for airline employees, pass riders, and buddy-pass travelers who want less uncertainty before they go to the airport.
+Build:
 
-## Deliverable
+- Public landing page
+- Intake form
+- Manual fulfillment workflow
+- Payment link
+- PDF Battle Plan template
 
-Each plan includes:
+This is the safest business path because it tests willingness to pay without heavy engineering.
 
-- Trip risk score
-- Primary route strategy
-- Backup routes
-- Alternate airport options
-- Switch-plan triggers
-- Baggage recommendation
-- Paid rescue strategy
-- Airport survival notes
-- Document reminders for international trips
+## Path B: Private web app first
 
-## Suggested pricing tests
+Choose this if testers are comfortable self-serving and repeatedly editing trips.
 
-Start with three price points:
+Build:
 
-- $15 domestic Battle Plan
-- $29 international Battle Plan
-- $49 urgent / complex group Battle Plan
+- Hosted Next.js app
+- Supabase auth
+- Saved trips database
+- Exportable Battle Cards
+- Validation/outcome logging
 
-Do not optimize pricing yet. The first question is whether people want the plan.
+This is the best product path if frequent non-rev travelers want a tool they can use often.
 
-## Fulfillment workflow
+## Path C: Improve the decision engine
 
-1. Customer submits trip intake form.
-2. You create a Battle Card using StandbyPilot.
-3. You manually review the route logic.
-4. You send a PDF/text Battle Plan.
-5. Customer provides feedback after travel.
+Choose this if testers say the product is useful but too generic.
 
-## Strong early niche
+Improve:
 
-The highest-value niche is likely international non-rev trips with deadlines:
+- Route specificity
+- Hub ranking
+- Domestic vs international logic
+- Final-leg risk
+- Last-flight trap detection
+- Group splitting recommendations
+- Paid rescue triggers
 
-- Europe summer trips
-- Cruises
-- Weddings
-- Festivals
-- Family trips with multiple pass riders
-- Long-haul trips where getting stranded is expensive
+This is the correct path if trust or actionability scores are low.
 
-## Do not promise
+## My recommendation
 
-Never promise seat clearance, exact availability, boarding probability, or guaranteed arrival.
+Run manual concierge and private app testing in parallel for a small group.
 
-The promise is better planning and better decisions, not certainty.
+Use the current prototype to create Battle Cards, but deliver the final plan manually at first. That lets the product learn faster without pretending the engine is smarter than it is.

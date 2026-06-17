@@ -1,51 +1,60 @@
-# Product Decisions After Testing
+# StandbyPilot Next Product Moves
 
-After testing the five trips, make these decisions before writing production code.
+## Move 1: Test v1 with 5 real trips
 
-## 1. Is the Battle Card the right core output?
+Use the app to build Battle Cards for:
 
-Keep it if testers say:
+1. Seattle to Portugal
+2. Domestic weekend trip
+3. International trip with checked bag
+4. Group trip of 4+
+5. Deadline-sensitive trip such as wedding/cruise/work
 
-- “This makes the trip clearer.”
-- “I would use this at the airport.”
-- “The switch-plan triggers are helpful.”
+Goal: find where the output feels helpful and where it feels generic.
 
-Change it if testers say:
+## Move 2: Add route database
 
-- “This is too generic.”
-- “I still do not know what to do.”
-- “The risk score does not match how non-rev actually feels.”
+Add static airport and hub logic before paying for APIs.
 
-## 2. Does the scoring model need more inputs?
+Needed data:
 
-Likely next inputs:
+- major airport code list
+- nearby airports by city
+- useful international gateways
+- hub strength by region
+- risky airport notes
 
-- Number of useful flights remaining that day.
-- Whether the route has a same-day recovery option.
-- Whether the final leg is the last flight of the day.
-- Whether the traveler has fixed hotel/event/cruise loss.
-- Whether the traveler can position to another airport.
-- Whether pass priority is strong or weak on the selected airline.
+## Move 3: Add trip outcomes
 
-## 3. What should v2 add?
+After each trip, record:
 
-Do not jump straight to a mobile app. v2 should add:
+- cleared / did not clear
+- bought rescue fare
+- split group
+- overnighted
+- checked bag issue
+- actual arrival delay
 
-1. Better route graph logic.
-2. Manual same-day flight list.
-3. Rescue fare field.
-4. Airport survival notes.
-5. PDF export.
-6. Basic user accounts and saved trips through Supabase.
+This will improve the scoring model more than theoretical guessing.
 
-## 4. What not to build yet
+## Move 4: Build production app
 
-Do not build these until the Battle Card is validated:
+Rebuild with:
 
-- Community load-sharing.
-- Full mobile app.
-- Live airline load integrations.
-- Booking engine.
-- Complex map UI.
+- Next.js
+- Supabase Auth
+- Supabase Postgres
+- RLS policies
+- hosted battle cards
+- shared read-only Battle Card links
 
-The product wins if it becomes a trusted decision layer first.
+## Move 5: Add data providers
+
+Later integrations:
+
+- flight schedule/status provider
+- fare search provider
+- airport guide data
+- travel document provider
+
+Avoid scraping airline employee systems or other restricted portals.

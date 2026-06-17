@@ -1,44 +1,51 @@
-# Deployment Guide
+# Product Decisions After Testing
 
-## Option A: Local use
+After testing the five trips, make these decisions before writing production code.
 
-Open `index.html` in a browser. This is the fastest way to test the product.
+## 1. Is the Battle Card the right core output?
 
-## Option B: Static hosting
+Keep it if testers say:
 
-Upload this folder to a static host:
+- “This makes the trip clearer.”
+- “I would use this at the airport.”
+- “The switch-plan triggers are helpful.”
 
-- Netlify
-- Vercel
-- Cloudflare Pages
-- GitHub Pages
+Change it if testers say:
 
-Because v1 uses localStorage, every user's trips stay in that user's browser.
+- “This is too generic.”
+- “I still do not know what to do.”
+- “The risk score does not match how non-rev actually feels.”
 
-## Option C: Private prototype
+## 2. Does the scoring model need more inputs?
 
-For a private alpha, put the static site behind a real access layer:
+Likely next inputs:
 
-- Cloudflare Access
-- Netlify password protection
-- Vercel Authentication
-- basic auth on a private server
+- Number of useful flights remaining that day.
+- Whether the route has a same-day recovery option.
+- Whether the final leg is the last flight of the day.
+- Whether the traveler has fixed hotel/event/cruise loss.
+- Whether the traveler can position to another airport.
+- Whether pass priority is strong or weak on the selected airline.
 
-Do not rely on a client-side passcode for production privacy.
+## 3. What should v2 add?
 
-## Option D: Production rebuild
+Do not jump straight to a mobile app. v2 should add:
 
-Recommended stack:
+1. Better route graph logic.
+2. Manual same-day flight list.
+3. Rescue fare field.
+4. Airport survival notes.
+5. PDF export.
+6. Basic user accounts and saved trips through Supabase.
 
-- Next.js frontend
-- Supabase Auth
-- Supabase Postgres
-- Row Level Security
-- Vercel hosting
-- OpenAI API for narrative Battle Card generation
-- Flight schedule/status provider later
-- Paid fare search provider later
+## 4. What not to build yet
 
-## Production database tables
+Do not build these until the Battle Card is validated:
 
-See `supabase_schema.sql` for a starter schema.
+- Community load-sharing.
+- Full mobile app.
+- Live airline load integrations.
+- Booking engine.
+- Complex map UI.
+
+The product wins if it becomes a trusted decision layer first.

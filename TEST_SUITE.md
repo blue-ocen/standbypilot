@@ -1,52 +1,55 @@
-# StandbyPilot Risk Engine v1
+# StandbyPilot v1.1 Test Suite
 
-The v1 risk engine is a rules-based model. It is intentionally simple so users can understand why a trip was graded a certain way.
+This version adds five realistic non-rev trip examples so the product can be judged against different standby situations instead of only one Portugal case.
 
-## Base score
+## Goal
 
-Every trip starts at 25.
+Validate whether the Battle Card output is useful, believable, and action-oriented.
 
-## Risk additions
+The product should answer three questions for each trip:
 
-- +10 international trip
-- +15 summer Europe demand, when detected
-- +15 deadline-sensitive trip purpose
-- +15 must-arrive deadline within 24 hours
-- +5 per traveler after traveler #1, capped at +25
-- +15 checked bag
-- +8 mixed or uncertain bags
-- +10 unwilling to connect
-- +10 unwilling to use nearby airports
-- +10 unwilling to split group with party size greater than 1
-- +10 no stated backup budget
-- +20 manual load input shows more demand than likely open seats
+1. What is the risk?
+2. What are the best route/back-up moves?
+3. When should the traveler switch plans or buy confirmed?
 
-## Risk reductions
+## Five test trips
 
-- -10 useful travel buffer of roughly 48+ hours
-- -5 carry-on only
-- -5 willingness to connect
-- -10 nearby-airport flexibility
-- -10 willing to split group
-- -3 maybe willing to split group
-- -10 backup budget of $1,000+
-- -5 backup budget of $500+
-- -15 healthy manual seat margin
-- -5 workable manual seat margin
+| # | Test trip | Purpose | Expected behavior |
+|---:|---|---|---|
+| 1 | Portugal / Algarve Summer Trip | International summer leisure, group of 4, no SEA nonstop to Portugal/Algarve | Should flag Orange-ish risk, recommend leaving early, carry-on only, Europe gateway strategy, and willingness to buy final intra-Europe leg. |
+| 2 | London Group Trip / Southwark Park | Strong nonstop route but group-size pressure | Should not over-panic. Should show Yellow risk, prioritize nonstop SEA-LHR, but keep Europe backup hubs. |
+| 3 | Nairobi 2-Day Efficiency Run | Long-haul international with gateway dependency | Should flag that solo travel helps, but route complexity matters. Should recommend gateway strategy and a paid final-leg rescue trigger. |
+| 4 | Munich/Vienna Christmas Return | Holiday return, 2 travelers, partial baggage uncertainty, deadline pressure | Should show Orange risk and force a paid rescue/overnight-reset trigger. |
+| 5 | LAX to SEA Late Return | Domestic route with many flights but tight late-night window | Should show Yellow risk and warn about last-flight/overnight risk despite strong city-pair frequency. |
 
-## Bands
+## How to test
 
-| Score | Risk | Meaning |
-|---:|---|---|
-| 0-25 | Green | Good setup if loads hold |
-| 26-50 | Yellow | Reasonable, monitor closely |
-| 51-75 | Orange | Risky; backup matters as much as Plan A |
-| 76-100 | Red | Do not rely on standby if arrival truly matters |
+1. Open `index.html`.
+2. Click **Load 5 Test Trips**.
+3. Open each saved trip in the left sidebar.
+4. Read the risk score, route cards, switch-plan triggers, and Battle Card.
+5. Fill out `VALIDATION_FEEDBACK_FORM.md` for each trip.
+6. Adjust the scoring model if the output feels too optimistic or too conservative.
 
-## Near-term improvement ideas
+## What we are looking for
 
-1. Separate route risk from load risk.
-2. Add airport reliability data.
-3. Add peak date/holiday calendars.
-4. Add trip outcome tracking to tune weights.
-5. Add party-clearance probability based on historical manual load checks.
+A useful Battle Card should be:
+
+- Clear enough to act on at the airport.
+- Honest about risk without scaring the traveler unnecessarily.
+- Specific about the next move.
+- Strong on backup routes.
+- Strong on when to stop waiting.
+- Conservative when the trip has a hard deadline.
+
+## Current scoring snapshot
+
+| Test trip | v1.1 score | Risk |
+|---|---:|---|
+| Portugal / Algarve Summer Trip | 51 | Orange |
+| London Group Trip / Southwark Park | 42 | Yellow |
+| Nairobi 2-Day Efficiency Run | 50 | Yellow |
+| Munich/Vienna Christmas Return | 65 | Orange |
+| LAX to SEA Late Return | 45 | Yellow |
+
+These are not final. They are the starting point for validation.

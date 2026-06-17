@@ -1,71 +1,58 @@
-# StandbyPilot Validation Playbook
+# StandbyPilot Manual Concierge MVP Offer
 
-## Goal
+## Offer name
 
-Prove whether the Non-Rev Battle Card is useful enough that a traveler would rely on it before going to the airport.
+Non-Rev Battle Plan
 
-This phase is not about beautiful UI. It is about whether the product creates a better decision.
+## Positioning
 
-## Test group
+A custom standby travel strategy for airline employees, pass riders, and buddy-pass travelers who want less uncertainty before they go to the airport.
 
-Start with 5 to 10 people:
+## Deliverable
 
-- Airline employees who non-rev
-- Eligible pass riders
-- Buddy-pass travelers
-- Travelers who have been stranded before
-- People planning international trips with flexible travel dates
+Each plan includes:
 
-## Test script
+- Trip risk score
+- Primary route strategy
+- Backup routes
+- Alternate airport options
+- Switch-plan triggers
+- Baggage recommendation
+- Paid rescue strategy
+- Airport survival notes
+- Document reminders for international trips
 
-Give the tester one trip scenario and ask them to read the Battle Card.
+## Suggested pricing tests
 
-Then ask:
+Start with three price points:
 
-1. What would you do after reading this?
-2. Did the plan make the trip feel more manageable?
-3. What part felt most useful?
-4. What part felt vague or wrong?
-5. Would you trust this before going to the airport?
-6. Would you pay for a custom version of this plan?
-7. What price would feel fair for one trip?
+- $15 domestic Battle Plan
+- $29 international Battle Plan
+- $49 urgent / complex group Battle Plan
 
-## Validation scores
+Do not optimize pricing yet. The first question is whether people want the plan.
 
-Score each Battle Card from 1 to 5:
+## Fulfillment workflow
 
-- Clarity: Is the plan easy to understand?
-- Trust: Would they rely on it?
-- Actionability: Does it tell them what to do next?
-- Stress reduction: Does it reduce uncertainty?
-- Willingness to pay: Would they pay for this?
+1. Customer submits trip intake form.
+2. You create a Battle Card using StandbyPilot.
+3. You manually review the route logic.
+4. You send a PDF/text Battle Plan.
+5. Customer provides feedback after travel.
 
-## Minimum useful signal
+## Strong early niche
 
-A trip passes validation if average score is at least 4.0 and actionability is at least 4.
+The highest-value niche is likely international non-rev trips with deadlines:
 
-The product passes this stage if at least 3 of 5 trips pass.
+- Europe summer trips
+- Cruises
+- Weddings
+- Festivals
+- Family trips with multiple pass riders
+- Long-haul trips where getting stranded is expensive
 
-## What to watch for
+## Do not promise
 
-Strong signal:
+Never promise seat clearance, exact availability, boarding probability, or guaranteed arrival.
 
-- “I would use this before every non-rev trip.”
-- “The switch triggers are helpful.”
-- “This would have saved me last time.”
-- “I would pay for an international version.”
-
-Weak signal:
-
-- “This is obvious.”
-- “I still need to figure everything out myself.”
-- “It does not know enough about loads.”
-- “The route advice is too generic.”
-
-## Decision after testing
-
-If the feedback is strong, build a private hosted version with accounts and saved trips.
-
-If the feedback is mixed, improve the Battle Card logic before building infrastructure.
-
-If the feedback is weak, pivot toward a manual concierge service where a human reviews every plan.
+The promise is better planning and better decisions, not certainty.
