@@ -14,10 +14,18 @@ v0 proved the Battle Card concept. v1 makes it reusable:
 - Reusable risk scoring engine
 - Route strategy generator
 - Copyable and printable Non-Rev Battle Card
+- Polished validation UI with clearer hierarchy and a concise printable Battle Card surface
+- Manual Concierge Beta concept for manually reviewed non-rev Battle Plans
 
 ## Core product output
 
 The Battle Card is the core product output. It is intentionally concise and designed for airport decision-making: final call, risk snapshot, best plan, backup moves, switch triggers, travel rules, and a blunt bottom line.
+
+## Manual Concierge Beta
+
+The prototype now includes a static Manual Concierge Beta section. The concept is simple: a traveler submits trip details, StandbyPilot manually reviews route/risk/backups, and the traveler receives a concise Battle Card.
+
+This is a product-validation concept only. There is no backend, payment processing, auth, or automated intake flow yet.
 
 ## How to run locally
 
@@ -60,6 +68,8 @@ This prototype does **not**:
 - book flights
 - verify visa/passport requirements in real time
 - provide production-grade access control or data protection
+- process payments
+- provide real authentication or account-based storage
 
 Trips are saved only in the current browser unless exported/imported.
 
