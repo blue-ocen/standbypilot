@@ -43,8 +43,9 @@ jobs:
 
           head -n 1 index.html | grep -F '<!doctype html>'
           grep -F 'Smarter non-rev travel decisions.' index.html
-          grep -Eq 'href="\./styles\.css(\?[^"]*)?"' app.html
-          grep -Eq 'src="\./app\.js(\?[^"]*)?"' app.html
+          grep -F 'StandbyPilot helps pass travelers compare route risk, backup options, switch triggers, and rescue plans before heading to the airport.' index.html
+          grep -F 'href="./styles.css"' app.html
+          grep -F 'src="./app.js"' app.html
           grep -F './battle-card.js' app.html
 
           node --check app.js
