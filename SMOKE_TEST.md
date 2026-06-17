@@ -1,11 +1,11 @@
 # StandbyPilot Smoke Test Checklist
 
-Use this checklist after restoring or changing the static prototype.
+Use this checklist after changing the static prototype.
 
 ## File sanity checks
 
 - `index.html` starts with `<!doctype html>` and is the public landing page.
-- `login.html` starts with `<!doctype html>` and is the static prototype login mock.
+- `login.html` starts with `<!doctype html>` and is the visual-only prototype login mock.
 - `app.html` starts with `<!doctype html>` and contains the working app shell.
 - `app.html` links `./styles.css`, references `./battle-card.js`, and loads `./app.js` with relative paths.
 - `styles.css` starts with CSS/root/style rules.
@@ -19,11 +19,13 @@ Use this checklist after restoring or changing the static prototype.
 
 1. Open `index.html` in a browser.
 2. Confirm the landing page headline says **Smarter non-rev travel decisions.**
-3. Confirm the page has CTAs for **Open Prototype** and **View Concierge Beta**.
-4. Confirm the landing page sections mention recommended route, backup strategy, route rating, switch triggers, and Manual Concierge Beta.
-5. Confirm the disclaimer says StandbyPilot does not guarantee boarding, seat availability, or airline outcomes.
-6. Click **Open Prototype** and confirm it opens `login.html`.
-7. Click **View Concierge Beta** and confirm it jumps to the concierge section.
+3. Confirm the subtitle says **StandbyPilot helps pass travelers compare route risk, backup options, switch triggers, and rescue plans before heading to the airport.**
+4. Confirm the page has CTAs for **Open Prototype** and **Request Concierge Battle Plan**.
+5. Confirm the landing page sections mention Recommended Route, Backup Strategy, Route Rating, Switch Triggers, and Manual Concierge Beta.
+6. Confirm the disclaimer says StandbyPilot does not guarantee boarding, seat availability, or airline outcomes.
+7. Click **Open Prototype** and confirm it opens `login.html`.
+8. Click **Request Concierge Battle Plan** and confirm it jumps to the concierge section.
+9. Confirm the page nav includes Home, Prototype App, and Concierge Beta.
 
 ## Login mock smoke test
 
@@ -32,13 +34,13 @@ Use this checklist after restoring or changing the static prototype.
 3. Confirm email and password fields appear for visual design only.
 4. Confirm the note says **Prototype login only. Do not enter real passwords.**
 5. Click **Continue to Prototype** and confirm it opens `app.html`.
-6. Confirm the Home link returns to `index.html`.
+6. Confirm the page nav includes Home, Prototype App, and Concierge Beta.
 
 ## App smoke test
 
 1. Open `app.html` in a browser.
 2. Confirm the app loads without missing `styles.css`, `app.js`, `app-core.js`, or `battle-card.js` errors in the console.
-3. Confirm the app nav links back to Home and Concierge Beta.
+3. Confirm the app nav includes Home, Prototype App, and Concierge Beta.
 4. Click **Load Portugal Sample** and confirm a saved trip appears.
 5. Click **Load 5 Test Trips** and confirm the validation trip suite appears in saved trips.
 6. Open each saved trip and confirm risk score, risk badge, route cards, and Battle Card render.
