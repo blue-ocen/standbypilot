@@ -4,10 +4,10 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>StandbyPilot v1.2 - Validation Dashboard</title>
-  <link rel="stylesheet" href="./styles.css?v=1.0.1" />
+  <link rel="stylesheet" href="./styles.css?v=1.0.2" />
 </head>
 <body>
-  <section id="accessGate" class="app-header" aria-labelledby="accessTitle">
+  <section id="accessGate" class="app-header access-hero" aria-labelledby="accessTitle">
     <div>
       <p class="eyebrow">StandbyPilot private prototype</p>
       <h1 id="accessTitle">Prototype Access</h1>
@@ -25,11 +25,12 @@
     </form>
   </section>
 
-  <header id="appHeader" class="app-header" hidden>
-    <div>
-      <p class="eyebrow">StandbyPilot v1.2 Validation Dashboard</p>
-      <h1>Non-Rev Battle Plan Builder</h1>
-      <p class="subhead">Create Battle Cards, test them against real non-rev scenarios, and decide whether the product is ready for manual concierge or private app development.</p>
+  <header id="appHeader" class="app-header hero-header" hidden>
+    <div class="hero-copy">
+      <span class="product-badge">Validation prototype</span>
+      <p class="eyebrow">StandbyPilot v1.2</p>
+      <h1>Non-rev decisions, made calmer.</h1>
+      <p class="subhead">Build a concise airport-ready Battle Card with risk, route backups, switch triggers, and a clear final call.</p>
     </div>
     <div class="header-actions">
       <button id="loadPortugal" class="secondary">Load Portugal Sample</button>
@@ -41,8 +42,8 @@
   </header>
 
   <main id="appMain" class="layout" hidden>
-    <aside class="sidebar">
-      <section class="panel compact">
+    <aside class="sidebar secondary-rail">
+      <section class="panel compact side-panel">
         <div class="panel-title-row">
           <div>
             <p class="eyebrow">Workspace</p>
@@ -60,7 +61,7 @@
         </div>
       </section>
 
-      <section class="panel compact">
+      <section class="panel compact side-panel">
         <p class="eyebrow">Dashboard</p>
         <div class="metric-grid">
           <div class="metric">
@@ -81,170 +82,173 @@
           </div>
         </div>
       </section>
-
-      <section class="panel compact">
-        <p class="eyebrow">Validation</p>
-        <div class="metric-grid">
-          <div class="metric">
-            <span id="metricValidated">0</span>
-            <small>Validated</small>
-          </div>
-          <div class="metric">
-            <span id="metricAvgUseful">—</span>
-            <small>Avg useful</small>
-          </div>
-          <div class="metric">
-            <span id="metricAvgAction">—</span>
-            <small>Avg action</small>
-          </div>
-          <div class="metric">
-            <span id="metricPaidInterest">0</span>
-            <small>Pay signals</small>
-          </div>
-        </div>
-        <div id="validationQueue" class="validation-list empty-state">Load or save trips to start validation.</div>
-      </section>
     </aside>
 
     <section class="content">
-      <section class="panel">
-        <div class="panel-title-row">
+      <section class="panel primary-workflow">
+        <div class="panel-title-row form-heading">
           <div>
             <p class="eyebrow">Trip intake</p>
             <h2 id="formTitle">Create Battle Plan</h2>
+            <p class="section-note">Start with the required travel facts. The Battle Card updates from these inputs.</p>
           </div>
           <div id="saveStatus" class="status-note">Unsaved</div>
         </div>
 
         <form id="tripForm" class="trip-form">
-          <div class="grid two">
-            <label>Trip name
-              <input id="tripName" placeholder="Portugal summer trip" />
-            </label>
-            <label>Trip owner / traveler
-              <input id="travelerName" placeholder="Robert" />
+          <div class="field-group">
+            <p class="field-group-title">Trip basics</p>
+            <div class="grid two">
+              <label>Trip name
+                <input id="tripName" placeholder="Portugal summer trip" />
+              </label>
+              <label>Trip owner / traveler
+                <input id="travelerName" placeholder="Robert" />
+              </label>
+            </div>
+          </div>
+
+          <div class="field-group priority-group">
+            <p class="field-group-title">Core route details</p>
+            <div class="grid three">
+              <label class="priority-field">Origin airport
+                <input id="origin" placeholder="SEA" />
+              </label>
+              <label class="priority-field">Destination airport / city
+                <input id="destination" placeholder="LIS / Faro / Portugal" />
+              </label>
+              <label>Final local destination
+                <input id="finalDestination" placeholder="Portimão / Praia da Rocha" />
+              </label>
+            </div>
+          </div>
+
+          <div class="field-group priority-group">
+            <p class="field-group-title">Timing and constraints</p>
+            <div class="grid three">
+              <label>Earliest departure
+                <input id="earliestDeparture" type="datetime-local" />
+              </label>
+              <label class="priority-field">Must arrive by
+                <input id="mustArriveBy" type="datetime-local" />
+              </label>
+              <label>Return date
+                <input id="returnDate" type="date" />
+              </label>
+            </div>
+          </div>
+
+          <div class="field-group priority-group">
+            <p class="field-group-title">Travel setup</p>
+            <div class="grid four">
+              <label class="priority-field">Travelers
+                <input id="travelers" type="number" min="1" value="1" />
+              </label>
+              <label class="priority-field">Bags
+                <select id="bags">
+                  <option value="carry-on">Carry-on only</option>
+                  <option value="mixed">Mixed / unsure</option>
+                  <option value="checked">Checked bag</option>
+                </select>
+              </label>
+              <label>Trip type
+                <select id="tripType">
+                  <option value="casual">Casual vacation</option>
+                  <option value="event">Event / festival</option>
+                  <option value="wedding">Wedding</option>
+                  <option value="cruise">Cruise</option>
+                  <option value="work">Work</option>
+                  <option value="family">Family emergency</option>
+                </select>
+              </label>
+              <label class="priority-field">Scope
+                <select id="scope">
+                  <option value="domestic">Domestic</option>
+                  <option value="international">International</option>
+                </select>
+              </label>
+            </div>
+          </div>
+
+          <div class="field-group priority-group">
+            <p class="field-group-title">Backup flexibility</p>
+            <div class="grid four">
+              <label>Willing to connect?
+                <select id="connections">
+                  <option value="yes">Yes</option>
+                  <option value="maybe">Maybe</option>
+                  <option value="no">No</option>
+                </select>
+              </label>
+              <label>Nearby airports?
+                <select id="nearbyAirports">
+                  <option value="yes">Yes</option>
+                  <option value="maybe">Maybe</option>
+                  <option value="no">No</option>
+                </select>
+              </label>
+              <label>Split group?
+                <select id="splitGroup">
+                  <option value="yes">Yes</option>
+                  <option value="maybe">Maybe</option>
+                  <option value="no">No</option>
+                </select>
+              </label>
+              <label class="priority-field">Backup budget
+                <input id="backupBudget" type="number" min="0" placeholder="500" />
+              </label>
+            </div>
+          </div>
+
+          <div class="field-group priority-group">
+            <p class="field-group-title">Pass and planning context</p>
+            <div class="grid three">
+              <label>Airline / pass system
+                <input id="passSystem" placeholder="Delta, Alaska, myIDTravel, ID90, StaffTraveler notes" />
+              </label>
+              <label>Pass priority
+                <input id="passPriority" placeholder="S3, D2, ZED, buddy pass, etc." />
+              </label>
+              <label class="priority-field">Primary goal
+                <select id="priority">
+                  <option value="highest-arrival-chance">Highest chance of arriving</option>
+                  <option value="lowest-cost">Lowest cost</option>
+                  <option value="fewest-connections">Fewest connections</option>
+                  <option value="comfort">Best comfort</option>
+                  <option value="fastest">Fastest trip</option>
+                </select>
+              </label>
+            </div>
+          </div>
+
+          <div class="field-group">
+            <p class="field-group-title">Manual load context</p>
+            <div class="grid three">
+              <label>Latest open seats
+                <input id="openSeats" type="number" min="0" placeholder="Optional" />
+              </label>
+              <label>Latest standby count
+                <input id="standbyCount" type="number" min="0" placeholder="Optional" />
+              </label>
+              <label>Cabin notes
+                <input id="cabinNotes" placeholder="Y 7 open, J full, upgrades pending" />
+              </label>
+            </div>
+          </div>
+
+          <div class="field-group">
+            <label>Load notes
+              <textarea id="loadNotes" rows="3" placeholder="Paste or summarize load/list notes. Do not paste private employee-system screenshots or restricted data into a public/shared version."></textarea>
             </label>
           </div>
 
-          <div class="grid three">
-            <label>Origin airport
-              <input id="origin" placeholder="SEA" />
-            </label>
-            <label>Destination airport/city
-              <input id="destination" placeholder="LIS / Faro / Portugal" />
-            </label>
-            <label>Final local destination
-              <input id="finalDestination" placeholder="Portimão / Praia da Rocha" />
+          <div class="field-group">
+            <label>Fixed reservations, airport constraints, or notes
+              <textarea id="notes" rows="3" placeholder="Hotels, events, must-arrive deadlines, airport preferences, travel party constraints"></textarea>
             </label>
           </div>
 
-          <div class="grid three">
-            <label>Earliest departure
-              <input id="earliestDeparture" type="datetime-local" />
-            </label>
-            <label>Must arrive by
-              <input id="mustArriveBy" type="datetime-local" />
-            </label>
-            <label>Return date
-              <input id="returnDate" type="date" />
-            </label>
-          </div>
-
-          <div class="grid four">
-            <label>Travelers
-              <input id="travelers" type="number" min="1" value="1" />
-            </label>
-            <label>Bags
-              <select id="bags">
-                <option value="carry-on">Carry-on only</option>
-                <option value="mixed">Mixed / unsure</option>
-                <option value="checked">Checked bag</option>
-              </select>
-            </label>
-            <label>Trip type
-              <select id="tripType">
-                <option value="casual">Casual vacation</option>
-                <option value="event">Event / festival</option>
-                <option value="wedding">Wedding</option>
-                <option value="cruise">Cruise</option>
-                <option value="work">Work</option>
-                <option value="family">Family emergency</option>
-              </select>
-            </label>
-            <label>Scope
-              <select id="scope">
-                <option value="domestic">Domestic</option>
-                <option value="international">International</option>
-              </select>
-            </label>
-          </div>
-
-          <div class="grid four">
-            <label>Willing to connect?
-              <select id="connections">
-                <option value="yes">Yes</option>
-                <option value="maybe">Maybe</option>
-                <option value="no">No</option>
-              </select>
-            </label>
-            <label>Nearby airports?
-              <select id="nearbyAirports">
-                <option value="yes">Yes</option>
-                <option value="maybe">Maybe</option>
-                <option value="no">No</option>
-              </select>
-            </label>
-            <label>Split group?
-              <select id="splitGroup">
-                <option value="yes">Yes</option>
-                <option value="maybe">Maybe</option>
-                <option value="no">No</option>
-              </select>
-            </label>
-            <label>Backup budget
-              <input id="backupBudget" type="number" min="0" placeholder="500" />
-            </label>
-          </div>
-
-          <div class="grid three">
-            <label>Airline / pass system
-              <input id="passSystem" placeholder="Delta, Alaska, myIDTravel, ID90, StaffTraveler notes" />
-            </label>
-            <label>Pass priority
-              <input id="passPriority" placeholder="S3, D2, ZED, buddy pass, etc." />
-            </label>
-            <label>Primary goal
-              <select id="priority">
-                <option value="highest-arrival-chance">Highest chance of arriving</option>
-                <option value="lowest-cost">Lowest cost</option>
-                <option value="fewest-connections">Fewest connections</option>
-                <option value="comfort">Best comfort</option>
-                <option value="fastest">Fastest trip</option>
-              </select>
-            </label>
-          </div>
-
-          <div class="grid three">
-            <label>Latest open seats
-              <input id="openSeats" type="number" min="0" placeholder="Optional" />
-            </label>
-            <label>Latest standby count
-              <input id="standbyCount" type="number" min="0" placeholder="Optional" />
-            </label>
-            <label>Cabin notes
-              <input id="cabinNotes" placeholder="Y 7 open, J full, upgrades pending" />
-            </label>
-          </div>
-
-          <label>Load notes
-            <textarea id="loadNotes" rows="3" placeholder="Paste or summarize load/list notes. Do not paste private employee-system screenshots or restricted data into a public/shared version."></textarea>
-          </label>
-
-          <label>Fixed reservations, airport constraints, or notes
-            <textarea id="notes" rows="3" placeholder="Hotels, events, must-arrive deadlines, airport preferences, travel party constraints"></textarea>
-          </label>
-
-          <div class="button-row">
+          <div class="button-row form-actions">
             <button type="submit" class="primary">Generate / Update Battle Plan</button>
             <button type="button" id="saveTrip" class="secondary">Save Trip</button>
             <button type="button" id="duplicateTrip" class="secondary">Duplicate</button>
@@ -292,6 +296,38 @@
         </section>
       </section>
 
+      <section class="panel battle-card-panel">
+        <div class="panel-title-row">
+          <div>
+            <p class="eyebrow">Output</p>
+            <h2>Non-Rev Battle Card</h2>
+          </div>
+          <div class="button-row compact-row">
+            <button id="copyBattleCard" class="secondary">Copy</button>
+            <button id="printBattleCard" class="primary">Print / Save PDF</button>
+          </div>
+        </div>
+        <article id="battleCard" class="battle-card empty-state">Generate a plan to create the Battle Card.</article>
+      </section>
+
+      <section class="panel concierge-panel" id="concierge-request">
+        <div class="panel-title-row">
+          <div>
+            <p class="eyebrow">Manual Concierge Beta</p>
+            <h2>Request a reviewed Non-Rev Battle Plan</h2>
+          </div>
+          <span class="product-badge subtle">Manual review</span>
+        </div>
+        <p class="large-copy">For validation, StandbyPilot can also be tested as a hands-on planning service: a manually reviewed route, risk, backup, and Battle Card.</p>
+        <div class="concierge-steps">
+          <div><span>1</span><strong>Submit trip details</strong><small>Share route, timing, bags, group size, and flexibility.</small></div>
+          <div><span>2</span><strong>Get reviewed</strong><small>Route risk, backups, and switch points are checked manually.</small></div>
+          <div><span>3</span><strong>Receive the card</strong><small>Get a concise Battle Card you can use at the airport.</small></div>
+        </div>
+        <p class="warning-note">Do not submit private employee-system screenshots, restricted load data, or sensitive traveler information.</p>
+        <a class="button-link primary" href="mailto:?subject=StandbyPilot%20Concierge%20Battle%20Plan%20Request">Request Concierge Battle Plan</a>
+      </section>
+
       <section class="panel">
         <div class="panel-title-row">
           <div>
@@ -317,27 +353,35 @@
         <div id="loadLog" class="timeline empty-state">No load checks logged yet.</div>
       </section>
 
-      <section class="panel battle-card-panel">
-        <div class="panel-title-row">
-          <div>
-            <p class="eyebrow">Output</p>
-            <h2>Non-Rev Battle Card</h2>
-          </div>
-          <div class="button-row compact-row">
-            <button id="copyBattleCard" class="secondary">Copy</button>
-            <button id="printBattleCard" class="primary">Print / Save PDF</button>
-          </div>
-        </div>
-        <article id="battleCard" class="battle-card empty-state">Generate a plan to create the Battle Card.</article>
-      </section>
-
-      <section id="validationPanel" class="panel">
+      <section id="validationPanel" class="panel validation-panel">
         <div class="panel-title-row">
           <div>
             <p class="eyebrow">Product validation</p>
             <h2>Battle Card Feedback</h2>
           </div>
           <div id="validationStatus" class="status-note">Untested</div>
+        </div>
+
+        <div class="validation-summary">
+          <div class="metric-grid validation-metrics">
+            <div class="metric">
+              <span id="metricValidated">0</span>
+              <small>Validated</small>
+            </div>
+            <div class="metric">
+              <span id="metricAvgUseful">—</span>
+              <small>Avg useful</small>
+            </div>
+            <div class="metric">
+              <span id="metricAvgAction">—</span>
+              <small>Avg action</small>
+            </div>
+            <div class="metric">
+              <span id="metricPaidInterest">0</span>
+              <small>Pay signals</small>
+            </div>
+          </div>
+          <div id="validationQueue" class="validation-list empty-state">Load or save trips to start validation.</div>
         </div>
 
         <div class="validation-grid">
@@ -429,7 +473,7 @@
   </main>
 
   <footer id="appFooter" class="footer-note" hidden>
-    <strong>Prototype note:</strong> v1.2 saves trips and validation feedback in this browser only. It does not access live airline loads, book flights, or verify entry rules in real time.
+    <strong>Prototype note:</strong> StandbyPilot helps plan non-rev decisions, but it does not guarantee boarding, seat availability, or airline outcomes. It saves trips and validation feedback in this browser only.
   </footer>
 
   <script src="./app.js?v=1.0.2"></script>
