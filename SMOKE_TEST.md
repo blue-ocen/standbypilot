@@ -7,6 +7,8 @@ Use this checklist after restoring or changing the static prototype.
 - `index.html` starts with `<!doctype html>`.
 - `styles.css` starts with CSS/root/style rules.
 - `app.js` parses as JavaScript.
+- `app-core.js` parses as JavaScript.
+- `battle-card.js` parses as JavaScript.
 - `test_trips_seed.json` parses as JSON.
 - `supabase_schema.sql` contains `create table` statements.
 
@@ -22,7 +24,7 @@ Use this checklist after restoring or changing the static prototype.
 ## Browser smoke test
 
 1. Open `index.html` in a browser.
-2. Confirm the page loads without missing `styles.css`, `app.js`, or `app-core.js` errors in the console.
+2. Confirm the page loads without missing `styles.css`, `app.js`, `app-core.js`, or `battle-card.js` errors in the console.
 3. Click **Load Portugal Sample** and confirm a saved trip appears.
 4. Click **Load 5 Test Trips** and confirm the validation trip suite appears in saved trips.
 5. Open each saved trip and confirm risk score, risk badge, route cards, and Battle Card render.
@@ -34,6 +36,17 @@ Use this checklist after restoring or changing the static prototype.
 11. Export trips as JSON.
 12. Import the exported JSON and confirm trips are added without deleting existing trips.
 13. Save validation feedback and confirm dashboard metrics update.
+
+## Battle Card quality checks
+
+1. Load the Portugal sample and generate a Battle Plan.
+2. Confirm the Battle Card uses sections A-J from Final Recommendation through Bottom Line.
+3. Confirm the Portugal sample includes international document notes, final-leg risk, backup route strategy, rescue fare guidance, and a blunt bottom line.
+4. Load the 5 Test Trips and confirm each saved trip still opens and renders a detailed Battle Card.
+5. Confirm the LAX to SEA domestic trip has lighter warnings than the international/event examples.
+6. Confirm international, group, and deadline-sensitive trips have stronger warnings about documents, split-party strategy, arrival buffer, and rescue triggers.
+7. Confirm **Copy Battle Card** copies the detailed report text.
+8. Confirm **Print / Save PDF** still shows a clean printable Battle Card.
 
 ## GitHub Pages visual check
 
