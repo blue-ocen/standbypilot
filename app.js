@@ -1,9 +1,11 @@
 const APP_CORE_SRC = './app-core.js';
 const PAID_RESCUE_SRC = './paid-rescue.js';
+const ROUTE_DETAILS_SRC = './route-details.js';
 const BATTLE_CARD_SRC = './battle-card.js';
 
 let appCoreLoaded = false;
 let paidRescueLoaded = false;
+let routeDetailsLoaded = false;
 let battleCardLoaded = false;
 
 function showLoadError(message) {
@@ -24,12 +26,25 @@ function loadBattleCardRenderer() {
   document.body.appendChild(script);
 }
 
+function loadRouteDetailsDrawers() {
+  if (routeDetailsLoaded) return;
+  routeDetailsLoaded = true;
+  const script = document.createElement('script');
+  script.src = ROUTE_DETAILS_SRC;
+  script.onload = loadBattleCardRenderer;
+  script.onerror = () => {
+    routeDetailsLoaded = false;
+    showLoadError('Could not load route details drawers. Refresh and try again.');
+  };
+  document.body.appendChild(script);
+}
+
 function loadPaidRescuePreference() {
   if (paidRescueLoaded) return;
   paidRescueLoaded = true;
   const script = document.createElement('script');
   script.src = PAID_RESCUE_SRC;
-  script.onload = loadBattleCardRenderer;
+  script.onload = loadRouteDetailsDrawers;
   script.onerror = () => {
     paidRescueLoaded = false;
     showLoadError('Could not load paid rescue preference behavior. Refresh and try again.');
