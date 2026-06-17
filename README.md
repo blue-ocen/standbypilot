@@ -6,11 +6,13 @@ StandbyPilot v1 is a browser-based private prototype for planning non-revenue st
 
 GitHub Pages serves `index.html` first.
 
-- `index.html` = public landing page
-- `login.html` = static prototype login mock
+- `index.html` = public landing page with the Phase 1 product story and concierge CTA
+- `login.html` = visual-only static prototype login mock
 - `app.html` = working StandbyPilot Battle Card app
 
 The login page is not real authentication. It does not validate, store, or protect credentials. Do not enter real passwords.
+
+The shared page navigation keeps the static flow simple: Home, Prototype App, and Concierge Beta.
 
 ## What changed from v0
 
@@ -26,7 +28,7 @@ v0 proved the Battle Card concept. v1 makes it reusable:
 - Copyable and printable Non-Rev Battle Card
 - Polished validation UI with clearer hierarchy and a concise printable Battle Card surface
 - Manual Concierge Beta concept for manually reviewed non-rev Battle Plans
-- Phase 1 landing page and static login mock foundations
+- Phase 1 landing page and visual-only login mock foundations
 
 ## Core product output
 
