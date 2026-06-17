@@ -169,6 +169,16 @@
     $('outcomeSaveStatus').textContent = 'Outcome saved';
   }
 
+  function exportTripsWithOutcomes() {
+    const blob = new Blob([JSON.stringify({ version: 4, exportedAt: nowIso(), trips: state.trips }, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `standbypilot-routes-${new Date().toISOString().slice(0, 10)}.json`;
+    link.click();
+    URL.revokeObjectURL(url);
+  }
+
   const originalPersistState = persistState;
   persistState = function outcomePersistState() {
     originalPersistState();
@@ -182,16 +192,13 @@
     renderOutcomeTracker();
   };
 
-  exportTrips = function outcomeExportTrips() {
-    const blob = new Blob([JSON.stringify({ version: 4, exportedAt: nowIso(), trips: state.trips }, null, 2)], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = `standbypilot-routes-${new Date().toISOString().slice(0, 10)}.json`;
-    link.click();
-    URL.revokeObjectURL(url);
-  };
+  exportTrips = exportTripsWithOutcomes;
 
+  $('exportTrips')?.addEventListener('click', (event) => {
+    event.preventDefault();
+    event.stopImmediatePropagation();
+    exportTripsWithOutcomes();
+  }, true);
   $('outcomeTripSelect')?.addEventListener('change', (event) => {
     selectedOutcomeTripId = event.target.value;
     renderOutcomeTracker();
