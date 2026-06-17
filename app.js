@@ -1,5 +1,5 @@
-const APP_CORE_SRC = './app-core.js?v=1.0.2';
-const BATTLE_CARD_SRC = './battle-card.js?v=1.0.1';
+const APP_CORE_SRC = './app-core.js';
+const BATTLE_CARD_SRC = './battle-card.js';
 
 let appCoreLoaded = false;
 let battleCardLoaded = false;
