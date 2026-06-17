@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>StandbyPilot - Non-Rev Decision Support</title>
+  <title>StandbyPilot - Non-Rev Route Decisions</title>
   <link rel="stylesheet" href="./styles.css" />
 </head>
 <body class="marketing-page">
@@ -12,68 +12,54 @@
     <nav aria-label="Primary navigation">
       <a href="./index.html">Home</a>
       <a href="./app.html">Prototype App</a>
-      <a href="#concierge">Concierge Beta</a>
+      <a href="#sample-route">Sample Route</a>
     </nav>
   </header>
 
   <main>
-    <section class="landing-hero">
+    <section class="landing-hero compact-hero">
       <div class="landing-copy">
-        <span class="product-badge">Phase 1 prototype</span>
-        <h1>Smarter non-rev travel decisions.</h1>
-        <p class="subhead">StandbyPilot helps pass travelers compare route risk, backup options, switch triggers, and rescue plans before heading to the airport.</p>
+        <span class="product-badge">Static prototype</span>
+        <h1>Smarter non-rev route decisions.</h1>
+        <p class="subhead">Enter your trip, add optional load notes, and get route risk with backup options in minutes.</p>
         <div class="button-row hero-actions">
           <a class="button-link primary" href="./login.html">Open Prototype</a>
-          <a class="button-link secondary" href="#concierge">Request Concierge Battle Plan</a>
+          <a class="button-link secondary" href="#sample-route">View Sample Route</a>
         </div>
       </div>
-      <aside class="landing-card" aria-label="Battle Card preview">
-        <p class="eyebrow">Battle Card Preview</p>
-        <h2>Final Call: Go early</h2>
+      <aside id="sample-route" class="landing-card route-preview-card" aria-label="Sample route result">
+        <p class="eyebrow">Sample Route Brief</p>
+        <h2>SEA → LIS / Faro</h2>
+        <div class="sample-grade"><span class="risk-badge orange">B-</span><strong>Go early</strong></div>
         <ul>
-          <li>Best route family selected first.</li>
-          <li>Backup moves ready before leaving home.</li>
-          <li>Switch trigger set before the last useful option.</li>
+          <li>Try the strongest Europe gateway first.</li>
+          <li>Keep Lisbon and Faro both alive.</li>
+          <li>Switch before the final Portugal connection disappears.</li>
         </ul>
       </aside>
     </section>
 
-    <section class="landing-grid" aria-label="StandbyPilot decision layers">
+    <section class="landing-grid" aria-label="StandbyPilot route decision flow">
       <article class="feature-panel">
-        <p class="eyebrow">Recommended Route</p>
-        <h2>Start with the strongest path</h2>
-        <p>Compare direct, hub, and alternate-airport options around the trip deadline.</p>
+        <p class="eyebrow">1. Trip</p>
+        <h2>Enter the route basics</h2>
+        <p>Origin, destination, timing, trip type, and whether you will connect.</p>
       </article>
       <article class="feature-panel">
-        <p class="eyebrow">Backup Strategy</p>
-        <h2>Know Plan B before Plan A fails</h2>
-        <p>Keep the next route, split-party choice, and overnight reset visible.</p>
+        <p class="eyebrow">2. Loads</p>
+        <h2>Add optional load notes</h2>
+        <p>Use open seats, standby count, and cabin notes when you have them.</p>
       </article>
       <article class="feature-panel">
-        <p class="eyebrow">Route Rating</p>
-        <h2>Turn uncertainty into a risk score</h2>
-        <p>Use trip type, group size, bags, timing, flexibility, and manual load context.</p>
+        <p class="eyebrow">3. Routes</p>
+        <h2>Get the route brief</h2>
+        <p>See the risk grade, recommended route, backup routes, and switch trigger.</p>
       </article>
       <article class="feature-panel">
-        <p class="eyebrow">Switch Triggers</p>
-        <h2>Decide when to move</h2>
-        <p>Set the point where you abandon Plan A, split the group, reroute, or buy confirmed.</p>
+        <p class="eyebrow">Airport-ready</p>
+        <h2>Keep the decision short</h2>
+        <p>Copy or print a concise Route Brief before heading to the airport.</p>
       </article>
-    </section>
-
-    <section id="concierge" class="landing-band concierge-panel">
-      <div>
-        <p class="eyebrow">Manual Concierge Beta</p>
-        <h2>Request a manually reviewed Non-Rev Battle Plan</h2>
-        <p class="large-copy">Use the concierge flow when you want a human-reviewed route/risk/backups pass before a high-stakes standby trip.</p>
-      </div>
-      <div class="concierge-steps">
-        <div><span>1</span><strong>Submit trip details</strong><small>Route, timing, bags, group size, and flexibility.</small></div>
-        <div><span>2</span><strong>Get reviewed</strong><small>Route risk, backups, and switch points are checked manually.</small></div>
-        <div><span>3</span><strong>Receive a Battle Card</strong><small>A concise decision card for airport use.</small></div>
-      </div>
-      <p class="warning-note">Do not submit private employee-system screenshots, restricted load data, or sensitive traveler information.</p>
-      <a class="button-link primary" href="mailto:?subject=StandbyPilot%20Concierge%20Battle%20Plan%20Request">Request Concierge Battle Plan</a>
     </section>
   </main>
 

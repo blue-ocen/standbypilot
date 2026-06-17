@@ -17,7 +17,7 @@ function loadBattleCardRenderer() {
   script.src = BATTLE_CARD_SRC;
   script.onerror = () => {
     battleCardLoaded = false;
-    showLoadError('Could not load the Battle Card renderer. Refresh and try again.');
+    showLoadError('Could not load the Route Brief renderer. Refresh and try again.');
   };
   document.body.appendChild(script);
 }
