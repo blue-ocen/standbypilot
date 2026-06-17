@@ -35,7 +35,6 @@ jobs:
           test -f styles.css
           test -f app.js
           test -f app-core.js
-          test -f battle-card.js
           test -f test_trips_seed.json
           test -f supabase_schema.sql
 
@@ -45,7 +44,6 @@ jobs:
 
           node --check app.js
           node --check app-core.js
-          node --check battle-card.js
           node -e "JSON.parse(require('fs').readFileSync('test_trips_seed.json', 'utf8'))"
           grep -Eiq 'create[[:space:]]+table' supabase_schema.sql
 
