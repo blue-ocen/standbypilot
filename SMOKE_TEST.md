@@ -4,7 +4,10 @@ Use this checklist after restoring or changing the static prototype.
 
 ## File sanity checks
 
-- `index.html` starts with `<!doctype html>`.
+- `index.html` starts with `<!doctype html>` and is the public landing page.
+- `login.html` starts with `<!doctype html>` and is the static prototype login mock.
+- `app.html` starts with `<!doctype html>` and contains the working app shell.
+- `app.html` links `./styles.css`, references `./battle-card.js`, and loads `./app.js` with relative paths.
 - `styles.css` starts with CSS/root/style rules.
 - `app.js` parses as JavaScript.
 - `app-core.js` parses as JavaScript.
@@ -12,33 +15,41 @@ Use this checklist after restoring or changing the static prototype.
 - `test_trips_seed.json` parses as JSON.
 - `supabase_schema.sql` contains `create table` statements.
 
-## Access gate smoke test
-
-1. Open `index.html` in a fresh browser session.
-2. Confirm the password gate appears before the main app.
-3. Enter the prototype password and confirm the app unlocks.
-4. Confirm the **Lock / Logout** button appears in the app header.
-5. Click **Lock / Logout** and confirm the password screen returns.
-6. Unlock again and continue the browser smoke test.
-
-## Browser smoke test
+## Landing page smoke test
 
 1. Open `index.html` in a browser.
-2. Confirm the polished layout loads without missing `styles.css`, `app.js`, `app-core.js`, or `battle-card.js` errors in the console.
-3. Confirm the hero shows the validation prototype badge, clear headline, shorter subtitle, and existing sample/test/new-trip buttons.
-4. Confirm **Create Battle Plan** is the main workflow focus and Saved Trips / Dashboard feel visually secondary.
-5. Confirm the Manual Concierge Beta section appears with the 3-step flow, warning note, and **Request Concierge Battle Plan** CTA.
-6. Click **Load Portugal Sample** and confirm a saved trip appears.
-7. Click **Load 5 Test Trips** and confirm the validation trip suite appears in saved trips.
-8. Open each saved trip and confirm risk score, risk badge, route cards, and Battle Card render.
-9. Create a new trip, generate a Battle Plan, and save it.
-10. Edit the saved trip and confirm the saved-trip status updates.
-11. Add and remove a manual load check.
-12. Copy the Battle Card and confirm clipboard fallback does not throw an error.
-13. Use Print / Save PDF and confirm the printable Battle Card view appears.
-14. Export trips as JSON.
-15. Import the exported JSON and confirm trips are added without deleting existing trips.
-16. Save validation feedback and confirm dashboard metrics update.
+2. Confirm the landing page headline says **Smarter non-rev travel decisions.**
+3. Confirm the page has CTAs for **Open Prototype** and **View Concierge Beta**.
+4. Confirm the landing page sections mention recommended route, backup strategy, route rating, switch triggers, and Manual Concierge Beta.
+5. Confirm the disclaimer says StandbyPilot does not guarantee boarding, seat availability, or airline outcomes.
+6. Click **Open Prototype** and confirm it opens `login.html`.
+7. Click **View Concierge Beta** and confirm it jumps to the concierge section.
+
+## Login mock smoke test
+
+1. Open `login.html` in a browser.
+2. Confirm it clearly says prototype access only and no real authentication.
+3. Confirm email and password fields appear for visual design only.
+4. Confirm the note says **Prototype login only. Do not enter real passwords.**
+5. Click **Continue to Prototype** and confirm it opens `app.html`.
+6. Confirm the Home link returns to `index.html`.
+
+## App smoke test
+
+1. Open `app.html` in a browser.
+2. Confirm the app loads without missing `styles.css`, `app.js`, `app-core.js`, or `battle-card.js` errors in the console.
+3. Confirm the app nav links back to Home and Concierge Beta.
+4. Click **Load Portugal Sample** and confirm a saved trip appears.
+5. Click **Load 5 Test Trips** and confirm the validation trip suite appears in saved trips.
+6. Open each saved trip and confirm risk score, risk badge, route cards, and Battle Card render.
+7. Create a new trip, generate a Battle Plan, and save it.
+8. Edit the saved trip and confirm the saved-trip status updates.
+9. Add and remove a manual load check.
+10. Copy the Battle Card and confirm clipboard fallback does not throw an error.
+11. Use Print / Save PDF and confirm the printable Battle Card view appears.
+12. Export trips as JSON.
+13. Import the exported JSON and confirm trips are added without deleting existing trips.
+14. Save validation feedback and confirm dashboard metrics update.
 
 ## Battle Card quality checks
 
@@ -46,7 +57,7 @@ Use this checklist after restoring or changing the static prototype.
 2. Confirm the Portugal sample scope is International, not Domestic.
 3. Confirm the Portugal sample does not show Green/24 for a SEA to Portugal summer trip with final-leg risk.
 4. Confirm the Battle Card uses these sections: Final Call, Risk Snapshot, Best Plan, Backup Moves, Switch Triggers, Travel Rules, Bottom Line.
-5. Confirm the Battle Card has improved printable spacing, heading weights, and bullet spacing without getting longer.
+5. Confirm the Battle Card has clean printable spacing, heading weights, and bullet spacing without getting longer.
 6. Confirm the Portugal sample Battle Card fits mostly on one printed page.
 7. Confirm international trips include the compact passport, visa/transit, onward/return proof, and entry-requirements reminder.
 8. Confirm domestic trips keep lighter warnings than international/group/deadline trips.
@@ -55,22 +66,21 @@ Use this checklist after restoring or changing the static prototype.
 
 ## Validation smoke test
 
-1. Confirm the validation section appears lower on the page below the Battle Card workflow.
+1. Confirm the validation section appears lower on `app.html` below the Battle Card workflow.
 2. Select clarity, trust, actionability, stress reduction, and pay scores.
 3. Click **Save Validation** and confirm the validation status and metrics update.
-4. Click **Validation** in the hero action row and confirm it scrolls to the lower validation section.
+4. Click **Validation** in the app action row and confirm it scrolls to the lower validation section.
 
 ## GitHub Pages visual check
 
 1. Open the GitHub Pages project URL.
-2. Confirm the password gate appears.
-3. Enter the prototype password and confirm the app unlocks.
-4. Confirm styling applies: polished hero, readable form groups, secondary sidebar, styled buttons, and clean Battle Card spacing.
+2. Confirm GitHub Pages serves the landing page first.
+3. Confirm `login.html` loads as a static login mock.
+4. Confirm `app.html` loads the working prototype.
 5. Click **Load Portugal Sample** and confirm the sample trip loads.
 6. Click **Generate / Update Battle Plan** and confirm the risk score, route cards, and concise Battle Card render.
-7. Confirm the Manual Concierge Beta section appears.
-8. Click **Lock / Logout** and confirm the password screen returns.
+7. Confirm Copy, Print / Save PDF, Export / Import JSON, and Validation still work.
 
 ## Expected result
 
-The app remains fully static and runnable by opening `index.html` or through GitHub Pages. No package install, build step, backend, auth system, payment processing, or framework migration is required.
+The app remains fully static and runnable through GitHub Pages. No package install, build step, backend, auth system, payment processing, API, or framework migration is required.
