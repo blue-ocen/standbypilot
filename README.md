@@ -52,6 +52,17 @@ Risk drivers and reducers come from the same static inputs used by the prototype
 
 Route cards now include a route rating, short reason, and switch trigger. Ratings include Best Overall, Safer Backup, Faster but Riskier, Good Alternate Airport Play, and Last Resort.
 
+## Refined route recommendation logic
+
+The static route recommender now uses local-only heuristics to make route cards more specific without adding APIs, live loads, real seat availability, or prices.
+
+- Domestic routes prefer destination-first nearby logic, so SEA to NYC can surface `JFK`, `EWR`, and `LGA` flexibility instead of unrelated origin alternates.
+- International routes favor major gateway routing and call out final-leg recovery risk for Portugal, Nairobi, and other long-haul trips.
+- No-connection requests warn when the local data does not know a direct route and recommend enabling connections or choosing a nearby destination airport.
+- Tight arrival windows and deadline-sensitive trip types produce stronger switch triggers and earlier-departure guidance.
+- Load tracking changes the wording: favorable open-seat margins improve confidence, while high standby pressure adds caution without guaranteeing boarding.
+- Paid rescue preference can add a concise Paid Rescue Note when the user allows it and the route risk or deadline makes it relevant.
+
 ## More Details drawers
 
 The main Route Brief stays intentionally short: Final Call, Risk Grade, Recommended Route, Backup Routes, and Switch Trigger.

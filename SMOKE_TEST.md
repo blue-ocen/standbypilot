@@ -14,6 +14,7 @@ Use this checklist after changing the static prototype.
 - `app.js` parses as JavaScript.
 - `app-core.js` parses as JavaScript.
 - `paid-rescue.js` parses as JavaScript.
+- `route-recommendations.js` parses as JavaScript.
 - `route-details.js` parses as JavaScript.
 - `outcome-tracker.js` parses as JavaScript.
 - `battle-card.js` parses as JavaScript.
@@ -53,7 +54,7 @@ Use this checklist after changing the static prototype.
 ## App smoke test
 
 1. Open `app.html` in a browser.
-2. Confirm the app loads without missing `styles.css`, `route-details.css`, `outcome-tracker.css`, `app.js`, `app-core.js`, `paid-rescue.js`, `route-details.js`, `outcome-tracker.js`, or `battle-card.js` errors in the console.
+2. Confirm the app loads without missing `styles.css`, `route-details.css`, `outcome-tracker.css`, `app.js`, `app-core.js`, `paid-rescue.js`, `route-recommendations.js`, `route-details.js`, `outcome-tracker.js`, or `battle-card.js` errors in the console.
 3. Confirm the 3-step progress indicator appears: Trip, Loads, Routes.
 4. Fill only required Trip Basics: origin, destination, earliest departure, must-arrive-by, one-way/roundtrip, trip type, and willing to connect.
 5. Open More details and confirm **Paid rescue preference** appears with Recommend when smart, Only for deadline risk, and Do not recommend paid tickets.
@@ -78,21 +79,26 @@ Use this checklist after changing the static prototype.
 24. Expand Paid rescue logic and confirm it reflects the selected preference without real prices.
 25. Expand Airline rule reminders and confirm it says **Verify airline-specific non-rev, baggage, listing, and pass rider rules in your official airline tools.**
 26. Click **Load Portugal Sample** and confirm it detects International, uses **Recommend when smart**, generates a Route Brief, and Travel document reminders says **Verify passport, visa/transit rules, onward/return proof, and entry requirements before listing.**
-27. Click **Load 5 Test Trips** and confirm saved routes are added.
-28. Open the NYC test route and confirm it detects Domestic, uses **Do not recommend paid tickets**, and Travel document reminders says **No international document reminder triggered.**
-29. Open the Cruise deadline route and confirm it uses **Only for deadline risk** and says **Because this trip has a deadline, set a clear buy-confirmed trigger.**
-30. Open the Nairobi test route and confirm it detects International and still shows route ratings.
-31. Change the selector through all three paid rescue preferences and confirm the Route Brief wording changes without showing real prices.
-32. Save a route, reopen it from Saved Routes, and confirm it loads with the saved paid rescue preference.
-33. Confirm the **Outcome Tracker** appears below Saved / Import / Export.
-34. Select a saved trip in Outcome Tracker and record: Cleared, Took recommended route, Switched to backup route, Bought confirmed ticket, Overnighted, Arrival status, Final route taken, Notes, Risk accuracy, and Recommendation usefulness.
-35. Click **Save Outcome** and confirm an outcome summary card appears with trip name, original risk grade, outcome, risk accuracy, and usefulness rating.
-36. Confirm validation insight updates average usefulness, completed outcome count, and risk accuracy counts.
-37. Refresh the page and confirm the saved outcome survives refresh.
-38. Export routes as JSON.
-39. Import the exported JSON and confirm outcome data is preserved.
-40. Copy the Route Brief and confirm clipboard fallback does not throw an error.
-41. Use Print and confirm the printable Route Brief view appears.
+27. Confirm the Portugal Route Results recommend major Europe gateway routing and show Portugal alternatives `LIS`, `FAO`, and `OPO` rather than SEA nearby alternates.
+28. Click **Load 5 Test Trips** and confirm saved routes are added.
+29. Open the NYC test route and confirm it detects Domestic, uses **Do not recommend paid tickets**, and route cards mention `JFK/EWR/LGA` flexibility.
+30. Open the Cruise deadline route and confirm it uses **Only for deadline risk**, mentions `MIA/FLL`, and uses stronger deadline-aware switch triggers.
+31. Open the Nairobi test route and confirm it detects International, recommends major Europe/Middle East gateway logic, and still shows route ratings.
+32. Change Willing to connect? to **No** for a route without a known direct option and confirm the result warns that the route may be unrealistic and recommends enabling a connection or nearby airport.
+33. Add a load snapshot where standby count is higher than open seats and confirm route wording warns that Plan A is fragile.
+34. Add a favorable load snapshot where open seats comfortably exceed standby count and confirm the wording improves confidence while still requiring recheck.
+35. Change the selector through all three paid rescue preferences and confirm the Route Brief wording changes without showing real prices.
+36. Confirm an allowed paid rescue preference can show a concise **Paid Rescue Note** route card for Yellow, Orange, or Red routes or deadline risk.
+37. Save a route, reopen it from Saved Routes, and confirm it loads with the saved paid rescue preference.
+38. Confirm the **Outcome Tracker** appears below Saved / Import / Export.
+39. Select a saved trip in Outcome Tracker and record: Cleared, Took recommended route, Switched to backup route, Bought confirmed ticket, Overnighted, Arrival status, Final route taken, Notes, Risk accuracy, and Recommendation usefulness.
+40. Click **Save Outcome** and confirm an outcome summary card appears with trip name, original risk grade, outcome, risk accuracy, and usefulness rating.
+41. Confirm validation insight updates average usefulness, completed outcome count, and risk accuracy counts.
+42. Refresh the page and confirm the saved outcome survives refresh.
+43. Export routes as JSON.
+44. Import the exported JSON and confirm outcome data is preserved.
+45. Copy the Route Brief and confirm clipboard fallback does not throw an error.
+46. Use Print and confirm the printable Route Brief view appears.
 
 ## GitHub Pages visual check
 
@@ -100,7 +106,7 @@ Use this checklist after changing the static prototype.
 2. Confirm GitHub Pages serves the simplified landing page first.
 3. Confirm `login.html` loads as a static login mock.
 4. Confirm `app.html` loads the 3-step route decision tool.
-5. Confirm airport autocomplete, paid rescue preference, More Details drawers, Outcome Tracker, risk explanation, route ratings, load tracking, copy, and print still work.
+5. Confirm airport autocomplete, refined route recommendations, paid rescue preference, More Details drawers, Outcome Tracker, risk explanation, route ratings, load tracking, copy, and print still work.
 6. Confirm no concierge service sections or CTAs appear.
 7. Confirm no real ticket prices, payment processing, or booking UI appears.
 
