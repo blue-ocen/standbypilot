@@ -40,6 +40,7 @@ jobs:
           test -f app.js
           test -f app-core.js
           test -f paid-rescue.js
+          test -f route-recommendations.js
           test -f route-details.js
           test -f outcome-tracker.js
           test -f battle-card.js
@@ -73,6 +74,7 @@ jobs:
           grep -F 'Best Overall' app-core.js
           grep -F 'Load notes included. Recheck close to departure before relying on this route.' app-core.js
           grep -F "const PAID_RESCUE_SRC = './paid-rescue.js';" app.js
+          grep -F "const ROUTE_RECOMMENDATIONS_SRC = './route-recommendations.js';" app.js
           grep -F "const ROUTE_DETAILS_SRC = './route-details.js';" app.js
           grep -F "const ROUTE_DETAILS_CSS = './route-details.css';" app.js
           grep -F "const OUTCOME_TRACKER_SRC = './outcome-tracker.js';" app.js
@@ -85,6 +87,16 @@ jobs:
           grep -F "paidRescuePreference: 'smart'" paid-rescue.js
           grep -F "paidRescuePreference: 'off'" paid-rescue.js
           grep -F "paidRescuePreference: 'deadline'" paid-rescue.js
+          grep -F 'destination-first nearby logic' README.md
+          grep -F 'routeMayNeedConnection' route-recommendations.js
+          grep -F 'No-connection request may be unrealistic for this city pair.' route-recommendations.js
+          grep -F 'International gateway and final-leg recovery matter.' route-recommendations.js
+          grep -F 'Standby count is above open seats.' route-recommendations.js
+          grep -F 'JFK/EWR/LGA' route-recommendations.js
+          grep -F 'LIS, FAO, and OPO' route-recommendations.js
+          grep -F 'AMS/CDG/FRA/DOH/IST' route-recommendations.js
+          grep -F 'MIA/FLL' route-recommendations.js
+          grep -F 'Paid Rescue Note' route-recommendations.js
           grep -F 'Risk factors' route-details.js
           grep -F 'Nearby airports' route-details.js
           grep -F 'Connection risk' route-details.js
@@ -111,6 +123,7 @@ jobs:
           node --check app.js
           node --check app-core.js
           node --check paid-rescue.js
+          node --check route-recommendations.js
           node --check route-details.js
           node --check outcome-tracker.js
           node --check battle-card.js
