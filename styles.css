@@ -248,14 +248,26 @@ select option { color: #111827; }
 .route-brief p, .route-brief ul { margin-bottom: 0; }
 .route-brief ul { padding-left: 18px; display: grid; gap: 4px; }
 .brief-call { font-size: 1.15rem; font-weight: 950; }
+.risk-explanation { display: grid; gap: 14px; margin-bottom: 16px; padding: 16px; border: 1px solid rgba(114, 214, 199, 0.26); border-radius: 12px; background: rgba(114, 214, 199, 0.08); }
+.risk-explanation-header { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
+.risk-explanation-header h3 { margin: 0; color: #fff0b8; font-size: 1rem; }
+.risk-score-line { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.risk-score-line strong { font-size: 1.15rem; }
+.risk-factor-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.risk-factor-card { padding: 12px; border-radius: 10px; background: rgba(0, 0, 0, 0.16); border: 1px solid rgba(255, 255, 255, 0.1); }
+.risk-factor-card h4 { margin: 0 0 8px; color: var(--accent); font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.08em; }
+.risk-factor-card ul { margin: 0; padding-left: 18px; display: grid; gap: 5px; color: var(--muted); }
+.confidence-note { margin: 0; color: #e8f8f5; line-height: 1.45; }
 .route-card-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
-.route-card { padding: 16px; border-radius: 12px; background: rgba(0, 0, 0, 0.18); border: 1px solid rgba(255, 255, 255, 0.12); }
+.route-card { display: grid; gap: 9px; padding: 16px; border-radius: 12px; background: rgba(0, 0, 0, 0.18); border: 1px solid rgba(255, 255, 255, 0.12); }
 .route-card-recommended { border-color: rgba(114, 214, 199, 0.55); background: rgba(114, 214, 199, 0.1); }
 .route-card-backup { border-color: rgba(242, 210, 122, 0.42); background: rgba(242, 210, 122, 0.08); }
 .route-card-alternate { border-color: rgba(239, 143, 120, 0.38); background: rgba(239, 143, 120, 0.08); }
-.route-label { display: inline-flex; width: fit-content; margin-bottom: 10px; padding: 5px 8px; border-radius: 999px; background: var(--accent); color: #06111f; font-size: 0.68rem; font-weight: 950; text-transform: uppercase; letter-spacing: 0.08em; }
-.route-card h3 { color: #fff0b8; margin-bottom: 8px; }
+.route-label, .route-rating { display: inline-flex; width: fit-content; margin-bottom: 2px; padding: 5px 8px; border-radius: 999px; background: var(--accent); color: #06111f; font-size: 0.68rem; font-weight: 950; text-transform: uppercase; letter-spacing: 0.08em; }
+.route-rating { background: rgba(255, 255, 255, 0.12); color: #fff0b8; border: 1px solid rgba(242, 210, 122, 0.24); }
+.route-card h3 { color: #fff0b8; margin-bottom: 0; }
 .route-card p { color: var(--muted); line-height: 1.45; margin-bottom: 0; }
+.route-card p strong { color: #e8f8f5; }
 .result-details { margin-top: 16px; }
 .more-details-list { padding: 0 16px 16px; color: var(--muted); line-height: 1.5; }
 .more-details-list p { margin-bottom: 10px; }
@@ -275,7 +287,7 @@ select option { color: #111827; }
 .footer-note { margin-bottom: 26px; padding-top: 0; color: var(--muted); font-size: 0.9rem; }
 
 @media (max-width: 920px) {
-  .landing-hero, .login-shell, .landing-grid, .grid.four, .grid.three, .route-card-grid, .summary-main-row, .summary-facts { grid-template-columns: 1fr 1fr; }
+  .landing-hero, .login-shell, .landing-grid, .grid.four, .grid.three, .route-card-grid, .summary-main-row, .summary-facts, .risk-factor-grid { grid-template-columns: 1fr 1fr; }
 }
 
 @media (max-width: 700px) {
@@ -284,7 +296,7 @@ select option { color: #111827; }
   .header-actions { justify-content: flex-start; }
   h1, .landing-copy h1, .login-copy h1 { font-size: 2.35rem; }
   .app-header, .marketing-page main, .login-page main, .route-app-layout, .footer-note { padding-left: 16px; padding-right: 16px; }
-  .landing-hero, .login-shell, .landing-grid, .grid.four, .grid.three, .grid.two, .route-card-grid, .summary-main-row, .summary-facts, .step-indicator, .details-grid { grid-template-columns: 1fr; }
+  .landing-hero, .login-shell, .landing-grid, .grid.four, .grid.three, .grid.two, .route-card-grid, .summary-main-row, .summary-facts, .step-indicator, .details-grid, .risk-factor-grid { grid-template-columns: 1fr; }
   .summary-callout { grid-template-columns: 1fr; }
   .panel-title-row { flex-direction: column; align-items: flex-start; }
 }
@@ -295,4 +307,5 @@ select option { color: #111827; }
   .route-app-layout { padding: 0; }
   .panel { box-shadow: none; border: 0; background: transparent; padding: 0; }
   .route-brief { border-radius: 0; box-shadow: none; border: 0; padding: 0; }
+  .risk-explanation { border-color: #dbe4df; background: #fff; color: #172026; box-shadow: none; }
 }
