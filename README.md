@@ -17,7 +17,7 @@ v0 proved the Battle Card concept. v1 makes it reusable:
 
 ## Core product output
 
-The Battle Card is the core product output. It should read like a practical non-rev decision report: final recommendation, risk snapshot, primary and backup strategies, switch triggers, baggage/group rules, rescue plan, airport survival notes, document reminders, and a blunt bottom line.
+The Battle Card is the core product output. It is intentionally concise and designed for airport decision-making: final call, risk snapshot, best plan, backup moves, switch triggers, travel rules, and a blunt bottom line.
 
 ## How to run locally
 
