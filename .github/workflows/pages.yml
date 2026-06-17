@@ -104,6 +104,7 @@ jobs:
           grep -F 'Risk accuracy' outcome-tracker.js
           grep -F 'Usefulness' outcome-tracker.js
           grep -F 'trip.outcome = readOutcomeForm();' outcome-tracker.js
+          grep -F 'version: 4' outcome-tracker.js
           grep -F '.outcome-tracker-panel' outcome-tracker.css
           grep -F '.outcome-summary-card' outcome-tracker.css
 
