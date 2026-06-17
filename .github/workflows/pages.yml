@@ -37,6 +37,7 @@ jobs:
           test -f styles.css
           test -f app.js
           test -f app-core.js
+          test -f paid-rescue.js
           test -f battle-card.js
           test -f test_trips_seed.json
           test -f supabase_schema.sql
@@ -50,6 +51,7 @@ jobs:
           grep -F 'href="./styles.css"' app.html
           grep -F 'src="./app.js"' app.html
           grep -F './battle-card.js' app.html
+          grep -F 'paidRescuePreference' app.html
           grep -F 'airport-suggestions' app.html
           grep -F 'riskExplanation' app.html
           grep -F "const AIRPORTS" app-core.js
@@ -61,9 +63,19 @@ jobs:
           grep -F 'Why this rating?' app-core.js
           grep -F 'Best Overall' app-core.js
           grep -F 'Load notes included. Recheck close to departure before relying on this route.' app-core.js
+          grep -F "const PAID_RESCUE_SRC = './paid-rescue.js';" app.js
+          grep -F 'Use non-rev for the expensive leg. Be willing to buy the final short segment if Plan A weakens.' paid-rescue.js
+          grep -F 'Because this trip has a deadline, set a clear buy-confirmed trigger.' paid-rescue.js
+          grep -F 'Paid rescue is off. Reduce risk by leaving earlier, using alternate airports, and avoiding last-flight dependencies.' paid-rescue.js
+          grep -F 'Paid fallback allowed.' paid-rescue.js
+          grep -F 'Paid rescue declined.' paid-rescue.js
+          grep -F "paidRescuePreference: 'smart'" paid-rescue.js
+          grep -F "paidRescuePreference: 'off'" paid-rescue.js
+          grep -F "paidRescuePreference: 'deadline'" paid-rescue.js
 
           node --check app.js
           node --check app-core.js
+          node --check paid-rescue.js
           node --check battle-card.js
           node -e "JSON.parse(require('fs').readFileSync('test_trips_seed.json', 'utf8'))"
           grep -Eiq 'create[[:space:]]+table' supabase_schema.sql
