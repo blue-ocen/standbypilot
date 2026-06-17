@@ -7,7 +7,25 @@
   <link rel="stylesheet" href="./styles.css?v=1.0.1" />
 </head>
 <body>
-  <header class="app-header">
+  <section id="accessGate" class="app-header" aria-labelledby="accessTitle">
+    <div>
+      <p class="eyebrow">StandbyPilot private prototype</p>
+      <h1 id="accessTitle">Prototype Access</h1>
+      <p class="subhead">Enter the temporary prototype password to open the validation dashboard.</p>
+    </div>
+    <form id="accessForm" class="panel compact" autocomplete="off">
+      <label>Prototype password
+        <input id="accessPassword" type="password" autocomplete="current-password" autofocus />
+      </label>
+      <div class="button-row">
+        <button type="submit" class="primary">Unlock</button>
+      </div>
+      <p id="accessError" class="empty-state" role="alert" aria-live="polite"></p>
+      <p class="empty-state">This is a lightweight validation gate only, not production security.</p>
+    </form>
+  </section>
+
+  <header id="appHeader" class="app-header" hidden>
     <div>
       <p class="eyebrow">StandbyPilot v1.2 Validation Dashboard</p>
       <h1>Non-Rev Battle Plan Builder</h1>
@@ -18,10 +36,11 @@
       <button id="loadTestSuite" class="secondary">Load 5 Test Trips</button>
       <button id="jumpValidation" class="secondary">Validation</button>
       <button id="newTrip" class="primary">New Trip</button>
+      <button id="lockApp" class="secondary" type="button">Lock / Logout</button>
     </div>
   </header>
 
-  <main class="layout">
+  <main id="appMain" class="layout" hidden>
     <aside class="sidebar">
       <section class="panel compact">
         <div class="panel-title-row">
@@ -409,10 +428,10 @@
     </section>
   </main>
 
-  <footer class="footer-note">
+  <footer id="appFooter" class="footer-note" hidden>
     <strong>Prototype note:</strong> v1.2 saves trips and validation feedback in this browser only. It does not access live airline loads, book flights, or verify entry rules in real time.
   </footer>
 
-  <script src="./app.js?v=1.0.1"></script>
+  <script src="./app.js?v=1.0.2"></script>
 </body>
 </html>
