@@ -21,6 +21,14 @@ Open `index.html` in a browser.
 
 No install step is required.
 
+## Prototype access gate
+
+The current lightweight prototype password is `standby2026`.
+
+This password gate is only for casual visitor friction during validation. It is not real security, does not protect source code, and should not be treated as authentication.
+
+Do not store sensitive traveler data, pass details, employee-system screenshots, restricted load data, or private airline portal information in this prototype.
+
 ## GitHub Pages workflow
 
 The GitHub Actions workflow lives at `.github/workflows/pages.yml`.
@@ -47,7 +55,7 @@ This prototype does **not**:
 - scrape employee travel portals
 - book flights
 - verify visa/passport requirements in real time
-- protect data if hosted publicly as a static site
+- provide production-grade access control or data protection
 
 Trips are saved only in the current browser unless exported/imported.
 
