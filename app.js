@@ -2,13 +2,17 @@ const APP_CORE_SRC = './app-core.js';
 const PAID_RESCUE_SRC = './paid-rescue.js';
 const ROUTE_DETAILS_SRC = './route-details.js';
 const ROUTE_DETAILS_CSS = './route-details.css';
+const OUTCOME_TRACKER_SRC = './outcome-tracker.js';
+const OUTCOME_TRACKER_CSS = './outcome-tracker.css';
 const BATTLE_CARD_SRC = './battle-card.js';
 
 let appCoreLoaded = false;
 let paidRescueLoaded = false;
 let routeDetailsLoaded = false;
+let outcomeTrackerLoaded = false;
 let battleCardLoaded = false;
 let routeDetailsStylesLoaded = false;
+let outcomeTrackerStylesLoaded = false;
 
 function showLoadError(message) {
   const error = document.getElementById('appLoadError');
@@ -25,6 +29,15 @@ function loadRouteDetailsStyles() {
   document.head.appendChild(link);
 }
 
+function loadOutcomeTrackerStyles() {
+  if (outcomeTrackerStylesLoaded) return;
+  outcomeTrackerStylesLoaded = true;
+  const link = document.createElement('link');
+  link.rel = 'stylesheet';
+  link.href = OUTCOME_TRACKER_CSS;
+  document.head.appendChild(link);
+}
+
 function loadBattleCardRenderer() {
   if (battleCardLoaded) return;
   battleCardLoaded = true;
@@ -37,13 +50,27 @@ function loadBattleCardRenderer() {
   document.body.appendChild(script);
 }
 
+function loadOutcomeTracker() {
+  if (outcomeTrackerLoaded) return;
+  outcomeTrackerLoaded = true;
+  loadOutcomeTrackerStyles();
+  const script = document.createElement('script');
+  script.src = OUTCOME_TRACKER_SRC;
+  script.onload = loadBattleCardRenderer;
+  script.onerror = () => {
+    outcomeTrackerLoaded = false;
+    showLoadError('Could not load the Outcome Tracker. Refresh and try again.');
+  };
+  document.body.appendChild(script);
+}
+
 function loadRouteDetailsDrawers() {
   if (routeDetailsLoaded) return;
   routeDetailsLoaded = true;
   loadRouteDetailsStyles();
   const script = document.createElement('script');
   script.src = ROUTE_DETAILS_SRC;
-  script.onload = loadBattleCardRenderer;
+  script.onload = loadOutcomeTracker;
   script.onerror = () => {
     routeDetailsLoaded = false;
     showLoadError('Could not load route details drawers. Refresh and try again.');
