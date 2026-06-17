@@ -42,8 +42,11 @@ jobs:
           test -f supabase_schema.sql
 
           head -n 1 index.html | grep -F '<!doctype html>'
-          grep -F 'Smarter non-rev travel decisions.' index.html
-          grep -F 'StandbyPilot helps pass travelers compare route risk, backup options, switch triggers, and rescue plans before heading to the airport.' index.html
+          grep -F 'Smarter non-rev route decisions.' index.html
+          grep -F 'Enter your trip, add optional load notes, and get route risk with backup options in minutes.' index.html
+          grep -F 'View Sample Route' index.html
+          grep -F 'Trip Basics' app.html
+          grep -F 'Route Brief' app.html
           grep -F 'href="./styles.css"' app.html
           grep -F 'src="./app.js"' app.html
           grep -F './battle-card.js' app.html
