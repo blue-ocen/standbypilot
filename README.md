@@ -52,6 +52,14 @@ Risk drivers and reducers come from the same static inputs used by the prototype
 
 Route cards now include a route rating, short reason, and switch trigger. Ratings include Best Overall, Safer Backup, Faster but Riskier, Good Alternate Airport Play, and Last Resort.
 
+## More Details drawers
+
+The main Route Brief stays intentionally short: Final Call, Risk Grade, Recommended Route, Backup Routes, and Switch Trigger.
+
+Advanced route intelligence lives in collapsed More Details drawers below the route cards. Drawers include Risk factors, Nearby airports, Connection risk, Load tracking notes, Paid rescue logic, Airline rule reminders, and Travel document reminders.
+
+Drawer content is based only on local/static inputs and the local airport dataset. It does not use live flight data, real-time seat data, restricted airline rules, or real prices.
+
 ## Paid rescue preference
 
 The More details area includes a **Paid rescue preference** selector:

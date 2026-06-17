@@ -35,9 +35,11 @@ jobs:
           test -f app.html
           test -f login.html
           test -f styles.css
+          test -f route-details.css
           test -f app.js
           test -f app-core.js
           test -f paid-rescue.js
+          test -f route-details.js
           test -f battle-card.js
           test -f test_trips_seed.json
           test -f supabase_schema.sql
@@ -54,6 +56,8 @@ jobs:
           grep -F 'paidRescuePreference' app.html
           grep -F 'airport-suggestions' app.html
           grep -F 'riskExplanation' app.html
+          grep -F 'Route Intelligence' app.html
+          grep -F 'intelligence-drawers' app.html
           grep -F "const AIRPORTS" app-core.js
           grep -F "code: 'SEA'" app-core.js
           grep -F "code: 'LIS'" app-core.js
@@ -64,6 +68,8 @@ jobs:
           grep -F 'Best Overall' app-core.js
           grep -F 'Load notes included. Recheck close to departure before relying on this route.' app-core.js
           grep -F "const PAID_RESCUE_SRC = './paid-rescue.js';" app.js
+          grep -F "const ROUTE_DETAILS_SRC = './route-details.js';" app.js
+          grep -F "const ROUTE_DETAILS_CSS = './route-details.css';" app.js
           grep -F 'Use non-rev for the expensive leg. Be willing to buy the final short segment if Plan A weakens.' paid-rescue.js
           grep -F 'Because this trip has a deadline, set a clear buy-confirmed trigger.' paid-rescue.js
           grep -F 'Paid rescue is off. Reduce risk by leaving earlier, using alternate airports, and avoiding last-flight dependencies.' paid-rescue.js
@@ -72,10 +78,23 @@ jobs:
           grep -F "paidRescuePreference: 'smart'" paid-rescue.js
           grep -F "paidRescuePreference: 'off'" paid-rescue.js
           grep -F "paidRescuePreference: 'deadline'" paid-rescue.js
+          grep -F 'Risk factors' route-details.js
+          grep -F 'Nearby airports' route-details.js
+          grep -F 'Connection risk' route-details.js
+          grep -F 'Load tracking notes' route-details.js
+          grep -F 'Paid rescue logic' route-details.js
+          grep -F 'Airline rule reminders' route-details.js
+          grep -F 'Travel document reminders' route-details.js
+          grep -F 'No nearby airport suggestions available yet.' route-details.js
+          grep -F 'No load tracking added. Results are based on route, timing, flexibility, and trip type.' route-details.js
+          grep -F 'Verify airline-specific non-rev, baggage, listing, and pass rider rules in your official airline tools.' route-details.js
+          grep -F 'No international document reminder triggered.' route-details.js
+          grep -F '.detail-drawer' route-details.css
 
           node --check app.js
           node --check app-core.js
           node --check paid-rescue.js
+          node --check route-details.js
           node --check battle-card.js
           node -e "JSON.parse(require('fs').readFileSync('test_trips_seed.json', 'utf8'))"
           grep -Eiq 'create[[:space:]]+table' supabase_schema.sql
