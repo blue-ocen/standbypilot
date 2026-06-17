@@ -75,13 +75,27 @@
 
         <form id="tripForm" class="trip-form simplified-form">
           <div class="grid two">
-            <label class="priority-field">Origin airport
-              <input id="origin" placeholder="SEA" required />
+            <label class="priority-field autocomplete-field">Origin airport
+              <input id="origin" placeholder="SEA or Seattle" required autocomplete="off" aria-describedby="originAirportMeta" />
+              <div id="originSuggestions" class="airport-suggestions" role="listbox" aria-label="Origin airport suggestions"></div>
+              <span id="originAirportMeta" class="airport-meta">Type an airport code, city, airport name, or country.</span>
             </label>
-            <label class="priority-field">Destination airport or city
-              <input id="destination" placeholder="LIS / Faro / Portugal" required />
+            <label class="priority-field autocomplete-field">Destination airport or city
+              <input id="destination" placeholder="LIS, Lisbon, or Portugal" required autocomplete="off" aria-describedby="destinationAirportMeta" />
+              <div id="destinationSuggestions" class="airport-suggestions" role="listbox" aria-label="Destination airport suggestions"></div>
+              <span id="destinationAirportMeta" class="airport-meta">Suggestions are local and work without live flight data.</span>
             </label>
           </div>
+          <input id="originAirportCode" type="hidden" />
+          <input id="originAirportName" type="hidden" />
+          <input id="originAirportCity" type="hidden" />
+          <input id="originAirportCountry" type="hidden" />
+          <input id="originAirportRegion" type="hidden" />
+          <input id="destinationAirportCode" type="hidden" />
+          <input id="destinationAirportName" type="hidden" />
+          <input id="destinationAirportCity" type="hidden" />
+          <input id="destinationAirportCountry" type="hidden" />
+          <input id="destinationAirportRegion" type="hidden" />
           <div class="grid two">
             <label class="priority-field">Earliest departure
               <input id="earliestDeparture" type="datetime-local" required />

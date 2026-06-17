@@ -3,30 +3,64 @@ const $ = (id) => document.getElementById(id);
 const STORAGE_KEY = 'standbypilot_route_trips_v1';
 const ACTIVE_KEY = 'standbypilot_route_active_trip_id';
 
+const airportMetadataFields = [
+  'originAirportCode', 'originAirportName', 'originAirportCity', 'originAirportCountry', 'originAirportRegion',
+  'destinationAirportCode', 'destinationAirportName', 'destinationAirportCity', 'destinationAirportCountry', 'destinationAirportRegion'
+];
+
 const fields = [
   'tripName', 'origin', 'destination', 'earliestDeparture', 'mustArriveBy',
   'tripDirection', 'tripType', 'connections', 'scope', 'nearbyAirports',
   'returnDate', 'priority', 'notes', 'openSeats', 'standbyCount',
-  'cabinNotes', 'lastChecked', 'loadNotes'
+  'cabinNotes', 'lastChecked', 'loadNotes', ...airportMetadataFields
 ];
 
-const US_AIRPORTS = new Set([
-  'ATL', 'AUS', 'BNA', 'BOS', 'BUR', 'BWI', 'CLT', 'DAL', 'DCA', 'DEN', 'DFW',
-  'DTW', 'EWR', 'FLL', 'HNL', 'IAD', 'IAH', 'JFK', 'LAS', 'LAX', 'LGA', 'MCO',
-  'MDW', 'MIA', 'MSP', 'OAK', 'ONT', 'ORD', 'PDX', 'PHL', 'PHX', 'SAN', 'SEA',
-  'SFO', 'SJC', 'SLC', 'SNA', 'TPA'
-]);
+const AIRPORTS = [
+  { code: 'SEA', name: 'Seattle-Tacoma', city: 'Seattle', country: 'United States', region: 'Pacific Northwest' },
+  { code: 'PDX', name: 'Portland', city: 'Portland', country: 'United States', region: 'Pacific Northwest' },
+  { code: 'YVR', name: 'Vancouver', city: 'Vancouver', country: 'Canada', region: 'British Columbia' },
+  { code: 'SFO', name: 'San Francisco', city: 'San Francisco', country: 'United States', region: 'California' },
+  { code: 'LAX', name: 'Los Angeles', city: 'Los Angeles', country: 'United States', region: 'California' },
+  { code: 'JFK', name: 'New York JFK', city: 'New York', country: 'United States', region: 'New York City' },
+  { code: 'EWR', name: 'Newark', city: 'Newark', country: 'United States', region: 'New York City' },
+  { code: 'LGA', name: 'New York LaGuardia', city: 'New York', country: 'United States', region: 'New York City' },
+  { code: 'BOS', name: 'Boston', city: 'Boston', country: 'United States', region: 'Northeast' },
+  { code: 'MIA', name: 'Miami', city: 'Miami', country: 'United States', region: 'South Florida' },
+  { code: 'FLL', name: 'Fort Lauderdale', city: 'Fort Lauderdale', country: 'United States', region: 'South Florida' },
+  { code: 'LHR', name: 'London Heathrow', city: 'London', country: 'United Kingdom', region: 'London' },
+  { code: 'LGW', name: 'London Gatwick', city: 'London', country: 'United Kingdom', region: 'London' },
+  { code: 'AMS', name: 'Amsterdam', city: 'Amsterdam', country: 'Netherlands', region: 'Europe' },
+  { code: 'CDG', name: 'Paris Charles de Gaulle', city: 'Paris', country: 'France', region: 'Europe' },
+  { code: 'FRA', name: 'Frankfurt', city: 'Frankfurt', country: 'Germany', region: 'Europe' },
+  { code: 'MUC', name: 'Munich', city: 'Munich', country: 'Germany', region: 'Europe' },
+  { code: 'DUB', name: 'Dublin', city: 'Dublin', country: 'Ireland', region: 'Europe' },
+  { code: 'LIS', name: 'Lisbon', city: 'Lisbon', country: 'Portugal', region: 'Portugal' },
+  { code: 'FAO', name: 'Faro', city: 'Faro', country: 'Portugal', region: 'Algarve' },
+  { code: 'OPO', name: 'Porto', city: 'Porto', country: 'Portugal', region: 'Portugal' },
+  { code: 'NBO', name: 'Nairobi', city: 'Nairobi', country: 'Kenya', region: 'East Africa' }
+];
+
+const AIRPORTS_BY_CODE = Object.fromEntries(AIRPORTS.map((airport) => [airport.code, airport]));
+
+const NEARBY_GROUPS = [
+  { label: 'SEA nearby', resultLabel: 'Nearby alternatives', matchCodes: ['SEA'], matchText: ['seattle', 'sea'], alternatives: ['PDX', 'YVR'] },
+  { label: 'NYC nearby', resultLabel: 'Nearby alternatives', matchCodes: ['JFK', 'EWR', 'LGA'], matchText: ['new york', 'nyc', 'jfk', 'ewr', 'lga'], alternatives: ['JFK', 'EWR', 'LGA'] },
+  { label: 'Miami nearby', resultLabel: 'Nearby alternatives', matchCodes: ['MIA', 'FLL'], matchText: ['miami', 'fort lauderdale'], alternatives: ['MIA', 'FLL'] },
+  { label: 'Portugal nearby', resultLabel: 'Portugal alternatives', matchCodes: ['LIS', 'FAO', 'OPO'], matchText: ['portugal', 'lisbon', 'faro', 'porto', 'algarve'], alternatives: ['LIS', 'FAO', 'OPO'] },
+  { label: 'London nearby', resultLabel: 'London alternatives', matchCodes: ['LHR', 'LGW'], matchText: ['london', 'heathrow', 'gatwick'], alternatives: ['LHR', 'LGW'] },
+  { label: 'California nearby', resultLabel: 'California alternatives', matchCodes: ['SFO', 'LAX'], matchText: ['california', 'san francisco', 'los angeles'], alternatives: ['SFO', 'LAX'] }
+];
 
 const portugalSample = {
   tripName: 'Portugal route check',
   origin: 'SEA',
-  destination: 'LIS / Faro / Portugal',
+  destination: 'LIS / FAO / Portugal',
   earliestDeparture: '2026-06-30T18:00',
   mustArriveBy: '2026-07-02T18:00',
   tripDirection: 'roundtrip',
   tripType: 'event',
   connections: 'yes',
-  scope: 'international',
+  scope: 'auto',
   nearbyAirports: 'yes',
   returnDate: '2026-07-07',
   priority: 'highest-arrival-chance',
@@ -41,19 +75,19 @@ const portugalSample = {
 const testTrips = [
   portugalSample,
   {
-    tripName: 'LAX to SEA late return',
-    origin: 'LAX',
-    destination: 'SEA',
-    earliestDeparture: '2026-06-27T21:00',
+    tripName: 'NYC route check',
+    origin: 'SEA',
+    destination: 'JFK / New York',
+    earliestDeparture: '2026-06-27T09:00',
     mustArriveBy: '2026-06-28T01:00',
     tripDirection: 'one-way',
     tripType: 'casual',
-    connections: 'no',
-    scope: 'domestic',
-    nearbyAirports: 'maybe',
+    connections: 'yes',
+    scope: 'auto',
+    nearbyAirports: 'yes',
     returnDate: '',
     priority: 'fastest',
-    notes: 'Late nonstop window with last-flight risk.',
+    notes: 'NYC airport flexibility is acceptable if ground timing works.',
     openSeats: '',
     standbyCount: '',
     cabinNotes: '',
@@ -69,7 +103,7 @@ const testTrips = [
     tripDirection: 'roundtrip',
     tripType: 'event',
     connections: 'yes',
-    scope: 'international',
+    scope: 'auto',
     nearbyAirports: 'yes',
     returnDate: '2026-07-26',
     priority: 'highest-arrival-chance',
@@ -89,7 +123,7 @@ const testTrips = [
     tripDirection: 'roundtrip',
     tripType: 'casual',
     connections: 'yes',
-    scope: 'international',
+    scope: 'auto',
     nearbyAirports: 'maybe',
     returnDate: '2026-09-15',
     priority: 'highest-arrival-chance',
@@ -109,7 +143,7 @@ const testTrips = [
     tripDirection: 'one-way',
     tripType: 'work',
     connections: 'yes',
-    scope: 'international',
+    scope: 'auto',
     nearbyAirports: 'yes',
     returnDate: '',
     priority: 'highest-arrival-chance',
@@ -177,6 +211,8 @@ function emptyTrip() {
     tripDirection: 'roundtrip', tripType: 'casual', connections: 'yes', scope: 'auto',
     nearbyAirports: 'yes', returnDate: '', priority: 'highest-arrival-chance', notes: '',
     openSeats: '', standbyCount: '', cabinNotes: '', lastChecked: '', loadNotes: '',
+    originAirportCode: '', originAirportName: '', originAirportCity: '', originAirportCountry: '', originAirportRegion: '',
+    destinationAirportCode: '', destinationAirportName: '', destinationAirportCity: '', destinationAirportCountry: '', destinationAirportRegion: '',
     loadChecks: []
   };
 }
@@ -199,6 +235,123 @@ function persistState() {
   renderSavedTrips();
 }
 
+function normalizeText(value) {
+  return String(value || '').toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
+}
+
+function firstAirportCode(value) {
+  const match = String(value || '').toUpperCase().match(/\b[A-Z]{3}\b/);
+  return match ? match[0] : '';
+}
+
+function airportSearchText(airport) {
+  return normalizeText(`${airport.code} ${airport.name} ${airport.city} ${airport.country} ${airport.region}`);
+}
+
+function airportMatchesQuery(airport, query) {
+  const normalized = normalizeText(query);
+  if (!normalized) return false;
+  const tokens = normalized.split(' ').filter(Boolean);
+  const search = airportSearchText(airport);
+  return tokens.every((token) => search.includes(token));
+}
+
+function airportScore(airport, query) {
+  const normalized = normalizeText(query);
+  if (!normalized) return 0;
+  if (airport.code.toLowerCase() === normalized) return 100;
+  if (normalizeText(airport.city) === normalized) return 90;
+  if (normalizeText(airport.name) === normalized) return 80;
+  if (normalizeText(airport.country) === normalized) return 70;
+  if (airportSearchText(airport).startsWith(normalized)) return 60;
+  return 40;
+}
+
+function airportSuggestions(query, limit = 6) {
+  const normalized = normalizeText(query);
+  if (!normalized) return [];
+  return AIRPORTS
+    .filter((airport) => airportMatchesQuery(airport, normalized))
+    .sort((a, b) => airportScore(b, normalized) - airportScore(a, normalized) || a.code.localeCompare(b.code))
+    .slice(0, limit);
+}
+
+function findAirportFromInput(value) {
+  const code = firstAirportCode(value);
+  if (code && AIRPORTS_BY_CODE[code]) return AIRPORTS_BY_CODE[code];
+  return airportSuggestions(value, 1)[0] || null;
+}
+
+function airportDisplayValue(airport) {
+  return `${airport.code} - ${airport.city}`;
+}
+
+function metadataKeys(side) {
+  const prefix = side === 'origin' ? 'originAirport' : 'destinationAirport';
+  return {
+    code: `${prefix}Code`,
+    name: `${prefix}Name`,
+    city: `${prefix}City`,
+    country: `${prefix}Country`,
+    region: `${prefix}Region`
+  };
+}
+
+function writeAirportMetadata(side, airport, updateInput = true) {
+  const keys = metadataKeys(side);
+  if (updateInput && $(side)) $(side).value = airport ? airportDisplayValue(airport) : '';
+  if ($(keys.code)) $(keys.code).value = airport?.code || '';
+  if ($(keys.name)) $(keys.name).value = airport?.name || '';
+  if ($(keys.city)) $(keys.city).value = airport?.city || '';
+  if ($(keys.country)) $(keys.country).value = airport?.country || '';
+  if ($(keys.region)) $(keys.region).value = airport?.region || '';
+  updateAirportMeta(side, airport);
+}
+
+function clearAirportMetadata(side) {
+  writeAirportMetadata(side, null, false);
+}
+
+function airportFromData(data, side) {
+  const keys = metadataKeys(side);
+  const code = String(data[keys.code] || '').toUpperCase();
+  if (code && AIRPORTS_BY_CODE[code]) return AIRPORTS_BY_CODE[code];
+  return findAirportFromInput(data[side]);
+}
+
+function enrichAirportData(data, side) {
+  const airport = airportFromData(data, side);
+  const keys = metadataKeys(side);
+  if (airport) {
+    data[keys.code] = airport.code;
+    data[keys.name] = airport.name;
+    data[keys.city] = airport.city;
+    data[keys.country] = airport.country;
+    data[keys.region] = airport.region;
+  }
+  return data;
+}
+
+function updateStoredAirportFromInput(side) {
+  const input = $(side);
+  if (!input) return;
+  const airport = findAirportFromInput(input.value);
+  if (airport && normalizeText(input.value).length >= 3) writeAirportMetadata(side, airport, false);
+  else clearAirportMetadata(side);
+}
+
+function updateAirportMeta(side, airport) {
+  const meta = $(`${side}AirportMeta`);
+  if (!meta) return;
+  if (airport) {
+    meta.textContent = `${airport.code} selected: ${airport.city}, ${airport.country}`;
+  } else {
+    meta.textContent = side === 'origin'
+      ? 'Type an airport code, city, airport name, or country.'
+      : 'Suggestions are local and work without live flight data.';
+  }
+}
+
 function getFormData() {
   const data = Object.fromEntries(fields.map((id) => [id, $(id)?.value?.trim() ?? '']));
   data.tripDirection = data.tripDirection || 'roundtrip';
@@ -209,6 +362,8 @@ function getFormData() {
   data.priority = data.priority || 'highest-arrival-chance';
   data.travelers = '1';
   data.bags = 'carry-on';
+  enrichAirportData(data, 'origin');
+  enrichAirportData(data, 'destination');
   return data;
 }
 
@@ -217,33 +372,27 @@ function setFormData(data = {}) {
   for (const id of fields) {
     if ($(id)) $(id).value = normalized[id] ?? '';
   }
+  updateStoredAirportFromInput('origin');
+  updateStoredAirportFromInput('destination');
   updateScopeHint();
-  updateTripSummary(normalized, null, null);
+  updateTripSummary(getFormData(), null, null);
 }
 
-function firstAirportCode(value) {
-  const match = String(value || '').toUpperCase().match(/\b[A-Z]{3}\b/);
-  return match ? match[0] : '';
-}
-
-function inferScope(data) {
-  const originCode = firstAirportCode(data.origin);
-  const destCode = firstAirportCode(data.destination);
-  const text = `${data.destination || ''} ${data.notes || ''}`.toLowerCase();
-  if (/(portugal|london|nairobi|europe|lis|faro|fao|lhr|nbo|cdg|ams|fra|muc|vie|tokyo|paris|mexico|canada)/i.test(text)) return 'international';
-  if (originCode && destCode && US_AIRPORTS.has(originCode) && US_AIRPORTS.has(destCode)) return 'domestic';
-  if (originCode && destCode && US_AIRPORTS.has(originCode) && !US_AIRPORTS.has(destCode)) return 'international';
-  if (originCode && destCode && !US_AIRPORTS.has(originCode) && US_AIRPORTS.has(destCode)) return 'international';
-  return 'uncertain';
+function detectScope(data) {
+  const originAirport = airportFromData(data, 'origin');
+  const destinationAirport = airportFromData(data, 'destination');
+  if (!originAirport || !destinationAirport) {
+    return { value: 'unknown', inferred: true, uncertain: true, originAirport, destinationAirport };
+  }
+  const value = originAirport.country === destinationAirport.country ? 'domestic' : 'international';
+  return { value, inferred: true, uncertain: false, originAirport, destinationAirport };
 }
 
 function effectiveScope(data) {
   if (data.scope === 'domestic' || data.scope === 'international') {
-    return { value: data.scope, inferred: false, uncertain: false };
+    return { ...detectScope(data), value: data.scope, inferred: false, uncertain: false };
   }
-  const inferred = inferScope(data);
-  if (inferred === 'uncertain') return { value: 'domestic', inferred: true, uncertain: true };
-  return { value: inferred, inferred: true, uncertain: false };
+  return detectScope(data);
 }
 
 function updateScopeHint() {
@@ -253,10 +402,12 @@ function updateScopeHint() {
   const scope = effectiveScope(data);
   if (data.scope !== 'auto') {
     hint.textContent = `Manual scope selected: ${titleCase(data.scope)}.`;
-  } else if (scope.uncertain) {
-    hint.textContent = 'Scope is uncertain. Choose Domestic or International in More details for a sharper rating.';
+  } else if (scope.value === 'unknown') {
+    hint.textContent = 'Scope could not be detected. Choose domestic or international for better accuracy.';
   } else {
-    hint.textContent = `Auto-detected scope: ${titleCase(scope.value)}.`;
+    const originCountry = scope.originAirport?.country || 'origin';
+    const destinationCountry = scope.destinationAirport?.country || 'destination';
+    hint.textContent = `Auto-detected ${titleCase(scope.value)}: ${originCountry} -> ${destinationCountry}.`;
   }
 }
 
@@ -296,12 +447,11 @@ function scoreTrip(data) {
   if (scope.value === 'international') {
     score += 15;
     reasons.push('International route adds document, connection, and recovery risk.');
-  } else {
+  } else if (scope.value === 'domestic') {
     credits.push('Domestic route keeps recovery simpler.');
-  }
-  if (scope.uncertain) {
+  } else {
     score += 5;
-    reasons.push('Domestic/international scope is uncertain; choose manually for a sharper rating.');
+    reasons.push('Scope could not be detected. Choose domestic or international for better accuracy.');
   }
 
   if (gapHours !== null && gapHours <= 12) {
@@ -372,11 +522,28 @@ function scoreTrip(data) {
 
 function routeType(data) {
   const text = `${data.origin} ${data.destination} ${data.notes}`.toLowerCase();
-  if (/portugal|lis|faro|fao|algarve/.test(text)) return 'portugal';
+  if (/portugal|lis|faro|fao|opo|algarve/.test(text)) return 'portugal';
   if (/london|lhr|lgw/.test(text)) return 'london';
   if (/nairobi|nbo/.test(text)) return 'nairobi';
   if (/muc|vie|munich|vienna|christmas/.test(text)) return 'europe-return';
   return effectiveScope(data).value === 'international' ? 'international' : 'domestic';
+}
+
+function nearbyAlternatives(data) {
+  const text = normalizeText(`${data.origin} ${data.destination} ${data.notes}`);
+  const originAirport = airportFromData(data, 'origin');
+  const destinationAirport = airportFromData(data, 'destination');
+  const codes = [originAirport?.code, destinationAirport?.code].filter(Boolean);
+  return NEARBY_GROUPS.find((group) => {
+    const codeMatch = codes.some((code) => group.matchCodes.includes(code));
+    const textMatch = group.matchText.some((item) => text.includes(normalizeText(item)));
+    return codeMatch || textMatch;
+  }) || null;
+}
+
+function nearbyText(group) {
+  if (!group) return '';
+  return `${group.resultLabel}: ${group.alternatives.join(', ')}`;
 }
 
 function generateRoutes(data) {
@@ -390,7 +557,6 @@ function generateRoutes(data) {
     routes.push({ kind: 'recommended', title: `${origin} -> major Europe gateway -> LIS/FAO`, body: 'Use the strongest long-haul gateway first. Keep Lisbon and Faro both viable.' });
     routes.push({ kind: 'backup', title: `${origin} -> LHR/AMS/CDG/FRA -> Portugal`, body: 'Switch to the hub with the most same-day Portugal exits.' });
     routes.push({ kind: 'backup', title: `${origin} -> East Coast/SFO -> LIS`, body: 'Use positioning only if the transatlantic load is clearly stronger.' });
-    routes.push({ kind: 'alternate', title: 'Alternate airport: Lisbon plus ground transfer', body: 'If Faro tightens, Lisbon with ground transport may save the trip.' });
   } else if (type === 'london') {
     routes.push({ kind: 'recommended', title: `${origin} -> LHR nonstop`, body: 'Start with the strongest nonstop load and monitor alternate London-area arrivals.' });
     routes.push({ kind: 'backup', title: `${origin} -> AMS/CDG/DUB/FRA -> London`, body: 'Use a gateway with multiple onward flights if LHR tightens.' });
@@ -413,7 +579,10 @@ function generateRoutes(data) {
     routes.push({ kind: 'backup', title: 'Nearby airport or confirmed rescue', body: 'Define the switch point before the last useful option disappears.' });
   }
 
-  if (data.nearbyAirports === 'yes' && !routes.some((route) => route.kind === 'alternate')) {
+  const nearby = nearbyAlternatives(data);
+  if (nearby && data.nearbyAirports !== 'no') {
+    routes.push({ kind: 'alternate', title: nearbyText(nearby), body: 'Use these as optional alternatives if timing and ground transport still work.' });
+  } else if (data.nearbyAirports === 'yes') {
     routes.push({ kind: 'alternate', title: 'Alternate airport option', body: 'Use nearby airports when ground transport still protects the arrival time.' });
   }
 
@@ -475,16 +644,17 @@ function renderMoreDetails(data, scoreObj, routes) {
     ? `Latest load snapshot: ${data.openSeats || 'unknown'} open seats, ${data.standbyCount || 'unknown'} standbys. ${data.cabinNotes || ''}`
     : 'Risk is based on route, timing, flexibility, and trip type. Add load tracking for a sharper rating.';
   const scopeText = effectiveScope(data);
+  const nearby = nearbyAlternatives(data);
   $('moreDetails').innerHTML = `
     <div class="details-grid">
       <div><h3>Risk factors</h3><ul>${scoreObj.reasons.map((item) => `<li>${escapeHtml(item)}</li>`).join('')}</ul></div>
       <div><h3>Risk reducers</h3><ul>${scoreObj.credits.length ? scoreObj.credits.map((item) => `<li>${escapeHtml(item)}</li>`).join('') : '<li>Add flexibility or load tracking to improve confidence.</li>'}</ul></div>
     </div>
-    <p><strong>Nearby airports:</strong> ${data.nearbyAirports === 'yes' ? 'Keep alternate airports open if ground transport still works.' : data.nearbyAirports === 'maybe' ? 'Use nearby airports only if timing still works.' : 'No alternate airport flexibility entered.'}</p>
+    <p><strong>Nearby airports:</strong> ${nearby ? escapeHtml(nearbyText(nearby)) : data.nearbyAirports === 'yes' ? 'Keep alternate airports open if ground transport still works.' : data.nearbyAirports === 'maybe' ? 'Use nearby airports only if timing still works.' : 'No alternate airport flexibility entered.'}</p>
     <p><strong>Connection risk:</strong> ${data.connections === 'yes' ? 'Connections are allowed. Prefer hubs with multiple onward exits.' : 'No connections selected. Direct route timing matters more.'}</p>
     <p><strong>Load tracking:</strong> ${escapeHtml(loadText)}</p>
-    <p><strong>Scope:</strong> ${escapeHtml(titleCase(scopeText.value))}${scopeText.uncertain ? ' (uncertain; choose manually for sharper rating)' : ''}.</p>
-    <p><strong>Travel documents:</strong> ${scopeText.value === 'international' ? 'Verify passport, visa/transit rules, onward/return proof, and entry requirements before listing.' : 'Verify ID requirements and airline standby procedures.'}</p>
+    <p><strong>Scope:</strong> ${escapeHtml(titleCase(scopeText.value))}${scopeText.value === 'unknown' ? ' (choose manually for better accuracy)' : ''}.</p>
+    <p><strong>Travel documents:</strong> ${scopeText.value === 'international' ? 'Verify passport, visa/transit rules, onward/return proof, and entry requirements before listing.' : scopeText.value === 'domestic' ? 'Verify ID requirements and airline standby procedures.' : 'Choose domestic or international to show the right document reminder.'}</p>
     <p><strong>Route notes:</strong> ${escapeHtml(data.notes || 'None added.')}</p>
   `;
 }
@@ -577,11 +747,12 @@ function openTrip(id) {
   state.activeTripId = id;
   localStorage.setItem(ACTIVE_KEY, id);
   setFormData(trip);
-  const score = scoreTrip(trip);
-  const routes = generateRoutes(trip);
+  const data = getFormData();
+  const score = scoreTrip(data);
+  const routes = generateRoutes(data);
   state.currentScore = score;
   state.currentRoutes = routes;
-  renderPlan(trip, score, routes);
+  renderPlan(data, score, routes);
   renderLoadLog(trip.loadChecks || []);
   renderSavedTrips();
   $('saveStatus').textContent = 'Loaded saved route';
@@ -691,7 +862,7 @@ function buildRouteBriefText() {
 }
 
 function exportTrips() {
-  const blob = new Blob([JSON.stringify({ version: 2, exportedAt: nowIso(), trips: state.trips }, null, 2)], { type: 'application/json' });
+  const blob = new Blob([JSON.stringify({ version: 3, exportedAt: nowIso(), trips: state.trips }, null, 2)], { type: 'application/json' });
   const url = URL.createObjectURL(blob);
   const link = document.createElement('a');
   link.href = url;
@@ -731,11 +902,11 @@ async function importTrips(event) {
 function loadFiveTestTrips() {
   if (state.trips.length && !window.confirm('Load the 5 simplified test routes? This adds them without deleting saved routes.')) return;
   const created = testTrips.map((sample) => {
-    const score = scoreTrip(sample);
-    const routes = generateRoutes(sample);
+    const data = { ...emptyTrip(), ...sample };
+    const score = scoreTrip(data);
+    const routes = generateRoutes(data);
     return {
-      ...emptyTrip(),
-      ...sample,
+      ...data,
       id: uid(),
       createdAt: nowIso(),
       updatedAt: nowIso(),
@@ -752,7 +923,58 @@ function loadFiveTestTrips() {
   $('saveStatus').textContent = '5 test routes loaded';
 }
 
+function hideAirportSuggestions(side) {
+  const suggestions = $(`${side}Suggestions`);
+  if (suggestions) suggestions.classList.remove('open');
+}
+
+function renderAirportSuggestions(side) {
+  const input = $(side);
+  const suggestions = $(`${side}Suggestions`);
+  if (!input || !suggestions) return;
+  const matches = airportSuggestions(input.value);
+  if (!matches.length) {
+    suggestions.classList.remove('open');
+    suggestions.innerHTML = '';
+    return;
+  }
+  suggestions.innerHTML = matches.map((airport) => `
+    <button type="button" class="airport-suggestion" role="option" data-airport-code="${airport.code}">
+      <span class="airport-code">${airport.code}</span>
+      <span class="airport-copy"><strong>${escapeHtml(airport.city)} - ${escapeHtml(airport.name)}</strong><span>${escapeHtml(airport.country)}${airport.region ? ` · ${escapeHtml(airport.region)}` : ''}</span></span>
+    </button>`).join('');
+  suggestions.classList.add('open');
+  suggestions.querySelectorAll('[data-airport-code]').forEach((button) => {
+    button.addEventListener('mousedown', (event) => event.preventDefault());
+    button.addEventListener('click', () => {
+      const airport = AIRPORTS_BY_CODE[button.dataset.airportCode];
+      writeAirportMetadata(side, airport, true);
+      hideAirportSuggestions(side);
+      updateScopeHint();
+      updateTripSummary(getFormData(), state.currentScore, state.currentRoutes);
+      $('saveStatus').textContent = state.activeTripId ? 'Unsaved changes' : 'Unsaved';
+    });
+  });
+}
+
+function setupAirportAutocomplete(side) {
+  const input = $(side);
+  if (!input) return;
+  input.addEventListener('input', () => {
+    updateStoredAirportFromInput(side);
+    renderAirportSuggestions(side);
+  });
+  input.addEventListener('focus', () => renderAirportSuggestions(side));
+  input.addEventListener('blur', () => window.setTimeout(() => hideAirportSuggestions(side), 120));
+  input.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') hideAirportSuggestions(side);
+  });
+}
+
 function initEvents() {
+  setupAirportAutocomplete('origin');
+  setupAirportAutocomplete('destination');
+
   $('tripForm').addEventListener('submit', (event) => {
     event.preventDefault();
     upsertTrip(getFormData());

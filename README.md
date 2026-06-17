@@ -24,6 +24,26 @@ If no load information is entered, the app still generates results and explains 
 
 The app assumes 1 traveler and carry-on by default. More details can improve the rating later, but the default experience stays short.
 
+## Airport autocomplete and scope detection
+
+The prototype includes a small local JavaScript airport dataset. It does not call live APIs or flight-data services.
+
+Origin and destination fields support autocomplete by airport code, city, airport name, or country. For example:
+
+- `Seattle` suggests `SEA`
+- `Lisbon` suggests `LIS`
+- `Portugal` suggests `LIS`, `FAO`, and `OPO`
+
+When a suggestion is selected, StandbyPilot stores the airport code, name, city, country, and region in the saved route data. The app uses known origin and destination countries to auto-detect trip scope:
+
+- matching countries = Domestic
+- different countries = International
+- unknown airport on either side = Unknown, with a prompt to choose domestic or international manually
+
+The risk score uses that detected scope. International routes add risk and domestic routes avoid international document warnings.
+
+The local dataset also powers concise nearby-airport alternatives, including SEA nearby (`PDX`, `YVR`), NYC nearby (`JFK`, `EWR`, `LGA`), Miami nearby (`MIA`, `FLL`), Portugal alternatives (`LIS`, `FAO`, `OPO`), London alternatives (`LHR`, `LGW`), and California alternatives (`SFO`, `LAX`).
+
 ## Core product output
 
 The Route Brief is the core product output. It is intentionally concise and airport-ready: final call, risk grade, recommended route, backups, switch trigger, and the reason behind the rating.
