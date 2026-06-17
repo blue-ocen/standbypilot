@@ -1,17 +1,28 @@
 const APP_CORE_SRC = './app-core.js';
 const PAID_RESCUE_SRC = './paid-rescue.js';
 const ROUTE_DETAILS_SRC = './route-details.js';
+const ROUTE_DETAILS_CSS = './route-details.css';
 const BATTLE_CARD_SRC = './battle-card.js';
 
 let appCoreLoaded = false;
 let paidRescueLoaded = false;
 let routeDetailsLoaded = false;
 let battleCardLoaded = false;
+let routeDetailsStylesLoaded = false;
 
 function showLoadError(message) {
   const error = document.getElementById('appLoadError');
   if (error) error.textContent = message;
   else console.warn(message);
+}
+
+function loadRouteDetailsStyles() {
+  if (routeDetailsStylesLoaded) return;
+  routeDetailsStylesLoaded = true;
+  const link = document.createElement('link');
+  link.rel = 'stylesheet';
+  link.href = ROUTE_DETAILS_CSS;
+  document.head.appendChild(link);
 }
 
 function loadBattleCardRenderer() {
@@ -29,6 +40,7 @@ function loadBattleCardRenderer() {
 function loadRouteDetailsDrawers() {
   if (routeDetailsLoaded) return;
   routeDetailsLoaded = true;
+  loadRouteDetailsStyles();
   const script = document.createElement('script');
   script.src = ROUTE_DETAILS_SRC;
   script.onload = loadBattleCardRenderer;
