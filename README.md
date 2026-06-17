@@ -70,6 +70,14 @@ The More details area includes a **Paid rescue preference** selector:
 
 This setting only changes route guidance wording and risk explanation labels. StandbyPilot does not show real prices, sell tickets, process payments, or connect to booking systems.
 
+## Trip Outcome Tracker
+
+The Outcome Tracker is a secondary local-only section below saved routes. For each saved trip, users can record whether they cleared, followed the recommended route, switched to a backup, bought a confirmed ticket, overnighted, arrived on time, and how useful the recommendation was.
+
+Outcome records are stored on the saved trip in browser local storage. They survive refresh and are preserved by the existing route JSON export/import flow.
+
+The tracker also shows lightweight validation insight: average usefulness score, completed outcome count, and counts for risk too low, about right, and too high.
+
 ## Core product output
 
 The Route Brief is the core product output. It is intentionally concise and airport-ready: final call, risk grade, recommended route, backups, switch trigger, paid rescue preference, and the reason behind the rating.
@@ -108,4 +116,4 @@ This prototype does **not**:
 - provide a concierge service
 - process payments
 
-Saved routes live only in the current browser unless exported/imported.
+Saved routes and outcomes live only in the current browser unless exported/imported.
