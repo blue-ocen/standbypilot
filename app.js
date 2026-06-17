@@ -2,8 +2,10 @@
 const PROTOTYPE_PASSWORD = 'standby2026';
 const ACCESS_SESSION_KEY = 'standbypilot_access_unlocked';
 const APP_CORE_SRC = './app-core.js?v=1.0.2';
+const BATTLE_CARD_SRC = './battle-card.js?v=1.0.0';
 
 let appCoreLoaded = false;
+let battleCardLoaded = false;
 
 function setAppVisible(isVisible) {
   ['appHeader', 'appMain', 'appFooter'].forEach((id) => {
@@ -17,15 +19,32 @@ function setGateVisible(isVisible) {
   if (gate) gate.hidden = !isVisible;
 }
 
+function showAccessError(message) {
+  const error = document.getElementById('accessError');
+  if (error) error.textContent = message;
+}
+
+function loadBattleCardRenderer() {
+  if (battleCardLoaded) return;
+  battleCardLoaded = true;
+  const script = document.createElement('script');
+  script.src = BATTLE_CARD_SRC;
+  script.onerror = () => {
+    battleCardLoaded = false;
+    showAccessError('Could not load the Battle Card renderer. Refresh and try again.');
+  };
+  document.body.appendChild(script);
+}
+
 function loadAppCore() {
   if (appCoreLoaded) return;
   appCoreLoaded = true;
   const script = document.createElement('script');
   script.src = APP_CORE_SRC;
+  script.onload = loadBattleCardRenderer;
   script.onerror = () => {
     appCoreLoaded = false;
-    const error = document.getElementById('accessError');
-    if (error) error.textContent = 'Could not load the app. Refresh and try again.';
+    showAccessError('Could not load the app. Refresh and try again.');
   };
   document.body.appendChild(script);
 }
