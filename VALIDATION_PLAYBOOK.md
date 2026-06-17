@@ -1,207 +1,71 @@
-{
-  "version": "1.1-test-suite",
-  "exportedAt": "2026-06-17T00:30:28.844Z",
-  "trips": [
-    {
-      "tripName": "Portugal / Algarve Summer Trip",
-      "travelerName": "Robert",
-      "origin": "SEA",
-      "destination": "LIS / FAO / Portugal",
-      "finalDestination": "Portimão / Praia da Rocha",
-      "earliestDeparture": "2026-06-30T18:00",
-      "mustArriveBy": "2026-07-02T18:00",
-      "returnDate": "2026-07-07",
-      "travelers": "4",
-      "bags": "carry-on",
-      "tripType": "event",
-      "scope": "international",
-      "connections": "yes",
-      "nearbyAirports": "yes",
-      "splitGroup": "maybe",
-      "backupBudget": "1000",
-      "passSystem": "Airline employee / non-rev pass access",
-      "passPriority": "Enter priority when known",
-      "priority": "highest-arrival-chance",
-      "openSeats": "",
-      "standbyCount": "",
-      "cabinNotes": "",
-      "loadNotes": "Use StaffTraveler / employee portal manually. Do not depend on one SEA-Europe option.",
-      "notes": "Final destination is Algarve. Treat Faro as ideal, Lisbon as acceptable with ground transfer. Leave early and stay carry-on only.",
-      "id": "test_trip_1",
-      "createdAt": "2026-06-17T00:30:28.845Z",
-      "updatedAt": "2026-06-17T00:30:28.845Z",
-      "loadChecks": [],
-      "outcome": "",
-      "validationStatus": "untested",
-      "score": 51,
-      "riskLabel": "Orange",
-      "routeTitles": [
-        "Plan A: SEA → major Europe gateway → LIS/FAO",
-        "Plan B: SEA → LHR/AMS/CDG/FRA/MUC → Portugal",
-        "Plan C: SEA → East Coast/SFO positioning → LIS",
-        "Paid rescue rule: buy the short Europe-to-Portugal leg if needed"
-      ],
-      "testCaseNumber": 1
-    },
-    {
-      "tripName": "London Group Trip / Southwark Park",
-      "travelerName": "Robert",
-      "origin": "SEA",
-      "destination": "LHR / London",
-      "finalDestination": "Southwark Park / Central London",
-      "earliestDeparture": "2026-07-20T12:00",
-      "mustArriveBy": "2026-07-22T15:00",
-      "returnDate": "2026-07-26",
-      "travelers": "4",
-      "bags": "carry-on",
-      "tripType": "event",
-      "scope": "international",
-      "connections": "yes",
-      "nearbyAirports": "yes",
-      "splitGroup": "maybe",
-      "backupBudget": "800",
-      "passSystem": "Airline employee / non-rev pass access",
-      "passPriority": "Enter priority when known",
-      "priority": "highest-arrival-chance",
-      "openSeats": "",
-      "standbyCount": "",
-      "cabinNotes": "",
-      "loadNotes": "SEA-LHR has multiple nonstop operators, but summer and a group of 4 still require backup options.",
-      "notes": "Good test of a route with strong nonstop depth but group-size pressure. Include LGW/Europe rail or short-haul fallback only as backup.",
-      "id": "test_trip_2",
-      "createdAt": "2026-06-17T00:30:28.845Z",
-      "updatedAt": "2026-06-17T00:30:28.845Z",
-      "loadChecks": [],
-      "outcome": "",
-      "validationStatus": "untested",
-      "score": 42,
-      "riskLabel": "Yellow",
-      "routeTitles": [
-        "Plan A: SEA → LHR nonstop",
-        "Plan B: SEA → AMS/CDG/DUB/FRA → London",
-        "Plan C: alternate London-area arrival"
-      ],
-      "testCaseNumber": 2
-    },
-    {
-      "tripName": "Nairobi 2-Day Efficiency Run",
-      "travelerName": "Robert",
-      "origin": "SEA",
-      "destination": "NBO / Nairobi",
-      "finalDestination": "Nairobi city center",
-      "earliestDeparture": "2026-09-10T08:00",
-      "mustArriveBy": "2026-09-12T18:00",
-      "returnDate": "2026-09-15",
-      "travelers": "1",
-      "bags": "carry-on",
-      "tripType": "casual",
-      "scope": "international",
-      "connections": "yes",
-      "nearbyAirports": "maybe",
-      "splitGroup": "yes",
-      "backupBudget": "1200",
-      "passSystem": "Airline employee / non-rev pass access; likely partner/ZED logic",
-      "passPriority": "Enter priority when known",
-      "priority": "highest-arrival-chance",
-      "openSeats": "",
-      "standbyCount": "",
-      "cabinNotes": "",
-      "loadNotes": "Use Europe or Middle East gateways; do not depend on a single long-haul connection.",
-      "notes": "Good test of long-haul international complexity where solo travel helps but recovery time is expensive.",
-      "id": "test_trip_3",
-      "createdAt": "2026-06-17T00:30:28.845Z",
-      "updatedAt": "2026-06-17T00:30:28.845Z",
-      "loadChecks": [],
-      "outcome": "",
-      "validationStatus": "untested",
-      "score": 50,
-      "riskLabel": "Yellow",
-      "routeTitles": [
-        "Plan A: SEA → AMS/CDG/FRA/IST/DOH/DXB → NBO",
-        "Plan B: SEA → JFK → NBO if a confirmed or favorable partner option appears",
-        "Plan C: buy the final Africa/Middle East-to-Nairobi leg"
-      ],
-      "testCaseNumber": 3
-    },
-    {
-      "tripName": "Munich/Vienna Christmas Return",
-      "travelerName": "Robert",
-      "origin": "MUC / VIE",
-      "destination": "SEA / Seattle",
-      "finalDestination": "Home after Christmas Europe trip",
-      "earliestDeparture": "2026-12-25T08:00",
-      "mustArriveBy": "2026-12-26T23:00",
-      "returnDate": "2026-12-25",
-      "travelers": "2",
-      "bags": "mixed",
-      "tripType": "work",
-      "scope": "international",
-      "connections": "yes",
-      "nearbyAirports": "yes",
-      "splitGroup": "maybe",
-      "backupBudget": "1500",
-      "passSystem": "Airline employee / non-rev pass access",
-      "passPriority": "Enter priority when known",
-      "priority": "highest-arrival-chance",
-      "openSeats": "",
-      "standbyCount": "",
-      "cabinNotes": "",
-      "loadNotes": "Christmas return risk: monitor MUC/FRA/LHR/AMS/CDG options and avoid last-useful flight traps.",
-      "notes": "Good test of holiday demand, return deadline pressure, and multi-airport recovery planning.",
-      "id": "test_trip_4",
-      "createdAt": "2026-06-17T00:30:28.845Z",
-      "updatedAt": "2026-06-17T00:30:28.845Z",
-      "loadChecks": [],
-      "outcome": "",
-      "validationStatus": "untested",
-      "score": 65,
-      "riskLabel": "Orange",
-      "routeTitles": [
-        "Plan A: MUC/FRA/LHR/AMS/CDG → SEA",
-        "Plan B: VIE → FRA/MUC/LHR/AMS/CDG → SEA",
-        "Plan C: confirmed positioning or overnight reset"
-      ],
-      "testCaseNumber": 4
-    },
-    {
-      "tripName": "LAX to SEA Late Return",
-      "travelerName": "Robert",
-      "origin": "LAX",
-      "destination": "SEA / Seattle",
-      "finalDestination": "Home",
-      "earliestDeparture": "2026-06-27T21:00",
-      "mustArriveBy": "2026-06-28T01:00",
-      "returnDate": "2026-06-27",
-      "travelers": "1",
-      "bags": "carry-on",
-      "tripType": "casual",
-      "scope": "domestic",
-      "connections": "no",
-      "nearbyAirports": "maybe",
-      "splitGroup": "yes",
-      "backupBudget": "300",
-      "passSystem": "Airline employee / non-rev pass access",
-      "passPriority": "Enter priority when known",
-      "priority": "fastest",
-      "openSeats": "",
-      "standbyCount": "",
-      "cabinNotes": "",
-      "loadNotes": "Good domestic test: many airlines operate LAX-SEA, but the late-night window has last-flight risk.",
-      "notes": "Use this to test whether the engine penalizes tight arrival windows even on a strong domestic city pair.",
-      "id": "test_trip_5",
-      "createdAt": "2026-06-17T00:30:28.846Z",
-      "updatedAt": "2026-06-17T00:30:28.846Z",
-      "loadChecks": [],
-      "outcome": "",
-      "validationStatus": "untested",
-      "score": 45,
-      "riskLabel": "Yellow",
-      "routeTitles": [
-        "Plan A: LAX → SEA nonstop on the strongest load",
-        "Plan B: earlier same-day LAX → SEA option",
-        "Plan C: nearby airport fallback"
-      ],
-      "testCaseNumber": 5
-    }
-  ]
-}
+# StandbyPilot Validation Playbook
+
+## Goal
+
+Prove whether the Non-Rev Battle Card is useful enough that a traveler would rely on it before going to the airport.
+
+This phase is not about beautiful UI. It is about whether the product creates a better decision.
+
+## Test group
+
+Start with 5 to 10 people:
+
+- Airline employees who non-rev
+- Eligible pass riders
+- Buddy-pass travelers
+- Travelers who have been stranded before
+- People planning international trips with flexible travel dates
+
+## Test script
+
+Give the tester one trip scenario and ask them to read the Battle Card.
+
+Then ask:
+
+1. What would you do after reading this?
+2. Did the plan make the trip feel more manageable?
+3. What part felt most useful?
+4. What part felt vague or wrong?
+5. Would you trust this before going to the airport?
+6. Would you pay for a custom version of this plan?
+7. What price would feel fair for one trip?
+
+## Validation scores
+
+Score each Battle Card from 1 to 5:
+
+- Clarity: Is the plan easy to understand?
+- Trust: Would they rely on it?
+- Actionability: Does it tell them what to do next?
+- Stress reduction: Does it reduce uncertainty?
+- Willingness to pay: Would they pay for this?
+
+## Minimum useful signal
+
+A trip passes validation if average score is at least 4.0 and actionability is at least 4.
+
+The product passes this stage if at least 3 of 5 trips pass.
+
+## What to watch for
+
+Strong signal:
+
+- "I would use this before every non-rev trip."
+- "The switch triggers are helpful."
+- "This would have saved me last time."
+- "I would pay for an international version."
+
+Weak signal:
+
+- "This is obvious."
+- "I still need to figure everything out myself."
+- "It does not know enough about loads."
+- "The route advice is too generic."
+
+## Decision after testing
+
+If the feedback is strong, build a private hosted version with accounts and saved trips.
+
+If the feedback is mixed, improve the Battle Card logic before building infrastructure.
+
+If the feedback is weak, pivot toward a manual concierge service where a human reviews every plan.
