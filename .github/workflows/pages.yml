@@ -50,6 +50,13 @@ jobs:
           grep -F 'href="./styles.css"' app.html
           grep -F 'src="./app.js"' app.html
           grep -F './battle-card.js' app.html
+          grep -F 'airport-suggestions' app.html
+          grep -F "const AIRPORTS" app-core.js
+          grep -F "code: 'SEA'" app-core.js
+          grep -F "code: 'LIS'" app-core.js
+          grep -F "code: 'NBO'" app-core.js
+          grep -F 'Scope could not be detected. Choose domestic or international for better accuracy.' app-core.js
+          grep -F 'Portugal alternatives' app-core.js
 
           node --check app.js
           node --check app-core.js
