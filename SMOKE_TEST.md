@@ -40,13 +40,14 @@ Use this checklist after restoring or changing the static prototype.
 ## Battle Card quality checks
 
 1. Load the Portugal sample and generate a Battle Plan.
-2. Confirm the Battle Card uses sections A-J from Final Recommendation through Bottom Line.
-3. Confirm the Portugal sample includes international document notes, final-leg risk, backup route strategy, rescue fare guidance, and a blunt bottom line.
-4. Load the 5 Test Trips and confirm each saved trip still opens and renders a detailed Battle Card.
-5. Confirm the LAX to SEA domestic trip has lighter warnings than the international/event examples.
-6. Confirm international, group, and deadline-sensitive trips have stronger warnings about documents, split-party strategy, arrival buffer, and rescue triggers.
-7. Confirm **Copy Battle Card** copies the detailed report text.
-8. Confirm **Print / Save PDF** still shows a clean printable Battle Card.
+2. Confirm the Portugal sample scope is International, not Domestic.
+3. Confirm the Portugal sample does not show Green/24 for a SEA to Portugal summer trip with final-leg risk.
+4. Confirm the Battle Card uses these sections: Final Call, Risk Snapshot, Best Plan, Backup Moves, Switch Triggers, Travel Rules, Bottom Line.
+5. Confirm the Portugal sample Battle Card fits mostly on one printed page.
+6. Confirm international trips include the compact passport, visa/transit, onward/return proof, and entry-requirements reminder.
+7. Confirm domestic trips keep lighter warnings than international/group/deadline trips.
+8. Confirm **Copy Battle Card** copies the concise card text.
+9. Confirm **Print / Save PDF** still shows a clean printable Battle Card.
 
 ## GitHub Pages visual check
 
@@ -56,7 +57,7 @@ Use this checklist after restoring or changing the static prototype.
 4. Confirm styling applies: dark background, panels, badges, and spacing are visible.
 5. Confirm buttons look styled, not browser-default.
 6. Click **Load Portugal Sample** and confirm the sample trip loads.
-7. Click **Generate / Update Battle Plan** and confirm the risk score, route cards, and Battle Card render.
+7. Click **Generate / Update Battle Plan** and confirm the risk score, route cards, and concise Battle Card render.
 8. Click **Lock / Logout** and confirm the password screen returns.
 
 ## Expected result

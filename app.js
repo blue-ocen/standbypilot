@@ -2,7 +2,7 @@
 const PROTOTYPE_PASSWORD = 'standby2026';
 const ACCESS_SESSION_KEY = 'standbypilot_access_unlocked';
 const APP_CORE_SRC = './app-core.js?v=1.0.2';
-const BATTLE_CARD_SRC = './battle-card.js?v=1.0.0';
+const BATTLE_CARD_SRC = './battle-card.js?v=1.0.1';
 
 let appCoreLoaded = false;
 let battleCardLoaded = false;
