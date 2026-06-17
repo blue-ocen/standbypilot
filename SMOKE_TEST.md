@@ -42,16 +42,19 @@ Use this checklist after changing the static prototype.
 2. Confirm the app loads without missing `styles.css`, `app.js`, `app-core.js`, or `battle-card.js` errors in the console.
 3. Confirm the app nav includes Home, Prototype App, and Concierge Beta.
 4. Click **Load Portugal Sample** and confirm a saved trip appears.
-5. Click **Load 5 Test Trips** and confirm the validation trip suite appears in saved trips.
-6. Open each saved trip and confirm risk score, risk badge, route cards, and Battle Card render.
-7. Create a new trip, generate a Battle Plan, and save it.
-8. Edit the saved trip and confirm the saved-trip status updates.
-9. Add and remove a manual load check.
-10. Copy the Battle Card and confirm clipboard fallback does not throw an error.
-11. Use Print / Save PDF and confirm the printable Battle Card view appears.
-12. Export trips as JSON.
-13. Import the exported JSON and confirm trips are added without deleting existing trips.
-14. Save validation feedback and confirm dashboard metrics update.
+5. Confirm the trip summary card updates with Origin to Destination, trip name, risk color/score, final call, travelers, bags, scope, and primary goal.
+6. Click **Load 5 Test Trips** and confirm the validation trip suite appears in saved trips.
+7. Open each saved trip and confirm risk score, risk badge, route cards, and Battle Card render.
+8. Confirm route results show visually distinct cards for Recommended Route, Plan B, Plan C, and rescue/alternate notes when available.
+9. Create a new trip, generate a Battle Plan, and save it.
+10. Edit the saved trip and confirm the saved-trip status updates.
+11. Add and remove a manual load check.
+12. Expand and collapse each More Details section: Risk factors, Nearby airports, Connection risk, Paid rescue logic, Airline rule notes, and Travel document reminders.
+13. Copy the Battle Card and confirm clipboard fallback does not throw an error.
+14. Use Print / Save PDF and confirm the printable Battle Card view appears.
+15. Export trips as JSON.
+16. Import the exported JSON and confirm trips are added without deleting existing trips.
+17. Save validation feedback and confirm dashboard metrics update.
 
 ## Battle Card quality checks
 
@@ -80,7 +83,7 @@ Use this checklist after changing the static prototype.
 3. Confirm `login.html` loads as a static login mock.
 4. Confirm `app.html` loads the working prototype.
 5. Click **Load Portugal Sample** and confirm the sample trip loads.
-6. Click **Generate / Update Battle Plan** and confirm the risk score, route cards, and concise Battle Card render.
+6. Click **Generate / Update Battle Plan** and confirm the risk score, route cards, trip summary card, expandable details, and concise Battle Card render.
 7. Confirm Copy, Print / Save PDF, Export / Import JSON, and Validation still work.
 
 ## Expected result

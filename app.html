@@ -77,6 +77,31 @@
     </aside>
 
     <section class="content">
+      <section id="tripSummary" class="panel trip-summary-card" aria-live="polite">
+        <div class="summary-route-line">
+          <span id="summaryOrigin">Origin</span>
+          <span class="summary-arrow">→</span>
+          <span id="summaryDestination">Destination</span>
+        </div>
+        <div class="summary-main-row">
+          <div>
+            <p class="eyebrow">Trip summary</p>
+            <h2 id="summaryTripName">Draft Battle Plan</h2>
+          </div>
+          <div class="summary-callout">
+            <span id="summaryRiskBadge" class="risk-badge yellow">Unscored</span>
+            <strong id="summaryScore">—</strong>
+            <span id="summaryFinalCall">Generate a plan</span>
+          </div>
+        </div>
+        <dl class="summary-facts">
+          <div><dt>Travelers</dt><dd id="summaryTravelers">1</dd></div>
+          <div><dt>Bags</dt><dd id="summaryBags">Carry-on only</dd></div>
+          <div><dt>Scope</dt><dd id="summaryScope">Domestic</dd></div>
+          <div><dt>Primary goal</dt><dd id="summaryGoal">Highest chance of arriving</dd></div>
+        </dl>
+      </section>
+
       <section class="panel primary-workflow">
         <div class="panel-title-row form-heading">
           <div>
@@ -300,6 +325,42 @@
           </div>
         </div>
         <article id="battleCard" class="battle-card empty-state">Generate a plan to create the Battle Card.</article>
+      </section>
+
+      <section class="panel more-details-panel">
+        <div class="panel-title-row">
+          <div>
+            <p class="eyebrow">Advanced view</p>
+            <h2>More Details</h2>
+            <p class="section-note">Collapsed by default for airport use. Expand only when you need the reasoning layer.</p>
+          </div>
+        </div>
+        <div id="moreDetails" class="more-details-list">
+          <details>
+            <summary>Risk factors</summary>
+            <p>Generate a Battle Plan to see trip-specific risk factors.</p>
+          </details>
+          <details>
+            <summary>Nearby airports</summary>
+            <p>Generate a Battle Plan to see alternate-airport guidance.</p>
+          </details>
+          <details>
+            <summary>Connection risk</summary>
+            <p>Generate a Battle Plan to see connection-risk notes.</p>
+          </details>
+          <details>
+            <summary>Paid rescue logic</summary>
+            <p>Generate a Battle Plan to see paid rescue guidance.</p>
+          </details>
+          <details>
+            <summary>Airline rule notes</summary>
+            <p>Generate a Battle Plan to see pass-system notes.</p>
+          </details>
+          <details>
+            <summary>Travel document reminders</summary>
+            <p>Generate a Battle Plan to see document reminders.</p>
+          </details>
+        </div>
       </section>
 
       <section class="panel concierge-panel" id="concierge-request">

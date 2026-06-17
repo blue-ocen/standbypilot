@@ -311,13 +311,192 @@ function installPortugalSampleFix() {
   }, true);
 }
 
+function choiceLabel(value, labels) {
+  return labels[value] || value || 'Not specified';
+}
+
+function bagLabel(value) {
+  return choiceLabel(value, {
+    'carry-on': 'Carry-on only',
+    mixed: 'Mixed / unsure',
+    checked: 'Checked bag'
+  });
+}
+
+function scopeLabel(value) {
+  return value === 'international' ? 'International' : 'Domestic';
+}
+
+function priorityLabel(value) {
+  return choiceLabel(value, {
+    'highest-arrival-chance': 'Highest chance of arriving',
+    'lowest-cost': 'Lowest cost',
+    'fewest-connections': 'Fewest connections',
+    comfort: 'Best comfort',
+    fastest: 'Fastest trip'
+  });
+}
+
+function setText(id, value) {
+  const node = document.getElementById(id);
+  if (node) node.textContent = value;
+}
+
+function updateTripSummary(data, scoreObj, model) {
+  if (!document.getElementById('tripSummary')) return;
+  setText('summaryOrigin', (data.origin || 'Origin').toUpperCase());
+  setText('summaryDestination', data.destination || 'Destination');
+  setText('summaryTripName', data.tripName || 'Untitled trip');
+  setText('summaryScore', scoreObj ? String(scoreObj.score) : '—');
+  setText('summaryFinalCall', model?.decision || 'Generate a plan');
+  setText('summaryTravelers', data.travelers || '1');
+  setText('summaryBags', bagLabel(data.bags));
+  setText('summaryScope', scopeLabel(data.scope));
+  setText('summaryGoal', priorityLabel(data.priority));
+
+  const badge = document.getElementById('summaryRiskBadge');
+  if (badge && scoreObj) {
+    badge.textContent = scoreObj.level.label;
+    badge.className = `risk-badge ${scoreObj.level.className}`;
+  } else if (badge) {
+    badge.textContent = 'Unscored';
+    badge.className = 'risk-badge yellow';
+  }
+}
+
+function resetTripSummary() {
+  updateTripSummary(emptyTrip(), null, null);
+  setText('summaryTripName', 'Draft Battle Plan');
+}
+
+function routeCardKind(route, index) {
+  const title = route?.title || '';
+  if (/paid rescue|buy|confirmed/i.test(title)) return ['Paid rescue', 'route-card-rescue'];
+  if (index === 0) return ['Recommended Route', 'route-card-recommended'];
+  if (index === 1) return ['Plan B', 'route-card-plan-b'];
+  if (index === 2) return ['Plan C', 'route-card-plan-c'];
+  return ['Alternate airport', 'route-card-alt'];
+}
+
+function enhanceRouteCards(routes) {
+  document.querySelectorAll('#routeStrategy .route-card').forEach((card, index) => {
+    const [label, className] = routeCardKind(routes[index], index);
+    card.classList.add(className);
+    if (!card.querySelector('.route-label')) {
+      card.insertAdjacentHTML('afterbegin', `<span class="route-label">${escapeHtml(label)}</span>`);
+    }
+  });
+}
+
+function nearbyAirportDetail(data, model) {
+  if (data.nearbyAirports === 'yes') return `Nearby-airport flexibility is a reducer. ${model.alternate}`;
+  if (data.nearbyAirports === 'maybe') return `Nearby airports are conditional. ${model.alternate}`;
+  return `Nearby airports are not available, so switch routes earlier. ${model.alternate}`;
+}
+
+function connectionDetail(data) {
+  if (data.connections === 'yes') return 'Connections are allowed. Prefer hubs with multiple same-day onward exits.';
+  if (data.connections === 'maybe') return 'Connections are possible, but use them only when they protect the arrival deadline.';
+  return 'Connections are off the table. That makes the direct route and last useful nonstop more important.';
+}
+
+function airlineRuleDetail(data) {
+  const passSystem = data.passSystem || 'No pass system entered.';
+  const passPriority = data.passPriority || 'No pass priority entered.';
+  return `${passSystem} ${passPriority} Confirm listing windows, priority, baggage, and partner rules manually before relying on the plan.`;
+}
+
+function documentDetail(data, model) {
+  if (model.docs) return model.docs;
+  return 'Domestic trip: verify ID requirements, airport cutoff times, and airline standby procedures before leaving.';
+}
+
+function renderMoreDetails(data, scoreObj, routes, model) {
+  const container = document.getElementById('moreDetails');
+  if (!container) return;
+  const planB = routes[1]?.title || model.planB;
+  const planC = routes[2]?.title || model.planC;
+  container.innerHTML = `
+    <details>
+      <summary>Risk factors</summary>
+      <div class="details-grid">
+        <div><h3>Drivers</h3><ul>${toListHtml(model.riskDrivers)}</ul></div>
+        <div><h3>Reducers</h3><ul>${toListHtml(model.riskReducers)}</ul></div>
+      </div>
+    </details>
+    <details>
+      <summary>Nearby airports</summary>
+      <p>${escapeHtml(nearbyAirportDetail(data, model))}</p>
+    </details>
+    <details>
+      <summary>Connection risk</summary>
+      <p>${escapeHtml(connectionDetail(data))}</p>
+      <p><strong>Backup route family:</strong> ${escapeHtml(planB)} / ${escapeHtml(planC)}</p>
+    </details>
+    <details>
+      <summary>Paid rescue logic</summary>
+      <p>${escapeHtml(model.rescue)}</p>
+      <p><strong>Backup budget:</strong> $${escapeHtml(data.backupBudget || '0')}</p>
+    </details>
+    <details>
+      <summary>Airline rule notes</summary>
+      <p>${escapeHtml(airlineRuleDetail(data))}</p>
+    </details>
+    <details>
+      <summary>Travel document reminders</summary>
+      <p>${escapeHtml(documentDetail(data, model))}</p>
+    </details>
+  `;
+}
+
+function resetMoreDetails() {
+  const container = document.getElementById('moreDetails');
+  if (!container) return;
+  container.innerHTML = `
+    <details><summary>Risk factors</summary><p>Generate a Battle Plan to see trip-specific risk factors.</p></details>
+    <details><summary>Nearby airports</summary><p>Generate a Battle Plan to see alternate-airport guidance.</p></details>
+    <details><summary>Connection risk</summary><p>Generate a Battle Plan to see connection-risk notes.</p></details>
+    <details><summary>Paid rescue logic</summary><p>Generate a Battle Plan to see paid rescue guidance.</p></details>
+    <details><summary>Airline rule notes</summary><p>Generate a Battle Plan to see pass-system notes.</p></details>
+    <details><summary>Travel document reminders</summary><p>Generate a Battle Plan to see document reminders.</p></details>
+  `;
+}
+
+function installAppUiPolish() {
+  if (typeof renderPlan !== 'function' || renderPlan.uiPolishWrapped) return;
+  const baseRenderPlan = renderPlan;
+  renderPlan = function renderPlanWithUiPolish(data, scoreObj, routes) {
+    baseRenderPlan(data, scoreObj, routes);
+    const model = buildBattleCardModel(data, scoreObj, routes);
+    updateTripSummary(data, scoreObj, model);
+    enhanceRouteCards(routes);
+    renderMoreDetails(data, scoreObj, routes, model);
+  };
+  renderPlan.uiPolishWrapped = true;
+
+  document.getElementById('newTrip')?.addEventListener('click', () => {
+    window.setTimeout(() => {
+      resetTripSummary();
+      resetMoreDetails();
+    }, 0);
+  });
+}
+
 installPortugalSampleFix();
+installAppUiPolish();
 
 try {
   if (state.currentScore && document.getElementById('battleCard')) {
     const data = getFormData();
     const routes = state.currentRoutes.length ? state.currentRoutes : generateRoutes(data);
+    const model = buildBattleCardModel(data, state.currentScore, routes);
     document.getElementById('battleCard').innerHTML = buildBattleCardHtml(data, state.currentScore, routes);
+    updateTripSummary(data, state.currentScore, model);
+    enhanceRouteCards(routes);
+    renderMoreDetails(data, state.currentScore, routes, model);
+  } else {
+    resetTripSummary();
+    resetMoreDetails();
   }
 } catch (err) {
   console.warn('Could not refresh Battle Card report.', err);
