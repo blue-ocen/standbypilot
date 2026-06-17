@@ -44,6 +44,14 @@ The risk score uses that detected scope. International routes add risk and domes
 
 The local dataset also powers concise nearby-airport alternatives, including SEA nearby (`PDX`, `YVR`), NYC nearby (`JFK`, `EWR`, `LGA`), Miami nearby (`MIA`, `FLL`), Portugal alternatives (`LIS`, `FAO`, `OPO`), London alternatives (`LHR`, `LGW`), and California alternatives (`SFO`, `LAX`).
 
+## Risk explanation and route ratings
+
+Route Results include a **Why this rating?** panel so users can see why the route is Green, Yellow, Orange, or Red. The panel shows the risk grade and score, the top three risk drivers, the top three risk reducers, and a confidence note.
+
+Risk drivers and reducers come from the same static inputs used by the prototype: domestic/international scope, must-arrive window, trip type, connection flexibility, nearby-airport flexibility, load tracking, and one-way simplicity.
+
+Route cards now include a route rating, short reason, and switch trigger. Ratings include Best Overall, Safer Backup, Faster but Riskier, Good Alternate Airport Play, and Last Resort.
+
 ## Core product output
 
 The Route Brief is the core product output. It is intentionally concise and airport-ready: final call, risk grade, recommended route, backups, switch trigger, and the reason behind the rating.
