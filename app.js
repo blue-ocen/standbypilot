@@ -1,5 +1,6 @@
 const APP_CORE_SRC = './app-core.js';
 const PAID_RESCUE_SRC = './paid-rescue.js';
+const ROUTE_RECOMMENDATIONS_SRC = './route-recommendations.js';
 const ROUTE_DETAILS_SRC = './route-details.js';
 const ROUTE_DETAILS_CSS = './route-details.css';
 const OUTCOME_TRACKER_SRC = './outcome-tracker.js';
@@ -8,6 +9,7 @@ const BATTLE_CARD_SRC = './battle-card.js';
 
 let appCoreLoaded = false;
 let paidRescueLoaded = false;
+let routeRecommendationsLoaded = false;
 let routeDetailsLoaded = false;
 let outcomeTrackerLoaded = false;
 let battleCardLoaded = false;
@@ -78,12 +80,25 @@ function loadRouteDetailsDrawers() {
   document.body.appendChild(script);
 }
 
+function loadRouteRecommendations() {
+  if (routeRecommendationsLoaded) return;
+  routeRecommendationsLoaded = true;
+  const script = document.createElement('script');
+  script.src = ROUTE_RECOMMENDATIONS_SRC;
+  script.onload = loadRouteDetailsDrawers;
+  script.onerror = () => {
+    routeRecommendationsLoaded = false;
+    showLoadError('Could not load refined route recommendations. Refresh and try again.');
+  };
+  document.body.appendChild(script);
+}
+
 function loadPaidRescuePreference() {
   if (paidRescueLoaded) return;
   paidRescueLoaded = true;
   const script = document.createElement('script');
   script.src = PAID_RESCUE_SRC;
-  script.onload = loadRouteDetailsDrawers;
+  script.onload = loadRouteRecommendations;
   script.onerror = () => {
     paidRescueLoaded = false;
     showLoadError('Could not load paid rescue preference behavior. Refresh and try again.');
