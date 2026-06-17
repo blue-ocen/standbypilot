@@ -1,60 +1,54 @@
-# StandbyPilot Next Product Moves
+# StandbyPilot v1 Private App Starter
 
-## Move 1: Test v1 with 5 real trips
+StandbyPilot v1 is a browser-based private prototype for planning non-revenue standby travel.
 
-Use the app to build Battle Cards for:
+## What changed from v0
 
-1. Seattle to Portugal
-2. Domestic weekend trip
-3. International trip with checked bag
-4. Group trip of 4+
-5. Deadline-sensitive trip such as wedding/cruise/work
+v0 proved the Battle Card concept. v1 makes it reusable:
 
-Goal: find where the output feels helpful and where it feels generic.
+- Saved trips in browser localStorage
+- Trip dashboard with average risk and load-check counts
+- Manual load check log per trip
+- Export/import trips as JSON
+- Portugal sample trip
+- Reusable risk scoring engine
+- Route strategy generator
+- Copyable and printable Non-Rev Battle Card
 
-## Move 2: Add route database
+## How to run locally
 
-Add static airport and hub logic before paying for APIs.
+Open `index.html` in a browser.
 
-Needed data:
+No install step is required.
 
-- major airport code list
-- nearby airports by city
-- useful international gateways
-- hub strength by region
-- risky airport notes
+## How to host as a private prototype
 
-## Move 3: Add trip outcomes
+Use one of these options:
 
-After each trip, record:
+1. **Simplest:** upload the folder to Netlify Drop or Vercel as a static site.
+2. **Better private preview:** put it behind a password-protected page, Cloudflare Access, Netlify password protection, Vercel Authentication, or a private internal workspace.
+3. **Production path:** rebuild this as a Next.js app with Supabase Auth and database storage.
 
-- cleared / did not clear
-- bought rescue fare
-- split group
-- overnighted
-- checked bag issue
-- actual arrival delay
+## Important limitations
 
-This will improve the scoring model more than theoretical guessing.
+This prototype does **not**:
 
-## Move 4: Build production app
+- connect to live airline loads
+- scrape employee travel portals
+- book flights
+- verify visa/passport requirements in real time
+- protect data if hosted publicly as a static site
 
-Rebuild with:
+Trips are saved only in the current browser unless exported/imported.
 
-- Next.js
-- Supabase Auth
-- Supabase Postgres
-- RLS policies
-- hosted battle cards
-- shared read-only Battle Card links
+## Product thesis
 
-## Move 5: Add data providers
+Non-rev travelers do not only need flight options. They need a decision system:
 
-Later integrations:
+- What route should I try first?
+- How risky is this setup?
+- What are my backup routes?
+- When do I switch plans?
+- When do I buy confirmed?
 
-- flight schedule/status provider
-- fare search provider
-- airport guide data
-- travel document provider
-
-Avoid scraping airline employee systems or other restricted portals.
+StandbyPilot should become the layer that turns fragmented travel information into a clear next move.
