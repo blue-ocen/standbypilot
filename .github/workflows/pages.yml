@@ -36,10 +36,12 @@ jobs:
           test -f login.html
           test -f styles.css
           test -f route-details.css
+          test -f outcome-tracker.css
           test -f app.js
           test -f app-core.js
           test -f paid-rescue.js
           test -f route-details.js
+          test -f outcome-tracker.js
           test -f battle-card.js
           test -f test_trips_seed.json
           test -f supabase_schema.sql
@@ -58,6 +60,9 @@ jobs:
           grep -F 'riskExplanation' app.html
           grep -F 'Route Intelligence' app.html
           grep -F 'intelligence-drawers' app.html
+          grep -F 'Outcome Tracker' app.html
+          grep -F 'outcomeTripSelect' app.html
+          grep -F 'Recommendation usefulness' app.html
           grep -F "const AIRPORTS" app-core.js
           grep -F "code: 'SEA'" app-core.js
           grep -F "code: 'LIS'" app-core.js
@@ -70,6 +75,8 @@ jobs:
           grep -F "const PAID_RESCUE_SRC = './paid-rescue.js';" app.js
           grep -F "const ROUTE_DETAILS_SRC = './route-details.js';" app.js
           grep -F "const ROUTE_DETAILS_CSS = './route-details.css';" app.js
+          grep -F "const OUTCOME_TRACKER_SRC = './outcome-tracker.js';" app.js
+          grep -F "const OUTCOME_TRACKER_CSS = './outcome-tracker.css';" app.js
           grep -F 'Use non-rev for the expensive leg. Be willing to buy the final short segment if Plan A weakens.' paid-rescue.js
           grep -F 'Because this trip has a deadline, set a clear buy-confirmed trigger.' paid-rescue.js
           grep -F 'Paid rescue is off. Reduce risk by leaving earlier, using alternate airports, and avoiding last-flight dependencies.' paid-rescue.js
@@ -90,11 +97,21 @@ jobs:
           grep -F 'Verify airline-specific non-rev, baggage, listing, and pass rider rules in your official airline tools.' route-details.js
           grep -F 'No international document reminder triggered.' route-details.js
           grep -F '.detail-drawer' route-details.css
+          grep -F 'outcomeFields' outcome-tracker.js
+          grep -F 'Average usefulness' outcome-tracker.js
+          grep -F 'Completed outcomes' outcome-tracker.js
+          grep -F 'Risk too low' outcome-tracker.js
+          grep -F 'Risk accuracy' outcome-tracker.js
+          grep -F 'Usefulness' outcome-tracker.js
+          grep -F 'trip.outcome = readOutcomeForm();' outcome-tracker.js
+          grep -F '.outcome-tracker-panel' outcome-tracker.css
+          grep -F '.outcome-summary-card' outcome-tracker.css
 
           node --check app.js
           node --check app-core.js
           node --check paid-rescue.js
           node --check route-details.js
+          node --check outcome-tracker.js
           node --check battle-card.js
           node -e "JSON.parse(require('fs').readFileSync('test_trips_seed.json', 'utf8'))"
           grep -Eiq 'create[[:space:]]+table' supabase_schema.sql
