@@ -26,6 +26,15 @@ Use this checklist after restoring or changing the static prototype.
 12. Import the exported JSON and confirm trips are added without deleting existing trips.
 13. Save validation feedback and confirm dashboard metrics update.
 
+## GitHub Pages visual check
+
+1. Open the GitHub Pages project URL.
+2. Confirm the app loads.
+3. Confirm styling applies: dark background, panels, badges, and spacing are visible.
+4. Confirm buttons look styled, not browser-default.
+5. Click **Load Portugal Sample** and confirm the sample trip loads.
+6. Click **Generate / Update Battle Plan** and confirm the risk score, route cards, and Battle Card render.
+
 ## Expected result
 
-The app remains fully static and runnable by opening `index.html`. No package install, build step, backend, or framework migration is required.
+The app remains fully static and runnable by opening `index.html` or through GitHub Pages. No package install, build step, backend, or framework migration is required.
