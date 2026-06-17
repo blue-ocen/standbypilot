@@ -21,6 +21,16 @@ Open `index.html` in a browser.
 
 No install step is required.
 
+## GitHub Pages workflow
+
+The GitHub Actions workflow lives at `.github/workflows/pages.yml`.
+
+On pull requests targeting `main`, pushes to `main`, and manual `workflow_dispatch` runs, the workflow checks the static prototype files, validates the `index.html` asset links, runs `node --check app.js`, parses `test_trips_seed.json`, and confirms `supabase_schema.sql` contains `create table` statements.
+
+Deployment only runs after a successful push to `main`. The deploy job uploads the repository root as a static GitHub Pages artifact and publishes it with the official GitHub Pages Actions.
+
+After deployment, open the workflow run in GitHub Actions and use the `github-pages` environment URL to view the published Pages site.
+
 ## How to host as a private prototype
 
 Use one of these options:
