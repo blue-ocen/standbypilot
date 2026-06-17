@@ -27,6 +27,8 @@ v0 proved the Battle Card concept. v1 makes it reusable:
 - Route strategy generator
 - Copyable and printable Non-Rev Battle Card
 - Polished validation UI with clearer hierarchy and a concise printable Battle Card surface
+- Flighty-style trip summary card with route, risk, final call, travelers, bags, scope, and primary goal
+- Distinct route cards and collapsed More Details sections for advanced decision context
 - Manual Concierge Beta concept for manually reviewed non-rev Battle Plans
 - Phase 1 landing page and visual-only login mock foundations
 
