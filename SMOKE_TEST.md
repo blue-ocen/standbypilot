@@ -33,6 +33,18 @@ Use this checklist after changing the static prototype.
 5. Click **Continue to Prototype** and confirm it opens `app.html`.
 6. Confirm there is no concierge link.
 
+## Airport autocomplete smoke test
+
+1. Open `app.html` in a browser.
+2. Type `Seattle` in Origin and confirm `SEA` appears as a suggestion.
+3. Select `SEA` and confirm the helper text shows Seattle, United States.
+4. Type `Lisbon` in Destination and confirm `LIS` appears as a suggestion.
+5. Type `Portugal` in Destination and confirm `LIS`, `FAO`, and `OPO` appear as suggestions.
+6. Select `LIS` and confirm scope auto-detects as International.
+7. Enter `SEA` to `JFK` and confirm scope auto-detects as Domestic.
+8. Enter an unknown destination and confirm the note says **Scope could not be detected. Choose domestic or international for better accuracy.**
+9. Manually choose Domestic or International from More details and confirm the scope note updates.
+
 ## App smoke test
 
 1. Open `app.html` in a browser.
@@ -46,14 +58,17 @@ Use this checklist after changing the static prototype.
 9. Generate again and confirm the risk grade/rating reflects the load snapshot.
 10. Confirm Route Results include Final Call, Risk Grade, Recommended Route, Backup Routes, Switch Trigger, Why This Rating, and More Details.
 11. Confirm route cards appear for Recommended Route, Backup Route 1, Backup Route 2, and Alternate Airport when available.
-12. Expand and collapse More Details.
-13. Click **Load Portugal Sample** and confirm it generates an international route brief.
-14. Click **Load 5 Test Trips** and confirm saved routes are added.
-15. Save a route, reopen it from Saved Routes, and confirm it loads.
-16. Export routes as JSON.
-17. Import the exported JSON and confirm routes are added without deleting existing routes.
-18. Copy the Route Brief and confirm clipboard fallback does not throw an error.
-19. Use Print and confirm the printable Route Brief view appears.
+12. Confirm nearby airport suggestions appear in results, such as **Nearby alternatives: PDX, YVR** or **Portugal alternatives: LIS, FAO, OPO**.
+13. Expand and collapse More Details.
+14. Click **Load Portugal Sample** and confirm it detects International and shows Portugal alternatives.
+15. Click **Load 5 Test Trips** and confirm saved routes are added.
+16. Open the NYC test route and confirm it detects Domestic.
+17. Open the Nairobi test route and confirm it detects International.
+18. Save a route, reopen it from Saved Routes, and confirm it loads.
+19. Export routes as JSON.
+20. Import the exported JSON and confirm routes are added without deleting existing routes.
+21. Copy the Route Brief and confirm clipboard fallback does not throw an error.
+22. Use Print and confirm the printable Route Brief view appears.
 
 ## GitHub Pages visual check
 
@@ -61,7 +76,8 @@ Use this checklist after changing the static prototype.
 2. Confirm GitHub Pages serves the simplified landing page first.
 3. Confirm `login.html` loads as a static login mock.
 4. Confirm `app.html` loads the 3-step route decision tool.
-5. Confirm no concierge service sections or CTAs appear.
+5. Confirm airport autocomplete, route results, load tracking, copy, and print still work.
+6. Confirm no concierge service sections or CTAs appear.
 
 ## Expected result
 
