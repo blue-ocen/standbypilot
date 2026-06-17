@@ -182,6 +182,9 @@
 
     result.level = riskLevel(result.score);
     result.finalCall = finalCall(result.level, data);
+    if (result.level.grade === 'D' && !paidRescueAllowed(data, result)) {
+      result.finalCall = 'Switch route early';
+    }
     return result;
   };
 
