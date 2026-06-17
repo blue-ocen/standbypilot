@@ -2,6 +2,8 @@ const $ = (id) => document.getElementById(id);
 
 const STORAGE_KEY = 'standbypilot_route_trips_v1';
 const ACTIVE_KEY = 'standbypilot_route_active_trip_id';
+const NO_LOAD_CONFIDENCE = 'Risk is based on route, timing, flexibility, and trip type. Add load tracking for a sharper rating.';
+const LOAD_CONFIDENCE = 'Load notes included. Recheck close to departure before relying on this route.';
 
 const airportMetadataFields = [
   'originAirportCode', 'originAirportName', 'originAirportCity', 'originAirportCountry', 'originAirportRegion',
@@ -423,10 +425,10 @@ function loadMargin(data) {
 }
 
 function riskLevel(score) {
-  if (score <= 25) return { grade: 'A', label: 'Low', className: 'green', summary: 'Strong non-rev setup if loads do not deteriorate.' };
-  if (score <= 45) return { grade: 'B', label: 'Moderate', className: 'yellow', summary: 'Playable route. Keep the backup active.' };
-  if (score <= 65) return { grade: 'C', label: 'Elevated', className: 'orange', summary: 'Risky enough that Plan B matters.' };
-  return { grade: 'D', label: 'High', className: 'red', summary: 'Do not let this depend on one standby path.' };
+  if (score <= 25) return { grade: 'A', label: 'Low', className: 'green', colorName: 'Green', summary: 'Strong non-rev setup if loads do not deteriorate.' };
+  if (score <= 45) return { grade: 'B', label: 'Moderate', className: 'yellow', colorName: 'Yellow', summary: 'Playable route. Keep the backup active.' };
+  if (score <= 65) return { grade: 'C', label: 'Elevated', className: 'orange', colorName: 'Orange', summary: 'Risky enough that Plan B matters.' };
+  return { grade: 'D', label: 'High', className: 'red', colorName: 'Red', summary: 'Do not let this depend on one standby path.' };
 }
 
 function finalCall(level, data) {
@@ -443,50 +445,55 @@ function scoreTrip(data) {
   const scope = effectiveScope(data);
   const gapHours = hoursBetween(data.earliestDeparture, data.mustArriveBy);
   const margin = loadMargin(data);
+  const loadEntered = hasLoadData(data);
 
   if (scope.value === 'international') {
     score += 15;
-    reasons.push('International route adds document, connection, and recovery risk.');
+    reasons.push('International route adds recovery risk.');
   } else if (scope.value === 'domestic') {
     credits.push('Domestic route keeps recovery simpler.');
   } else {
     score += 5;
-    reasons.push('Scope could not be detected. Choose domestic or international for better accuracy.');
+    reasons.push('Unknown domestic/international scope.');
   }
 
   if (gapHours !== null && gapHours <= 12) {
     score += 24;
-    reasons.push('Very tight arrival window.');
+    reasons.push('Very tight must-arrive window.');
   } else if (gapHours !== null && gapHours <= 24) {
     score += 16;
-    reasons.push('Arrival deadline is inside 24 hours.');
+    reasons.push('Must-arrive window is inside 24 hours.');
   } else if (gapHours !== null && gapHours <= 36) {
     score += 8;
-    reasons.push('Arrival buffer is workable but not generous.');
+    reasons.push('Arrival buffer is workable but thin.');
   } else if (gapHours !== null && gapHours >= 48) {
     score -= 8;
-    credits.push('Useful 48+ hour travel buffer.');
+    credits.push('Flexible 48+ hour arrival window.');
   }
 
   if (['event', 'work', 'family'].includes(data.tripType)) {
     score += data.tripType === 'family' ? 16 : 12;
-    reasons.push('Trip type is deadline-sensitive.');
+    reasons.push('Deadline-sensitive trip type.');
   }
 
   if (data.connections === 'no') {
     score += 12;
-    reasons.push('No-connection preference limits backup routes.');
+    reasons.push('No connections allowed.');
   } else {
     score -= 5;
-    credits.push('Connection flexibility creates more usable routes.');
+    credits.push('Connections allowed.');
   }
 
   if (data.nearbyAirports === 'yes') {
     score -= 7;
-    credits.push('Nearby-airport flexibility improves route options.');
+    credits.push('Nearby airports available.');
   } else if (data.nearbyAirports === 'no') {
     score += 7;
-    reasons.push('No alternate-airport flexibility increases dependency on Plan A.');
+    reasons.push('Weak alternate-airport flexibility.');
+  }
+
+  if (data.tripDirection === 'one-way') {
+    credits.push('One-way trip keeps the plan simpler.');
   }
 
   if (margin !== null) {
@@ -495,7 +502,7 @@ function scoreTrip(data) {
       credits.push('Load snapshot shows a healthy seat margin.');
     } else if (margin >= 1) {
       score -= 8;
-      credits.push('Load snapshot is workable but should be rechecked.');
+      credits.push('Load snapshot is workable.');
     } else if (margin >= 0) {
       score += 5;
       reasons.push('Load snapshot has almost no cushion.');
@@ -503,8 +510,10 @@ function scoreTrip(data) {
       score += 22;
       reasons.push('Load snapshot shows standby pressure.');
     }
+  } else if (loadEntered) {
+    credits.push('Load tracking added.');
   } else {
-    reasons.push('Risk is based on route, timing, flexibility, and trip type. Add load tracking for a sharper rating.');
+    reasons.push('No load tracking entered.');
   }
 
   score = Math.round(clamp(score, 0, 100));
@@ -515,7 +524,7 @@ function scoreTrip(data) {
     reasons,
     credits,
     finalCall: finalCall(level, data),
-    confidence: hasLoadData(data) ? 'Medium. Recheck loads close to departure.' : 'Planning estimate. Add load tracking for a sharper rating.',
+    confidence: loadEntered ? LOAD_CONFIDENCE : NO_LOAD_CONFIDENCE,
     scope
   };
 }
@@ -554,36 +563,36 @@ function generateRoutes(data) {
   const routes = [];
 
   if (type === 'portugal') {
-    routes.push({ kind: 'recommended', title: `${origin} -> major Europe gateway -> LIS/FAO`, body: 'Use the strongest long-haul gateway first. Keep Lisbon and Faro both viable.' });
-    routes.push({ kind: 'backup', title: `${origin} -> LHR/AMS/CDG/FRA -> Portugal`, body: 'Switch to the hub with the most same-day Portugal exits.' });
-    routes.push({ kind: 'backup', title: `${origin} -> East Coast/SFO -> LIS`, body: 'Use positioning only if the transatlantic load is clearly stronger.' });
+    routes.push({ kind: 'recommended', title: `${origin} -> major Europe gateway -> LIS/FAO`, body: 'Strongest first play keeps both Portugal airports alive.' });
+    routes.push({ kind: 'backup', title: `${origin} -> LHR/AMS/CDG/FRA -> Portugal`, body: 'Safer if one hub has multiple same-day Portugal exits.' });
+    routes.push({ kind: 'backup', title: `${origin} -> East Coast/SFO -> LIS`, body: 'Useful only when the transatlantic load is clearly stronger.' });
   } else if (type === 'london') {
-    routes.push({ kind: 'recommended', title: `${origin} -> LHR nonstop`, body: 'Start with the strongest nonstop load and monitor alternate London-area arrivals.' });
-    routes.push({ kind: 'backup', title: `${origin} -> AMS/CDG/DUB/FRA -> London`, body: 'Use a gateway with multiple onward flights if LHR tightens.' });
-    routes.push({ kind: 'backup', title: 'Alternate London arrival', body: 'LGW or nearby airports are useful only if ground timing still works.' });
+    routes.push({ kind: 'recommended', title: `${origin} -> LHR nonstop`, body: 'Best first look if the nonstop has a later recovery path.' });
+    routes.push({ kind: 'backup', title: `${origin} -> AMS/CDG/DUB/FRA -> London`, body: 'Safer when LHR tightens and another gateway has frequency.' });
+    routes.push({ kind: 'backup', title: 'Alternate London arrival', body: 'Good only if ground timing still protects the arrival deadline.' });
   } else if (type === 'nairobi') {
-    routes.push({ kind: 'recommended', title: `${origin} -> AMS/CDG/FRA/IST/DOH -> NBO`, body: 'Pick the gateway with the best same-day Nairobi recovery path.' });
-    routes.push({ kind: 'backup', title: `${origin} -> JFK -> NBO`, body: 'Use JFK only when the long-haul load advantage justifies positioning.' });
-    routes.push({ kind: 'backup', title: 'Buy final gateway-to-NBO leg', body: 'If the long-haul clears but NBO fails, paid final segment may protect the trip.' });
+    routes.push({ kind: 'recommended', title: `${origin} -> AMS/CDG/FRA/IST/DOH -> NBO`, body: 'Best overall because the gateway choice drives recovery.' });
+    routes.push({ kind: 'backup', title: `${origin} -> JFK -> NBO`, body: 'Worth it only when JFK has a clear long-haul load advantage.' });
+    routes.push({ kind: 'backup', title: 'Buy final gateway-to-NBO leg', body: 'Protects the trip if the final long-haul segment becomes the blocker.' });
   } else if (type === 'europe-return') {
-    routes.push({ kind: 'recommended', title: `${origin} -> FRA/LHR/AMS/CDG -> SEA`, body: 'Choose the gateway with the most transatlantic backup paths.' });
-    routes.push({ kind: 'backup', title: 'Rail or position to stronger Europe hub', body: 'Move before the last useful transatlantic bank closes.' });
-    routes.push({ kind: 'backup', title: 'Confirmed positioning or overnight reset', body: 'Holiday returns reward early rescue decisions.' });
+    routes.push({ kind: 'recommended', title: `${origin} -> FRA/LHR/AMS/CDG -> SEA`, body: 'Best overall because it preserves multiple transatlantic exits.' });
+    routes.push({ kind: 'backup', title: 'Rail or position to stronger Europe hub', body: 'Safer if the first departure bank starts closing.' });
+    routes.push({ kind: 'backup', title: 'Confirmed positioning or overnight reset', body: 'Last-resort reset when holiday loads remove same-day options.' });
   } else if (type === 'international') {
-    routes.push({ kind: 'recommended', title: `${origin} -> strongest long-haul gateway -> ${dest}`, body: 'Choose the gateway with the most same-day onward options.' });
-    routes.push({ kind: 'backup', title: 'Alliance-friendly hub backup', body: 'Use the hub where pass access and onward frequency are strongest.' });
-    routes.push({ kind: 'backup', title: 'Nearby destination airport', body: 'Arriving close and using ground transport can beat waiting for the perfect flight.' });
+    routes.push({ kind: 'recommended', title: `${origin} -> strongest long-haul gateway -> ${dest}`, body: 'Best overall because gateway frequency matters most.' });
+    routes.push({ kind: 'backup', title: 'Alliance-friendly hub backup', body: 'Safer when pass access and onward frequency are better.' });
+    routes.push({ kind: 'backup', title: 'Nearby destination airport', body: 'Good alternate if ground transport still protects arrival.' });
   } else {
-    routes.push({ kind: 'recommended', title: `${origin} -> ${dest}`, body: 'Use the direct route if it has later same-day backup flights.' });
-    routes.push({ kind: 'backup', title: canConnect ? 'Hub reroute' : 'Earlier nonstop backup', body: canConnect ? 'Pick a hub with multiple onward flights.' : 'Move earlier if the last useful nonstop starts filling.' });
-    routes.push({ kind: 'backup', title: 'Nearby airport or confirmed rescue', body: 'Define the switch point before the last useful option disappears.' });
+    routes.push({ kind: 'recommended', title: `${origin} -> ${dest}`, body: 'Best first play if it has later same-day backup flights.' });
+    routes.push({ kind: 'backup', title: canConnect ? 'Hub reroute' : 'Earlier nonstop backup', body: canConnect ? 'Safer if the direct route starts filling.' : 'Faster but riskier when later nonstops disappear.' });
+    routes.push({ kind: 'backup', title: 'Nearby airport or confirmed rescue', body: 'Use when the direct path no longer protects the deadline.' });
   }
 
   const nearby = nearbyAlternatives(data);
   if (nearby && data.nearbyAirports !== 'no') {
-    routes.push({ kind: 'alternate', title: nearbyText(nearby), body: 'Use these as optional alternatives if timing and ground transport still work.' });
+    routes.push({ kind: 'alternate', title: nearbyText(nearby), body: 'Good alternate airport play if ground transport still works.' });
   } else if (data.nearbyAirports === 'yes') {
-    routes.push({ kind: 'alternate', title: 'Alternate airport option', body: 'Use nearby airports when ground transport still protects the arrival time.' });
+    routes.push({ kind: 'alternate', title: 'Alternate airport option', body: 'Good alternate airport play when timing still works.' });
   }
 
   return routes.slice(0, 4);
@@ -596,8 +605,49 @@ function switchTrigger(data, scoreObj, routes) {
   return `Switch before ${routes[1]?.title || 'Plan B'} stops being usable.`;
 }
 
+function routeCardRating(route, index, scoreObj, data, routes) {
+  if (index === 0) {
+    return {
+      label: 'Best Overall',
+      reason: route.body,
+      trigger: switchTrigger(data, scoreObj, routes)
+    };
+  }
+  if (route.kind === 'alternate') {
+    return {
+      label: 'Good Alternate Airport Play',
+      reason: route.body,
+      trigger: 'Use if the main airport path no longer protects arrival time.'
+    };
+  }
+  if (/buy|confirmed|overnight|rescue/i.test(route.title) || index >= 3) {
+    return {
+      label: 'Last Resort',
+      reason: route.body,
+      trigger: 'Use when standby options stop protecting the deadline.'
+    };
+  }
+  if (/east coast|sfo|jfk|nonstop|position/i.test(route.title) || data.priority === 'fastest') {
+    return {
+      label: 'Faster but Riskier',
+      reason: route.body,
+      trigger: 'Use only if the load advantage is clear before leaving.'
+    };
+  }
+  return {
+    label: 'Safer Backup',
+    reason: route.body,
+    trigger: 'Switch here before Plan A loses same-day recovery.'
+  };
+}
+
 function routeRating(scoreObj) {
   return `${scoreObj.level.grade} / ${scoreObj.level.label}`;
+}
+
+function topItems(items, fallback) {
+  const visible = items.filter(Boolean).slice(0, 3);
+  return visible.length ? visible : [fallback];
 }
 
 function buildRouteBriefModel(data, scoreObj, routes) {
@@ -607,8 +657,8 @@ function buildRouteBriefModel(data, scoreObj, routes) {
     recommended: routes[0],
     backups: routes.slice(1),
     switchTrigger: switchTrigger(data, scoreObj, routes),
-    why: scoreObj.reasons.slice(0, 3),
-    credits: scoreObj.credits.slice(0, 3),
+    why: topItems(scoreObj.reasons, 'No major risk driver entered yet.'),
+    credits: topItems(scoreObj.credits, 'Add flexibility or load tracking to improve confidence.'),
     confidence: scoreObj.confidence
   };
 }
@@ -627,22 +677,45 @@ function renderRouteBrief(data, scoreObj, routes) {
   `;
 }
 
-function renderRouteCards(routes) {
+function renderRiskExplanation(data, scoreObj) {
+  const drivers = topItems(scoreObj.reasons, 'No major risk driver entered yet.');
+  const reducers = topItems(scoreObj.credits, 'Add flexibility or load tracking to improve confidence.');
+  $('riskExplanation').className = 'risk-explanation';
+  $('riskExplanation').innerHTML = `
+    <div class="risk-explanation-header">
+      <div>
+        <p class="eyebrow">Why this rating?</p>
+        <h3>${escapeHtml(scoreObj.level.colorName)} / ${escapeHtml(scoreObj.level.label)}</h3>
+      </div>
+      <div class="risk-score-line"><span class="risk-badge ${escapeHtml(scoreObj.level.className)}">${escapeHtml(scoreObj.level.grade)}</span><strong>${scoreObj.score}/100</strong></div>
+    </div>
+    <div class="risk-factor-grid">
+      <div class="risk-factor-card"><h4>Top risk drivers</h4><ul>${drivers.map((item) => `<li>${escapeHtml(item)}</li>`).join('')}</ul></div>
+      <div class="risk-factor-card"><h4>Top risk reducers</h4><ul>${reducers.map((item) => `<li>${escapeHtml(item)}</li>`).join('')}</ul></div>
+    </div>
+    <p class="confidence-note">${escapeHtml(scoreObj.confidence)}</p>
+  `;
+}
+
+function renderRouteCards(data, scoreObj, routes) {
   $('routeStrategy').className = 'route-card-grid';
   $('routeStrategy').innerHTML = routes.map((route, index) => {
     const label = index === 0 ? 'Recommended Route' : route.kind === 'alternate' ? 'Alternate Airport' : `Backup Route ${index}`;
+    const rating = routeCardRating(route, index, scoreObj, data, routes);
     return `<article class="route-card route-card-${escapeHtml(route.kind)}">
       <span class="route-label">${escapeHtml(label)}</span>
+      <span class="route-rating">${escapeHtml(rating.label)}</span>
       <h3>${escapeHtml(route.title)}</h3>
-      <p>${escapeHtml(route.body)}</p>
+      <p><strong>Reason:</strong> ${escapeHtml(rating.reason)}</p>
+      <p><strong>Switch:</strong> ${escapeHtml(rating.trigger)}</p>
     </article>`;
   }).join('');
 }
 
 function renderMoreDetails(data, scoreObj, routes) {
   const loadText = hasLoadData(data)
-    ? `Latest load snapshot: ${data.openSeats || 'unknown'} open seats, ${data.standbyCount || 'unknown'} standbys. ${data.cabinNotes || ''}`
-    : 'Risk is based on route, timing, flexibility, and trip type. Add load tracking for a sharper rating.';
+    ? 'Load notes included. Recheck close to departure before relying on this route.'
+    : NO_LOAD_CONFIDENCE;
   const scopeText = effectiveScope(data);
   const nearby = nearbyAlternatives(data);
   $('moreDetails').innerHTML = `
@@ -687,7 +760,8 @@ function setText(id, value) {
 function renderPlan(data, scoreObj, routes) {
   updateTripSummary(data, scoreObj, routes);
   renderRouteBrief(data, scoreObj, routes);
-  renderRouteCards(routes);
+  renderRiskExplanation(data, scoreObj);
+  renderRouteCards(data, scoreObj, routes);
   renderMoreDetails(data, scoreObj, routes);
 }
 
@@ -768,6 +842,8 @@ function newTrip() {
   $('saveStatus').textContent = 'Unsaved';
   $('routeBrief').className = 'route-brief empty-state';
   $('routeBrief').textContent = 'Enter trip basics and generate a Route Brief.';
+  $('riskExplanation').className = 'risk-explanation empty-state';
+  $('riskExplanation').textContent = 'Generate a Route Brief to see why this route is rated.';
   $('routeStrategy').className = 'route-card-grid empty-state';
   $('routeStrategy').textContent = 'Recommended and backup routes will appear here.';
   $('moreDetails').innerHTML = '<p>Generate a Route Brief to see risk factors, alternate airport logic, connection risk, and document reminders.</p>';
